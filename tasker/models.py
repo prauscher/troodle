@@ -8,6 +8,9 @@ class Board(models.Model):
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.label
+
 
 class Task(models.Model):
     slug = AutoSlugField(populate_from='label', unique_with=['board'])
@@ -15,6 +18,9 @@ class Task(models.Model):
     board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks')
     description = models.TextField()
     reserved_until = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "{}: {}".format(self.board, self.label)
 
 
 class Handling(models.Model):
@@ -24,10 +30,18 @@ class Handling(models.Model):
     end = models.DateTimeField(blank=True, null=True)
     success = models.BooleanField()
 
+    def __str__(self):
+        # TODO add start / end if existing
+        return "{} ({})".format(self.task, self.editor)
+
 
 class Note(models.Model):
     handling = models.ForeignKey('Handling', on_delete=models.CASCADE, related_name='%(app_label)s_%(class)ss')
     posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "{} am {:%Y-%m-%d %H:%I:%S} bei {}".format(self.__class__.__name__, self.posted, self.handling)
+
 
     class Meta:
         abstract = True

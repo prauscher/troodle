@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ {{ object }}
+
+ {{ object.description }}
+
+ {% for handling in object.handlings.all %}
+  * {{ handling }}
+ {% endfor %}
+{% endblock %}

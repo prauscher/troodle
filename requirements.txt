@@ -1,1 +1,3 @@
 django-autoslug
+django-bootstrap4
+django-crispy-forms

@@ -1,0 +1,9 @@
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+<main role="main" class="inner cover">
+ {% block content %}{% endblock %}
+</main>

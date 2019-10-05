@@ -6,4 +6,3 @@ admin.site.register(models.Task)
 admin.site.register(models.Handling)
 admin.site.register(models.Comment)
 admin.site.register(models.Attachment)
-

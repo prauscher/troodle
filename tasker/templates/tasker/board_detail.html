@@ -3,5 +3,8 @@
 {% block content %}
  {{ object }}
 
- Show random task here
+ {% include "board_bar.html" with board=object %}
+ {% if random_task %}
+  {% include 'task.html' with task=random_task %}
+ {% endif %}
 {% endblock %}

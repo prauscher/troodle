@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ {% include "board_bar.html" with board=board %}
+
+ {{ page_obj }}
+ {% for filter_id, filter_label in filters.items %}
+  {% if filter_id in active_filters %}
+   <a href="?page={{ page_obj.number }}&filters={{ active_filters | join:"," }}" class="btn btn-success">{{ filter_label|escape }}</a>
+  {% else %}
+   <a href="?page={{ page_obj.number }}&filters={{ active_filters | join:"," }}" class="btn btn-info">{{ filter_label|escape }}</a>
+  {% endif %}
+ {% endfor %}
+
+ {% for object in object_list %}
+  <div>
+   {{ object.label }}
+   {{ object.nick_status }}
+  </div>
+ {% endfor %}
+{% endblock %}

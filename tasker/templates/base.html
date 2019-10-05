@@ -4,6 +4,10 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 
+{% if 'nick' in request.session %}
+ <p>{{ request.session.nick }} <a href="{% url 'reset_nick' %}?next={{ request.get_full_path|urlencode }}">Leave</a></p>
+{% endif %}
+
 <main role="main" class="inner cover">
  {% block content %}{% endblock %}
 </main>

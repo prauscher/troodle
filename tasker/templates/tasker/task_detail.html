@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
- {{ object }}
+ {% include "board_bar.html" with board=object.board %}
 
- {{ object.description }}
-
- {% for handling in object.handlings.all %}
-  * {{ handling }}
- {% endfor %}
+ {% include 'task.html' with task=object %}
 {% endblock %}

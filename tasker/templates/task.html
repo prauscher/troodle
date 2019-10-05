@@ -1,0 +1,47 @@
+<h1>{{ task.label }}</h1>
+
+<p>{{ task.description }}</p>
+
+{% for handling in task.handlings.all %}
+<h3>
+ {% if handling.end %}
+  {{ handling.editor }}: {{ handling.start }} - {{ handling.end }} ({% if handling.success %}Erfolgreich{% else %}Nicht erfolgreich{% endif %})
+ {% else %}
+  {{ handling.editor }}: since {{ handling.start }}  
+ {% endif %}
+</h3>
+ {% for comment in handling.tasker_comments.all %}
+  <p>{{ comment.text }}</p>
+ {% endfor %}
+ {% for attachments in handling.tasker_attachments.all %}
+ {% endfor %}
+{% endfor %}
+
+{{ task.nick_status }}
+
+{% if 'start' in task.allowed_actions %}
+<a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">Start</a>
+{% endif %}
+{% if 'stop' in task.allowed_actions %}
+<a href="{% url 'stop_handling' task.board.slug task.id 0 %}" class="btn btn-danger">Stop without Success</a>
+<a href="{% url 'stop_handling' task.board.slug task.id 1 %}" class="btn btn-success">Stop with Success</a>
+{% endif %}
+{% if 'unlock' in task.allowed_actions %}
+<a href="{% url 'unlock_task' task.board.slug task.id %}" class="btn btn-warning">Unlock</a>
+{% endif %}
+{% if 'lock' in task.allowed_actions %}
+<a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">Lock</a>
+{% endif %}
+{% if 'comment' in task.allowed_actions %}
+<form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+ <div id="div_id_text" class="form-group">
+  <label for="id_text" class="col-form-label">Kommentar:</label>
+  <div><textarea name="text" class="form-control" id="id_text"></textarea></div>
+ </div>
+ <div id="div_id_attachment" class="form-group">
+  <label for="id_attachment" class="col-form-label">Anhang:</label>
+  <div><input type="file" name="attachment" id="id_attachment"></div>
+ </div>
+ <input type="submit" value="Send">
+</form>
+{% endif %}

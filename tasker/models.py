@@ -132,6 +132,9 @@ class Handling(models.Model):
     end = models.DateTimeField(blank=True, null=True)
     success = models.BooleanField(blank=True, null=True)
 
+    def get_duration(self):
+        return self.end - self.start
+
     def __str__(self):
         # TODO add start / end if existing
         return "{} ({})".format(self.task, self.editor)

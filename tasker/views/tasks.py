@@ -20,6 +20,11 @@ class CreateTaskView(CreateView):
         form.instance.board = self.kwargs['board']
         return super().form_valid(form)
 
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['board'] = self.kwargs['board']
+        return context
+
     def get_success_url(self):
         return self.kwargs['board'].get_admin_url()
 
@@ -85,12 +90,15 @@ class TaskView(DetailView):
 
 @decorators.class_decorator([decorators.require_name, decorators.board_view])
 class TaskListView(ListView):
-    paginate_by = 10
+    paginate_by = 20
 
     def dispatch(self, *args, **kwargs):
         self.filters = {
             'unlocked': ('Unlocked', Q(reserved_until__lt=now())),
-            'reserved': ('Reserved for me', Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])),
+            'locked': ('Locked', Q(reserved_until__gte=now())),
+            'active': ('Active', Q(handlings__isnull=False, handlings__end__isnull=True)),
+            'my': ('Mine', Q(handlings__isnull=False, handlings__editor=self.kwargs['nick']) | Q(reserved_by=self.kwargs['nick'])),
+            'done': ('Done', Q(handlings__isnull=False, handlings__success=True)),
         }
         return super().dispatch(*args, **kwargs)
 
@@ -111,7 +119,7 @@ class TaskListView(ListView):
         return context
 
     def get_queryset(self):
-        queryset = models.Task.objects.all()
+        queryset = self.kwargs['board'].tasks.all()
 
         for filter_id in self.get_active_filters():
             label, filter = self.filters[filter_id]

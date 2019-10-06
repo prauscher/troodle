@@ -1,22 +1,27 @@
 {% extends 'base.html' %}
 
+{% block nav %}{% include "nav_board_admin_base.html" with board=object %}{% endblock %}
+
 {% block content %}
- <h1>{{ object.label }}</h1>
-
- <a href="{% url 'create_task' object.generate_hash %}" class="btn btn-primary">Create Task</a>
- <a href="{% url 'show_board' object.slug %}" class="btn btn-info">Show Board</a>
- <a href="{% url 'edit_board' object.generate_hash %}" class="btn btn-secondary">Edit Board</a>
- <a href="{% url 'delete_board' object.generate_hash %}" class="btn btn-danger">Delete Board</a>
-
- <ul>
- {% for task in object.tasks.all %}
-  <li>
-   {{ task.label }}
-   <a href="{% url 'show_task' object.slug task.id %}" class="btn btn-info btn-sm">Show</a>
-   <a href="{% url 'edit_task' object.generate_hash task.id %}" class="btn btn-secondary btn-sm">Edit</a>
-   <a href="{% url 'reset_task' object.generate_hash task.id %}" class="btn btn-warning btn-sm">Reset</a>
-   <a href="{% url 'delete_task' object.generate_hash task.id %}" class="btn btn-danger btn-sm">Delete</a>
-  </li>
- {% endfor %}
- </ul>
+ <table class="table table-striped">
+  <thead class="thead-dark">
+   <tr>
+    <th scope="col">Name</th>
+    <th scope="col" style="text-align:right;">Aktion</th>
+   </tr>
+  </thead>
+  <tbody>
+  {% for task in object.tasks.all %}
+   <tr>
+    <th scope="row">{{ task.label | escape }}</th>
+    <td style="text-align:right;">
+     <a href="{% url 'show_task' object.slug task.id %}" class="btn btn-info btn-sm">Show</a>
+     <a href="{% url 'edit_task' object.generate_hash task.id %}" class="btn btn-secondary btn-sm">Edit</a>
+     <a href="{% url 'reset_task' object.generate_hash task.id %}" class="btn btn-warning btn-sm">Reset</a>
+     <a href="{% url 'delete_task' object.generate_hash task.id %}" class="btn btn-danger btn-sm">Delete</a>
+    </td>
+   </tr>
+  {% endfor %}
+  </tbody>
+ </table>
 {% endblock %}

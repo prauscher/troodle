@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
- <h1 class="cover-heading">Welcome to Troodle.</h1>
+<div class="jumbotron">
+ <h1 class="display-4">Welcome to Troodle</h1>
  <p class="lead">blah blah</p>
- <p class="lead"><a href="{% url 'create_board' %}" class="btn btn-lg btn-secondary">Start now</a></p>
+ <a href="{% url 'create_board' %}" class="btn btn-lg btn-primary">Start now</a>
+</div>
 {% endblock %}

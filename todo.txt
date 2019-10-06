@@ -1,6 +1,7 @@
-* admin view: reset task after done
-* start_task: redirect to lock_task if necessary
-* board_view: add listview for tasks (with filters)
 * tasks: add option for comment
 * "hashed" image for nick
 * i18n
+* show countdown for lock (and reload)
+* filter "mine" shows task double (due to double handlings)
+* show link to homepage in navbar
+* add metapages (imprint, ...)

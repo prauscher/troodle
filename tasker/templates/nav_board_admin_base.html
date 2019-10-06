@@ -1,0 +1,12 @@
+{% extends "nav_base.html" %}
+
+{% block brand %}
+<a href="{% url 'board_admin' board.generate_hash %}" class="navbar-brand">{{ board.label | escape }}</a>
+{% endblock %}
+
+{% block links %}
+<a href="{% url 'create_task' board.generate_hash %}" class="btn btn-sm btn-outline-success">Create Task</a>
+<a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn-outline-warning">Edit</a>
+<a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn-outline-danger">Delete</a>
+<a href="{% url 'show_board' board.slug %}" class="btn btn-sm btn-outline-info">Show</a>
+{% endblock %}

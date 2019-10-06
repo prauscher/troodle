@@ -1,13 +1,18 @@
 {% load bootstrap4 %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
+<!doctype html>
+<html>
+ <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% bootstrap_css %}
+  <title>Troodle</title>
+ </head>
+ <body>
+  {% block nav %}{% include "nav_base.html" %}{% endblock %}
 
-{% if 'nick' in request.session %}
- <p>{{ request.session.nick }} <a href="{% url 'reset_nick' %}?next={{ request.get_full_path|urlencode }}">Leave</a></p>
-{% endif %}
-
-<main role="main" class="inner cover">
+<main role="main" class="inner cover container">
  {% block content %}{% endblock %}
 </main>
+  {% bootstrap_javascript jquery='full' %}
+ </body>
+</html>

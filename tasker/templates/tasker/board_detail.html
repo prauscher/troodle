@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
-{% block content %}
- {{ object }}
+{% block nav %}{% include "nav_board_base.html" with board=object %}{% endblock %}
 
- {% include "board_bar.html" with board=object %}
+{% block content %}
  {% if random_task %}
   {% include 'task.html' with task=random_task %}
  {% endif %}

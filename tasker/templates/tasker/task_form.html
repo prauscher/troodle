@@ -2,9 +2,11 @@
 
 {% load crispy_forms_tags %}
 
+{% block nav %}{% include "nav_board_admin_base.html" with board=board %}{% endblock %}
+
 {% block content %}
  <form method="post">{% csrf_token %}
   {{ form|crispy }}
-  <input type="submit" value="Save">
+  <input type="submit" class="btn btn-success" value="Save">
  </form>
 {% endblock %}

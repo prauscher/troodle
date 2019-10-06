@@ -32,7 +32,7 @@ def stop_task(request, task, nick, success):
     if task.is_locked_for(nick):
         task.unlock()
 
-    return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))
+    return redirect(utils.get_redirect_url(request, default=task.board.get_frontend_url()))
 
 
 @decorators.require_name

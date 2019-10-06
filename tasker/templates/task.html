@@ -1,47 +1,70 @@
-<h1>{{ task.label }}</h1>
-
-<p>{{ task.description }}</p>
-
-{% for handling in task.handlings.all %}
-<h3>
- {% if handling.end %}
-  {{ handling.editor }}: {{ handling.start }} - {{ handling.end }} ({% if handling.success %}Erfolgreich{% else %}Nicht erfolgreich{% endif %})
- {% else %}
-  {{ handling.editor }}: since {{ handling.start }}  
+<div class="card">
+ <div class="card-header {% if task.nick_status == 'o' %}bg-secondary text-white{% elif task.nick_status == 'l' %}bg-danger text-white{% elif task.nick_status == 'r' %}bg-warning{% elif task.nick_status == 'p' %}bg-primary text-white{% elif task.nick_status == 'd' %}bg-success text-white{% endif %}">
+  {{ task.label | escape }}
+  ({{ task.reserved_until | timeuntil }})
+ </div>
+ <div class="card-body">
+  <p class="card-text">{{ task.description | escape }}</p>
+ </div>
+ {% if not hide_handlings %}
+ <ul class="list-group list-group-flush">
+  {% for handling in task.handlings.all %}
+   <li class="list-group-item">
+    {% if handling.end %}
+     {{ handling.editor }}
+     {{ handling.start }}
+     {{ handling.end | timesince:handling.start }}
+     {% if handling.success %}<span class="badge badge-success">Erfolgreich</span>
+     {% else %}<span class="badge badge-danger">Nicht erfolgreich</span>
+     {% endif %}
+    {% else %}
+     {{ handling.editor }}
+     since {{ handling.start }}
+     <span class="badge badge-warning">Aktiv</span>
+    {% endif %}
+    {% for comment in handling.tasker_comments.all %}
+     <div class="alert alert-info">{{ comment.text | escape }}</div>
+    {% endfor %}
+    {% if handling.tasker_attachments %}
+     <div class="card-columns">
+     {% for attachment in handling.tasker_attachments.all %}
+      <div class="card" style="width:200px;">
+       <img class="card-img-top" src="{% url 'preview_attachment' task.board.slug task.id attachment.id %}" />
+       <div class="card-body">
+        <a href="{% url 'fetch_attachment' task.board.slug task.id attachment.id %}" class="btn btn-sm btn-primary">Download</a>
+       </div>
+      </div>
+     {% endfor %}
+     </div>
+    {% endif %}
+   </li>
+  {% endfor %}
+ </ul>
  {% endif %}
-</h3>
- {% for comment in handling.tasker_comments.all %}
-  <p>{{ comment.text }}</p>
- {% endfor %}
- {% for attachments in handling.tasker_attachments.all %}
- {% endfor %}
-{% endfor %}
-
-{{ task.nick_status }}
-
-{% if 'start' in task.allowed_actions %}
-<a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">Start</a>
-{% endif %}
-{% if 'stop' in task.allowed_actions %}
-<a href="{% url 'stop_handling' task.board.slug task.id 0 %}" class="btn btn-danger">Stop without Success</a>
-<a href="{% url 'stop_handling' task.board.slug task.id 1 %}" class="btn btn-success">Stop with Success</a>
-{% endif %}
-{% if 'unlock' in task.allowed_actions %}
-<a href="{% url 'unlock_task' task.board.slug task.id %}" class="btn btn-warning">Unlock</a>
-{% endif %}
-{% if 'lock' in task.allowed_actions %}
-<a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">Lock</a>
-{% endif %}
-{% if 'comment' in task.allowed_actions %}
-<form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
- <div id="div_id_text" class="form-group">
-  <label for="id_text" class="col-form-label">Kommentar:</label>
-  <div><textarea name="text" class="form-control" id="id_text"></textarea></div>
+ {% if not hide_actions %}
+ <div class="card-footer">
+  {% if 'start' in task.allowed_actions %}
+   <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">Start</a>
+  {% endif %}{% if 'stop' in task.allowed_actions %}
+   <a href="{% url 'stop_handling' task.board.slug task.id 0 %}" class="btn btn-danger">Stop without Success</a>
+   <a href="{% url 'stop_handling' task.board.slug task.id 1 %}" class="btn btn-success">Stop with Success</a>
+  {% endif %}{% if 'unlock' in task.allowed_actions %}
+   <a href="{% url 'unlock_task' task.board.slug task.id %}" class="btn btn-warning">Unlock</a>
+  {% endif %}{% if 'lock' in task.allowed_actions %}
+   <a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">Lock</a>
+  {% endif %}{% if 'comment' in task.allowed_actions %}
+   <form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div id="div_id_text" class="form-group">
+     <label for="id_text" class="col-form-label">Kommentar:</label>
+     <div><textarea name="text" class="form-control" id="id_text"></textarea></div>
+    </div>
+    <div id="div_id_attachment" class="form-group">
+     <label for="id_attachment" class="col-form-label">Anhang:</label>
+     <div><input type="file" class="form-control-file" name="attachment" id="id_attachment"></div>
+    </div>
+    <input type="submit" class="btn btn-info" value="Send">
+   </form>
+  {% endif %}
  </div>
- <div id="div_id_attachment" class="form-group">
-  <label for="id_attachment" class="col-form-label">Anhang:</label>
-  <div><input type="file" name="attachment" id="id_attachment"></div>
- </div>
- <input type="submit" value="Send">
-</form>
-{% endif %}
+ {% endif %}
+</div>

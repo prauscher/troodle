@@ -39,7 +39,9 @@
   </tbody>
   <tfoot>
   {% if object_list.exists %}{% block list_footer %}{% endblock %}
-  {% else %}{% block list_footer_empty %}{% endblock %}{% endif %}
+  {% elif active_filters or search_term %}{% block list_footer_filter_empty %}{% endblock %}
+  {% else %}{% block list_footer_empty %}{% endblock %}
+  {% endif %}
   </tfoot>
  </table>
 

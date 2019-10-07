@@ -20,6 +20,12 @@
 
 {% block list_footer_empty %}
  <tr>
-  <td colspan="2">This board contains no tasks. Start by <a href="{% url 'create_task' board.generate_hash %}">creating one</a>.</td>
+  <td colspan="2">This board contains no tasks. Start by <a href="{% url 'create_task' board.generate_hash %}">creating one</a></td>
+ </tr>
+{% endblock %}
+
+{% block list_footer_filter_empty %}
+ <tr>
+  <td colspan="2">No tasks found with current filters</td>
  </tr>
 {% endblock %}

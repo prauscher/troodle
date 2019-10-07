@@ -4,7 +4,7 @@
 
 {% block nav %}
  {% if object %}
-  {% include 'nav_board_admin_base.html' with board=object %}
+  {% include 'nav_base_board_admin.html' with board=object %}
  {% else %}
   {{ block.super }}
  {% endif %}

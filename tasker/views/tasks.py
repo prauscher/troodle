@@ -88,18 +88,19 @@ class TaskView(DetailView):
         return context
 
 
-@decorators.class_decorator([decorators.require_name, decorators.board_view])
-class TaskListView(ListView):
-    paginate_by = 20
+class TaskListBase(ListView):
+    paginate_by = 2
 
-    def dispatch(self, *args, **kwargs):
-        self.filters = {
+    def get_filters(self):
+        return {
             'unlocked': ('Unlocked', Q(reserved_until__lt=now())),
             'locked': ('Locked', Q(reserved_until__gte=now())),
             'active': ('Active', Q(handlings__isnull=False, handlings__end__isnull=True)),
-            'my': ('Mine', Q(handlings__isnull=False, handlings__editor=self.kwargs['nick']) | Q(reserved_by=self.kwargs['nick'])),
             'done': ('Done', Q(handlings__isnull=False, handlings__success=True)),
         }
+
+    def dispatch(self, *args, **kwargs):
+        self.filters = self.get_filters()
         return super().dispatch(*args, **kwargs)
 
     def get_active_filters(self):
@@ -111,11 +112,6 @@ class TaskListView(ListView):
         context['board'] = self.kwargs['board']
         context['filters'] = {_id: _filter[0] for _id, _filter in self.filters.items()}
         context['active_filters'] = self.get_active_filters()
-
-        # fill nick_status value
-        for object in context['object_list']:
-            object.fill_nick(self.kwargs['nick'])
-
         return context
 
     def get_queryset(self):
@@ -126,6 +122,27 @@ class TaskListView(ListView):
             queryset = queryset.filter(filter)
 
         return queryset
+
+
+@decorators.class_decorator([decorators.require_name, decorators.board_view])
+class TaskListView(TaskListBase):
+    template_name = 'tasker/task_list.html'
+
+    def get_filters(self):
+        filters = super().get_filters()
+        filters.update({
+            'my': ('Mine', Q(handlings__isnull=False, handlings__editor=self.kwargs['nick']) | Q(reserved_by=self.kwargs['nick'])),
+        })
+        return filters
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # fill nick_status value
+        for object in context['object_list']:
+            object.fill_nick(self.kwargs['nick'])
+
+        return context
 
 
 @decorators.require_name

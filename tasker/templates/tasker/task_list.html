@@ -1,44 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'task_list_base.html' %}
 
-{% load bootstrap_pagination %}
+{% block nav %}{% include "nav_base_board.html" with board=board %}{% endblock %}
 
-{% block nav %}{% include "nav_board_base.html" with board=board %}{% endblock %}
+{% block task_label %}
+ <a href="{% url 'show_task' object.board.slug object.id %}">{{ object.label | escape }}</a>
+ {% if object.nick_status == 'o' %}
+ {% elif object.nick_status == 'l' %}<span class="badge badge-danger">Locked</span>
+ {% elif object.nick_status == 'r' %}<span class="badge badge-warning">Reserved</span>
+ {% elif object.nick_status == 'p' %}<span class="badge badge-primary">Active</span>
+ {% elif object.nick_status == 'd' %}<span class="badge badge-success">Done</span>
+ {% endif %}
+{% endblock %}
 
-{% block content %}
-
- <div style="float:right;" class="btn-group-toggle">
-  {% for filter_id, filter_label in filters.items %}
-   {% if filter_id in active_filters %}
-    <a href="?filters={% for filter in active_filters %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}" class="btn btn-secondary active" aria-pressed="true">{{ filter_label|escape }}</a>
-   {% else %}
-    <a href="?filters={{ active_filters | join:"," }},{{ filter_id }}" class="btn btn-secondary">{{ filter_label|escape }}</a>
-   {% endif %}
-  {% endfor %}
- </div>
- <div>
-  {% bootstrap_paginate page_obj %}
- </div>
-
- <table class="table table-striped">
-  <thead class="thead-dark">
-   <tr>
-    <th scope="col">Name</th>
-   </tr>
-  </thead>
-  <tbody>
-  {% for object in object_list %}
-   <tr>
-    <td>
-     <a href="{% url 'show_task' object.board.slug object.id %}">{{ object.label | escape }}</a>
-     {% if object.nick_status == 'o' %}
-     {% elif object.nick_status == 'l' %}<span class="badge badge-danger">Locked</span>
-     {% elif object.nick_status == 'r' %}<span class="badge badge-warning">Reserved</span>
-     {% elif object.nick_status == 'p' %}<span class="badge badge-primary">Active</span>
-     {% elif object.nick_status == 'd' %}<span class="badge badge-success">Done</span>
-     {% endif %}
-    </td>
-   </tr>
-  {% endfor %}
-  </tbody>
- </table>
+{% block list_footer_empty %}
+ <tr>
+  <td colspan="2">(empty)</td>
+ </tr>
 {% endblock %}

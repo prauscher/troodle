@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_pagination %}
+
+{% block content %}
+ <div class="row my-2">
+  <div class="col">{% if is_paginated %}{% bootstrap_paginate page_obj extra_pagination_classes='mb-0' %}{% endif %}</div>
+  <div class="col-md-auto btn-group-toggle">
+   {% for filter_id, filter_label in filters.items %}
+    {% if filter_id in active_filters %}
+     <a href="?filters={% for filter in active_filters %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}" class="btn btn-secondary active" aria-pressed="true">{{ filter_label|escape }}</a>
+    {% else %}
+     <a href="?filters={{ active_filters | join:"," }},{{ filter_id }}" class="btn btn-secondary">{{ filter_label|escape }}</a>
+    {% endif %}
+   {% endfor %}
+  </div>
+ </div>
+
+ <table class="table table-striped">
+  <thead class="thead-dark">
+   <tr>
+    <th scope="col">Name</th>
+    <th scope="col" style="text-align:right;"></th>
+   </tr>
+  </thead>
+  <tbody>
+  {% for object in object_list %}
+   <tr>
+    <td>{% block task_label %}{{ object.label | escape }}{% endblock %}</td>
+    <td style="text-align:right;">{% block task_actions %}{% endblock %}</td>
+   </tr>
+  {% endfor %}
+  </tbody>
+  <tfoot>
+  {% if object_list.exists %}{% block list_footer %}{% endblock %}
+  {% else %}{% block list_footer_empty %}{% endblock %}{% endif %}
+  </tfoot>
+ </table>
+{% endblock %}

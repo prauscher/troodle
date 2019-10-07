@@ -4,7 +4,9 @@ from django.views.generic import TemplateView
 from .views import nick, board, tasks, handlings, attachments
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='tasker/start.html'), name='start'),
+    path('', TemplateView.as_view(template_name='meta/start.html'), name='start'),
+    path('meta/learn-more', TemplateView.as_view(template_name='meta/learn-more.html'), name='learn_more'),
+    path('meta/imprint', TemplateView.as_view(template_name='meta/imprint.html'), name='imprint'),
 
     path('nick/enter', nick.EnterNickView.as_view(), name='enter_nick'),
     path('nick/reset', nick.reset_nick, name='reset_nick'),
@@ -26,7 +28,8 @@ urlpatterns = [
     path('board/<slug:board_slug>/task/<int:task_id>', tasks.TaskView.as_view(), name='show_task'),
     path('board/<slug:board_slug>/task/<int:task_id>/start', handlings.start_task, name='create_handling'),
     path('board/<slug:board_slug>/task/<int:task_id>/comment', handlings.comment_task, name='comment_task'),
-    path('board/<slug:board_slug>/task/<int:task_id>/stop/<int:success>', handlings.stop_task, name='stop_handling'),
+    path('board/<slug:board_slug>/task/<int:task_id>/abort', handlings.abort_task, name='abort_handling'),
+    path('board/<slug:board_slug>/task/<int:task_id>/complete', handlings.complete_task, name='complete_handling'),
     path('board/<slug:board_slug>/task/<int:task_id>/lock', tasks.lock_task, name='lock_task'),
     path('board/<slug:board_slug>/task/<int:task_id>/unlock', tasks.unlock_task, name='unlock_task'),
     path('board/<slug:board_slug>/task/<int:task_id>/attachment/<int:attachment_id>/preview', attachments.preview, name='preview_attachment'),

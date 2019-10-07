@@ -1,12 +1,11 @@
 <div class="card">
  <div class="card-header {% if task.nick_status == 'o' %}bg-secondary text-white{% elif task.nick_status == 'l' %}bg-danger text-white{% elif task.nick_status == 'r' %}bg-warning{% elif task.nick_status == 'p' %}bg-primary text-white{% elif task.nick_status == 'd' %}bg-success text-white{% endif %}">
-  {{ task.label | escape }}
-  ({{ task.reserved_until | timeuntil }})
+  {% block task_label %}{{ task.label | escape }}{% endblock %}
  </div>
  <div class="card-body">
   <p class="card-text">{{ task.description | escape }}</p>
  </div>
- {% if not hide_handlings %}
+ {% block handlings %}
  <ul class="list-group list-group-flush">
   {% for handling in task.handlings.all %}
    <li class="list-group-item">
@@ -40,31 +39,43 @@
    </li>
   {% endfor %}
  </ul>
- {% endif %}
- {% if not hide_actions %}
+ {% endblock %}
+ {% block actions %}
  <div class="card-footer">
-  {% if 'start' in task.allowed_actions %}
+  {% if task.reserved_until > now %}
+   ({{ task.reserved_until | timeuntil }})
+  {% endif %}
+  {% if 'start' in task.allowed_actions %}{% block start_actions %}
    <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">Start</a>
-  {% endif %}{% if 'stop' in task.allowed_actions %}
-   <a href="{% url 'stop_handling' task.board.slug task.id 0 %}" class="btn btn-danger">Stop without Success</a>
-   <a href="{% url 'stop_handling' task.board.slug task.id 1 %}" class="btn btn-success">Stop with Success</a>
-  {% endif %}{% if 'unlock' in task.allowed_actions %}
+  {% endblock %}{% endif %}{% if 'stop' in task.allowed_actions %}{% block stop_actions %}
+   <a href="{% url 'abort_handling' task.board.slug task.id %}" class="btn btn-danger">Abort</a>
+   <a href="{% url 'complete_handling' task.board.slug task.id %}" class="btn btn-success">Done</a>
+  {% endblock %}{% endif %}{% if 'unlock' in task.allowed_actions and not hide_lock_actions %}{% block unlock_actions %}
    <a href="{% url 'unlock_task' task.board.slug task.id %}" class="btn btn-warning">Unlock</a>
-  {% endif %}{% if 'lock' in task.allowed_actions %}
+  {% endblock %}{% endif %}{% if 'lock' in task.allowed_actions and not hide_lock_actions %}{% block lock_actions %}
    <a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">Lock</a>
-  {% endif %}{% if 'comment' in task.allowed_actions %}
+  {% endblock %}{% endif %}{% if 'comment' in task.allowed_actions %}{% block comment_actions %}
+   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Comment</button>
+   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseAttachment" aria-expanded="false" aria-controls="collapseAttachment">Attach</button>
+   <div class="collapse" id="collapseComment">
    <form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div id="div_id_text" class="form-group">
-     <label for="id_text" class="col-form-label">Kommentar:</label>
+     <label for="id_text" class="col-form-label">Comment:</label>
      <div><textarea name="text" class="form-control" id="id_text"></textarea></div>
     </div>
+    <input type="submit" class="btn btn-info" value="Send">
+   </form>
+   </div>
+   <div class="collapse" id="collapseAttachment">
+   <form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div id="div_id_attachment" class="form-group">
-     <label for="id_attachment" class="col-form-label">Anhang:</label>
+     <label for="id_attachment" class="col-form-label">Attachment:</label>
      <div><input type="file" class="form-control-file" name="attachment" id="id_attachment"></div>
     </div>
     <input type="submit" class="btn btn-info" value="Send">
    </form>
-  {% endif %}
+   </div>
+  {% endblock %}{% endif %}
  </div>
- {% endif %}
+ {% endblock %}
 </div>

@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block nav %}{% include "nav_board_base.html" with board=object %}{% endblock %}
+{% block nav %}{% include "nav_base_board.html" with board=object %}{% endblock %}
 
 {% block content %}
- {% if random_task %}
-  {% include 'task.html' with task=random_task %}
+ {% if random_task %}{% include 'task_base_board_detail.html' with task=random_task %}
+ {% else %}
+  <p>Empty.</p>
  {% endif %}
 {% endblock %}

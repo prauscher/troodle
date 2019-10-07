@@ -1,12 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
  <span class="navbar-brand">
-  {% block brand %}{% endblock %}
+  <!-- <a href="{% url 'start' %}" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> -->
+  {% block brand %}<a href="{% url 'start' %}" class="navbar-brand">Troodle</a>{% endblock %}
  </span>
  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
  <div class="collapse navbar-collapse" id="navbarCollapse">
   <span class="navbar-text mr-auto">
    {% block links %}
-    <a href="{% url 'create_board' %}" class="btn btn-success btn-sm">Create Board</a>
+    <a href="{% url 'create_board' %}" class="btn btn-outline-success btn-sm">Create Board</a>
    {% endblock %}
   </span>
   {% if 'nick' in request.session %}

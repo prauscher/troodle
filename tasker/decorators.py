@@ -1,4 +1,3 @@
-from django.core.exceptions import MultipleObjectsReturned
 from django.shortcuts import redirect
 from django.core import signing
 from django.urls import reverse
@@ -12,17 +11,26 @@ def class_decorator(decorators):
     if not isinstance(decorators, list):
         decorators = [decorators]
 
-    def decorator(Cls):
-        class Wrapper(Cls):
-            def as_view(*args, **kwargs):
-                view = Cls.as_view(*args, **kwargs)
-                for decorator in reversed(decorators):
-                    view = decorator(view)
-                return view
+    def decorator(cls):
+        orig_as_view = cls.as_view
+        def _as_view(*args, **kwargs):
+            view = orig_as_view(*args, **kwargs)
+            for decorator in reversed(decorators):
+                view = decorator(view)
+            return view
 
-        return Wrapper
+        cls.as_view = _as_view
+        return cls
 
     return decorator
+
+
+def _add_latest_board(request, board):
+    if 'last_boards' not in request.session:
+        request.session['last_boards'] = []
+
+    board_item = [board.slug, board.label]
+    request.session['last_boards'] = [board_item] + [item for item in request.session['last_boards'][0:4] if item != board_item]
 
 
 def require_name(func):
@@ -36,25 +44,30 @@ def require_name(func):
 
 
 def board_view(func):
-    def wrapper(*args, board_slug=None, **kwargs):
+    def wrapper(request, *args, board_slug=None, **kwargs):
         try:
             board = models.Board.objects.get(slug=board_slug)
         except models.Board.DoesNotExist:
             raise Http404
         else:
-            return func(board=board, *args, **kwargs)
+            _add_latest_board(request, board)
+            return func(request, board=board, *args, **kwargs)
 
     return wrapper
 
 
 def board_admin_view(func):
-    def wrapper(*args, board_hash=None, **kwargs):
+    def wrapper(request, *args, board_hash=None, **kwargs):
         try:
             board = models.Board.get_by_hash(board_hash)
         except (signing.BadSignature, models.Board.DoesNotExist):
             raise Http404
         else:
-            return func(board=board, *args, **kwargs)
+            _add_latest_board(request, board)
+            if 'admin_boards' not in request.session:
+                request.session['admin_boards'] = {}
+            request.session['admin_boards'][board.slug] = board.generate_hash()
+            return func(request, board=board, *args, **kwargs)
 
     return wrapper
 
@@ -75,14 +88,14 @@ def task_view(func):
 # must be used with task_view and require_name
 def require_action(action, redirect_target=None):
     def decorator(func):
-        def wrapper(*args, task, nick, **kwargs):
+        def wrapper(request, *args, task, nick, **kwargs):
             if not task.action_allowed(action, nick):
                 if redirect_target:
                     return redirect(reverse(redirect_target, kwargs={'board_slug': task.board.slug, 'task_id': task.id}) + "?" + urlencode({'next': request.get_full_path()}))
 
                 raise Http404
 
-            return func(task=task, nick=nick, *args, **kwargs)
+            return func(request, task=task, nick=nick, *args, **kwargs)
 
         return wrapper
 

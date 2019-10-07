@@ -5,3 +5,5 @@
 * filter "mine" shows task double (due to double handlings)
 * show link to homepage in navbar
 * add metapages (imprint, ...)
+* board_detail.html: move button to task-list (fiddle with next-parameter maybe?)
+* view attachment: fix width / height

@@ -26,13 +26,21 @@ def start_task(request, task, nick):
 def stop_task(request, task, nick, success):
     handling = task.get_current_handling(nick)
     handling.end = now()
-    handling.success = (success == 1)
+    handling.success = success
     handling.save()
 
     if task.is_locked_for(nick):
         task.unlock()
 
     return redirect(utils.get_redirect_url(request, default=task.board.get_frontend_url()))
+
+
+def abort_task(*args, **kwargs):
+    return stop_task(success=False, *args, **kwargs)
+
+
+def complete_task(*args, **kwargs):
+    return stop_task(success=True, *args, **kwargs)
 
 
 @decorators.require_name

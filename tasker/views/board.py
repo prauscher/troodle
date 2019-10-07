@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
 
+from .tasks import TaskListBase
 from .. import models
 from .. import decorators
 
@@ -16,16 +17,12 @@ class CreateBoardView(CreateView):
     fields = ['label']
 
     def get_success_url(self):
-        return self.get_admin_url()
+        return self.object.get_admin_url()
 
 
 @decorators.class_decorator(decorators.board_admin_view)
-class BoardAdminView(DetailView):
-    model = models.Board
+class BoardAdminView(TaskListBase):
     template_name = 'tasker/board_admin.html'
-
-    def get_object(self):
-        return self.kwargs['board']
 
 
 @decorators.class_decorator([decorators.require_name, decorators.board_view])
@@ -57,6 +54,7 @@ class BoardView(DetailView):
         ]
 
         for filter in filters:
+            print(filter)
             if filter:
                 nr = random.randint(0, filter.count() - 1)
                 return filter[nr]

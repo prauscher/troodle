@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+ <h1 class="display-4">Welcome to Troodle</h1>
+ <p class="lead">blah blah</p>
+ <a href="{% url 'learn_more' %}" class="btn btn-lg btn-secondary">Learn more</a>
+ <a href="{% url 'create_board' %}" class="btn btn-lg btn-primary">Start now</a>
+</div>
+{% if request.session.last_boards %}
+<h5>Your latest boards</h5>
+<ul class="list-group">
+ {% for board_slug, board_label in request.session.last_boards %}
+ <li class="list-group-item">
+  <a href="{% url 'show_board' board_slug %}">{{ board_label | escape }}</a>
+  {% if board_slug in request.session.admin_boards %}{% for board_slug2, board_hash in request.session.admin_boards.items %}{% if board_slug2 == board_slug %}
+   <a href="{% url 'board_admin' board_hash %}" class="badge badge-danger">Admin</a>
+  {% endif %}{% endfor %}{% endif %}
+ </li>
+ {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

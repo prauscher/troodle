@@ -1,9 +1,0 @@
-{% extends "nav_base.html" %}
-
-{% block brand %}
-<a href="{% url 'show_board' board.slug %}" class="navbar-brand">{{ board.label | escape }}</a>
-{% endblock %}
-
-{% block links %}
-<a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn-outline-info">Tasks</a>
-{% endblock %}

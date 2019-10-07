@@ -1,0 +1,9 @@
+{% extends "nav_base_board_admin.html" %}
+
+{% block brand %}
+<a href="{% url 'show_board' board.slug %}" class="navbar-brand">{{ board.label | escape }}</a>
+{% endblock %}
+
+{% block links_admin %}
+{% if board.slug in request.session.admin_boards %}{{ block.super }}{% else %}{% endif %}
+{% endblock %}

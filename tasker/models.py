@@ -6,7 +6,7 @@ from django.core.signing import Signer
 from django.utils.timezone import now
 from autoslug import AutoSlugField
 
-board_admin_signer = Signer('board_admin')
+BOARD_ADMIN_SIGNER = Signer('board_admin')
 
 
 class Board(models.Model):
@@ -25,11 +25,11 @@ class Board(models.Model):
         return reverse('show_board', kwargs={'board_slug': self.slug})
 
     def generate_hash(self):
-        return board_admin_signer.sign(self.id)
+        return BOARD_ADMIN_SIGNER.sign(self.id)
 
     @classmethod
-    def get_by_hash(cls, hash):
-        id = board_admin_signer.unsign(hash)
+    def get_by_hash(cls, board_hash):
+        id = BOARD_ADMIN_SIGNER.unsign(board_hash)
         return cls.objects.get(id=id)
 
     def __str__(self):
@@ -74,12 +74,11 @@ class Task(models.Model):
         except Handling.DoesNotExist:
             if self.handlings.filter(end__isnull=False, success=True).exists():
                 return Task.DONE
-            elif self.is_locked_for(nick):
+            if self.is_locked_for(nick):
                 return Task.RESERVED
-            elif self.is_unlocked():
+            if self.is_unlocked():
                 return Task.OPEN
-            else:
-                return Task.LOCKED
+            return Task.LOCKED
 
     def fill_nick(self, nick):
         self.nick_status = self.get_nick_status(nick)

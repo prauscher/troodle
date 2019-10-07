@@ -2,7 +2,7 @@
 
 {% load crispy_forms_tags %}
 
-{% block nav %}{% include "nav_board_admin_base.html" with board=object.board %}{% endblock %}
+{% block nav %}{% include "nav_base_board_admin.html" with board=object.board %}{% endblock %}
 
 {% block content %}
 <form method="post">{% csrf_token %}

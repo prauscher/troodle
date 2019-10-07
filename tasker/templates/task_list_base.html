@@ -4,15 +4,21 @@
 
 {% block content %}
  <div class="row my-2">
-  <div class="col">{% if is_paginated %}{% bootstrap_paginate page_obj extra_pagination_classes='mb-0' %}{% endif %}</div>
-  <div class="col-md-auto btn-group-toggle">
+  <div class="col">
    {% for filter_id, filter_label in filters.items %}
     {% if filter_id in active_filters %}
-     <a href="?filters={% for filter in active_filters %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}" class="btn btn-secondary active" aria-pressed="true">{{ filter_label|escape }}</a>
+     <a href="?filters={% for filter in active_filters %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}&search={{ search_term | escape }}" class="btn btn-secondary active" aria-pressed="true">{{ filter_label|escape }}</a>
     {% else %}
-     <a href="?filters={{ active_filters | join:"," }},{{ filter_id }}" class="btn btn-secondary">{{ filter_label|escape }}</a>
+     <a href="?filters={{ active_filters | join:"," }},{{ filter_id }}&search={{ search_term | escape }}" class="btn btn-secondary">{{ filter_label|escape }}</a>
     {% endif %}
    {% endfor %}
+  </div>
+  <div class="col-md-auto btn-group-toggle">
+   <form action="" method="get" class="form-inline">
+    <input type="hidden" name="filters" value="{{ active_filters | join:"," }}" />
+    <input class="form-control mr-sm-2" type="search" name="search" value="{{ search_term | escape }}" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+   </form>
   </div>
  </div>
 
@@ -36,4 +42,10 @@
   {% else %}{% block list_footer_empty %}{% endblock %}{% endif %}
   </tfoot>
  </table>
+
+ <div class="row">
+  <div class="mx-auto">
+   {% if is_paginated %}{% bootstrap_paginate page_obj extra_pagination_classes='mb-0' %}{% endif %}
+  </div>
+ </div>
 {% endblock %}

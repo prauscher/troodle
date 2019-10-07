@@ -107,8 +107,12 @@ class TaskListBase(ListView):
         filter_ids = self.request.GET.get("filters", "").split(",")
         return [_id for _id, _filter in self.filters.items() if _id in filter_ids]
 
+    def get_search_term(self):
+        return self.request.GET.get("search", "")
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['search_term'] = self.get_search_term()
         context['board'] = self.kwargs['board']
         context['filters'] = {_id: _filter[0] for _id, _filter in self.filters.items()}
         context['active_filters'] = self.get_active_filters()
@@ -120,6 +124,10 @@ class TaskListBase(ListView):
         for filter_id in self.get_active_filters():
             label, filter = self.filters[filter_id]
             queryset = queryset.filter(filter)
+
+        search_term = self.get_search_term()
+        if search_term:
+            queryset = queryset.filter(Q(label__icontains=search_term) | Q(description__icontains=search_term))
 
         return queryset
 

@@ -11,6 +11,9 @@
 {% endblock %}
 
 {% block content %}
+ {% if not object %}
+  <p>TODO explain what boards are and what the boardname is used for</p>
+ {% endif %}
  <form method="post">{% csrf_token %}
   {{ form|crispy }}
   <input type="submit" class="btn btn-success" value="Save">

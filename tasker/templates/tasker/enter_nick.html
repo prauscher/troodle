@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+ <p>TODO explain why nick is used</p>
  <form method="post">{% csrf_token %}
   {{ form|crispy }}
   <input type="submit" class="btn btn-success" value="Save">

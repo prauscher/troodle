@@ -7,9 +7,9 @@
   <div class="col">
    {% for filter_id, filter_label in filters.items %}
     {% if filter_id in active_filters %}
-     <a href="?filters={% for filter in active_filters %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}&search={{ search_term | escape }}" class="btn btn-secondary active" aria-pressed="true">{{ filter_label|escape }}</a>
+     <a href="?filters={% for filter in active_filters %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}&search={{ search_term | escape }}" class="btn btn-secondary">{{ filter_label|escape }}</a>
     {% else %}
-     <a href="?filters={{ active_filters | join:"," }},{{ filter_id }}&search={{ search_term | escape }}" class="btn btn-secondary">{{ filter_label|escape }}</a>
+     <a href="?filters={{ active_filters | join:"," }},{{ filter_id }}&search={{ search_term | escape }}" class="btn btn-outline-secondary">{{ filter_label|escape }}</a>
     {% endif %}
    {% endfor %}
   </div>
@@ -17,7 +17,7 @@
    <form action="" method="get" class="form-inline">
     <input type="hidden" name="filters" value="{{ active_filters | join:"," }}" />
     <input class="form-control mr-sm-2" type="search" name="search" value="{{ search_term | escape }}" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-success" type="submit">Search</button>
    </form>
   </div>
  </div>

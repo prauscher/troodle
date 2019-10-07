@@ -1,3 +1,4 @@
+django
 django-autoslug
 django-bootstrap4
 django-bootstrap-pagination

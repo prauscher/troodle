@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+ {% if object %}{% block message_edit %}{% endblock %}
+ {% else %}{% block message_create %}{% endblock %}
+ {% endif %}
+ <form method="post">{% csrf_token %}
+  {{ form|crispy }}
+  <input type="submit" class="btn btn-success" value="{% if object %}Save{% else %}Create{% endif %}">
+ </form>
+{% endblock %}

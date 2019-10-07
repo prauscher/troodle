@@ -1,21 +1,13 @@
-{% extends 'base.html' %}
-
-{% load crispy_forms_tags %}
+{% extends 'base_form.html' %}
 
 {% block nav %}
  {% if object %}
-  {% include 'nav_base_board_admin.html' with board=object %}
+  {% include 'navbar/board_admin.html' with board=object %}
  {% else %}
   {{ block.super }}
  {% endif %}
 {% endblock %}
 
-{% block content %}
- {% if not object %}
-  <p>TODO explain what boards are and what the boardname is used for</p>
- {% endif %}
- <form method="post">{% csrf_token %}
-  {{ form|crispy }}
-  <input type="submit" class="btn btn-success" value="Save">
- </form>
+{% block message_create %}
+ <p>TODO explain what boards are and what the boardname is used for</p>
 {% endblock %}

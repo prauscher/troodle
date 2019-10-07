@@ -1,6 +1,6 @@
-{% extends 'task_list_base.html' %}
+{% extends 'base_task_list.html' %}
 
-{% block nav %}{% include "nav_base_board_admin.html" with board=board %}{% endblock %}
+{% block nav %}{% include "navbar/board_admin.html" with board=board %}{% endblock %}
 
 {% block task_actions %}
  <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">Show</a>

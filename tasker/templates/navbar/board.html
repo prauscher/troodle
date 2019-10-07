@@ -1,4 +1,4 @@
-{% extends "nav_base_board_admin.html" %}
+{% extends "navbar/board_admin.html" %}
 
 {% block brand %}
 <a href="{% url 'show_board' board.slug %}" class="navbar-brand">{{ board.label | escape }}</a>

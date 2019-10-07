@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
-{% block nav %}{% include "nav_base_board.html" with board=object.board %}{% endblock %}
+{% block nav %}{% include "navbar/board.html" with board=object.board %}{% endblock %}
 
 {% block content %}
- {% include 'task_base.html' with task=object %}
+ {% include 'task/base.html' with task=object %}
 {% endblock %}

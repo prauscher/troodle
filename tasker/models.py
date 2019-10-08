@@ -6,7 +6,7 @@ from django.core.signing import Signer
 from django.utils.timezone import now
 from autoslug import AutoSlugField
 
-BOARD_ADMIN_SIGNER = Signer('board_admin')
+BOARD_ADMIN_SIGNER = Signer(salt='board_admin')
 
 
 class Board(models.Model):

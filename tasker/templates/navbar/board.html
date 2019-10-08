@@ -6,13 +6,17 @@
 
 {% block links %}
 {% if board.slug in request.session.admin_boards %}
-<a href="{% url 'board_admin' board.generate_hash %}" class="btn btn-sm btn-outline-danger">Admin</a>
-<a href="{% url 'create_task' board.generate_hash %}" class="btn btn-sm btn-outline-success">Create Task</a>
-<a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn-outline-warning">Edit</a>
-<a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn-outline-danger">Delete</a>
+<div class="d-inline-flex">
+<span class="navbar-text mr-1"><a href="{% url 'board_admin' board.generate_hash %}" class="btn btn-sm btn-outline-danger">Admin</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'create_task' board.generate_hash %}" class="btn btn-sm btn-outline-success">Create Task</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn-outline-warning">Edit</a></span>
+<span class="navbar-text mr-3"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn-outline-danger">Delete</a></span>
+</div>
 {% endif %}
-<a href="{% url 'show_board' board.slug %}" class="btn btn-sm btn-outline-info">Show</a>
-<a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn-outline-info">Tasks</a>
-<a href="{% url 'board_summary' board.slug %}" class="btn btn-sm btn-outline-info">Summary</a>
-<a href="{% url 'clone_board' board.slug %}" class="btn btn-sm btn-outline-success">Clone</a>
+<div class="d-inline-flex">
+<span class="navbar-text mr-1"><a href="{% url 'show_board' board.slug %}" class="btn btn-sm btn-outline-info">Show</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn-outline-info">Tasks</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'board_summary' board.slug %}" class="btn btn-sm btn-outline-info">Summary</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'clone_board' board.slug %}" class="btn btn-sm btn-outline-success">Clone</a></span>
+</div>
 {% endblock %}

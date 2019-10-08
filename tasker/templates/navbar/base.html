@@ -5,11 +5,12 @@
  </span>
  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
  <div class="collapse navbar-collapse" id="navbarCollapse">
-  <span class="navbar-text mr-auto">
-   {% block links %}
+  {% block links %}
+   <span class="navbar-text">
     <a href="{% url 'create_board' %}" class="btn btn-outline-success btn-sm">Create Board</a>
-   {% endblock %}
-  </span>
+   </span>
+  {% endblock %}
+  <span class="navbar-text mr-auto"></span>
   {% if 'nick' in request.session %}
   <span class="navbar-text">
    {{ request.session.nick }} <a href="{% url 'reset_nick' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-outline-danger btn-sm">Leave</a>

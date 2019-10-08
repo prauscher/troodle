@@ -2,11 +2,11 @@
 
 {% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
 
-{% block nav %}{% include "navbar/board_admin.html" with board=board %}{% endblock %}
+{% block nav %}{% include "navbar/board.html" with board=board %}{% endblock %}
 
 {% block task_label %}
  {{ block.super }}
- {% if object.reserved_until > now %}
+ {% if object.is_locked %}
   <span class="badge badge-warning">Locked by {{ object.reserved_by | escape }} for {{ object.reserved_until | timeuntil }}</span>
  {% endif %}
 {% endblock %}

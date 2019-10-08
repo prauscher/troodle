@@ -4,7 +4,7 @@
 
 {% block title %}{{ object.label }} &middot; {{ block.super }}{% endblock %}
 
-{% block nav %}{% include "navbar/board_admin.html" with board=object.board %}{% endblock %}
+{% block nav %}{% include "navbar/board.html" with board=object.board %}{% endblock %}
 
 {% block content %}
 <form method="post">{% csrf_token %}

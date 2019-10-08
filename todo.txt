@@ -1,8 +1,5 @@
 * "hashed" image for nick
 * i18n
 * show countdown for lock (and reload)
-* add metapages (imprint, ...)
 * view attachment: fix width / height
 * add mailadress to board and allow for "forgot admin link" (with threshold saved in model)
-* nato time: add timezone (maybe use custom filter here)
-* add hidden h1 for print view

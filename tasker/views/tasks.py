@@ -193,8 +193,13 @@ def lock_task(request, task, nick):
 @decorators.require_name
 @decorators.board_view
 @decorators.task_view
-@decorators.require_action('unlock')
 def unlock_task(request, task, nick):
-    task.unlock()
+    # do nothing if unlock is not needed
+    # this will avoid errors if users click unlock too late
+    if task.is_locked():
+        if not task.action_allowed('unlock'):
+            raise Http404
+
+        task.unlock()
 
     return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))

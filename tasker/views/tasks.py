@@ -129,6 +129,8 @@ class TaskListBase(ListView):
         if search_term:
             queryset = queryset.filter(Q(label__icontains=search_term) | Q(description__icontains=search_term))
 
+        queryset = queryset.distinct()
+
         return queryset
 
 

@@ -2,7 +2,6 @@
 * "hashed" image for nick
 * i18n
 * show countdown for lock (and reload)
-* filter "mine" shows task double (due to double handlings)
 * show link to homepage in navbar
 * add metapages (imprint, ...)
 * view attachment: fix width / height

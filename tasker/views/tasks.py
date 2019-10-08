@@ -142,7 +142,7 @@ class TaskListView(TaskListBase):
     def get_filters(self):
         filters = super().get_filters()
         filters.update({
-            'my': ('Mine', Q(handlings__isnull=False, handlings__editor=self.kwargs['nick']) | Q(reserved_by=self.kwargs['nick'])),
+            'mine': ('Mine', Q(handlings__isnull=False, handlings__editor=self.kwargs['nick']) | Q(reserved_by=self.kwargs['nick'], reserved_until__gte=now())),
         })
         return filters
 

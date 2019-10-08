@@ -19,8 +19,8 @@
       at {{ handling.start | date:"j" }} {{ handling.start | time:"H:i" }} {{ handling.start | date:"b Y" }}
       for {{ handling.get_duration | timedelta }}
      </small>
-     {% if handling.success %}<span class="badge badge-success">Erfolgreich</span>
-     {% else %}<span class="badge badge-danger">Nicht erfolgreich</span>
+     {% if handling.success %}<span class="badge badge-success">Done</span>
+     {% else %}<span class="badge badge-danger">Aborted</span>
      {% endif %}
     {% else %}
      <strong>{{ handling.editor }}</strong>
@@ -80,7 +80,7 @@
      <label for="id_attachment" class="col-form-label">Attachment:</label>
      <div><input type="file" class="form-control-file" name="attachment" id="id_attachment"></div>
     </div>
-    <input type="submit" class="btn btn-info" value="Send">
+    <input type="submit" class="btn btn-info" value="Attach">
    </form>
    </div>
   {% endblock %}{% endif %}

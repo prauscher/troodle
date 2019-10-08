@@ -26,7 +26,7 @@
       <span class="badge badge-warning">Locked by {{ task.reserved_by }} for {{ task.reserved_until | timeuntil }}</span>
      {% endif %}
      {% for handling in handlings %}
-      <span class="badge badge-success">Processing by {{ handling.editor }} since {{ handling.start | timesince }}</span>
+      <span class="badge badge-primary">Active by {{ handling.editor }} since {{ handling.start | timesince }}</span>
      {% endfor %}
     </li>
    {% endfor %}

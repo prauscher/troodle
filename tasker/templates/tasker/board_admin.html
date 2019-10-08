@@ -6,9 +6,8 @@
 
 {% block task_label %}
  {{ block.super }}
- {% if object.is_locked %}
-  <span class="badge badge-warning">Locked by {{ object.reserved_by | escape }} for {{ object.reserved_until | timeuntil }}</span>
- {% endif %}
+ {% if object.is_locked %}<span class="badge badge-warning">Locked by {{ object.reserved_by | escape }} for {{ object.reserved_until | timeuntil }}</span>{% endif %}
+ {% if object.is_done %}<span class="badge badge-success">Done</span>{% endif %}
 {% endblock %}
 
 {% block task_actions %}

@@ -2,6 +2,13 @@
 
 {% block nav %}{% include "navbar/board_admin.html" with board=board %}{% endblock %}
 
+{% block task_label %}
+ {{ block.super }}
+ {% if object.reserved_until > now %}
+  <span class="badge badge-warning">Locked by {{ object.reserved_by | escape }} for {{ object.reserved_until | timeuntil }}</span>
+ {% endif %}
+{% endblock %}
+
 {% block task_actions %}
  <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">Show</a>
  <a href="{% url 'edit_task' object.board.generate_hash object.id %}" class="btn btn-secondary btn-sm">Edit</a>

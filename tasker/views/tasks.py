@@ -116,6 +116,7 @@ class TaskListBase(ListView):
         context['board'] = self.kwargs['board']
         context['filters'] = {_id: _filter[0] for _id, _filter in self.filters.items()}
         context['active_filters'] = self.get_active_filters()
+
         return context
 
     def get_queryset(self):

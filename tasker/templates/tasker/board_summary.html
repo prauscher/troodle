@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block nav %}{% include "navbar/board.html" with board=board %}{% endblock %}
+
+{% block content %}
+ <h5>Done</h5>
+ {% if tasks_done %}
+  <div class="card-columns">
+   {% for task in tasks_done %}
+    {% include "task/board_summary.html" with task=task %}
+   {% endfor %}
+  </div>
+ {% else %}
+  <p class="alert alert-danger">No Tasks done</p>
+ {% endif %}
+
+ <h5>Open Tasks</h5>
+ {% if tasks_not_done %}
+  <ul class="list-group">
+   {% for task, handlings in tasks_not_done %}
+    <li class="list-group-item">
+     <a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label }}</a>
+     {% if task.is_locked %}
+      <span class="badge badge-warning">Locked by {{ task.reserved_by }} for {{ task.reserved_until | timeuntil }}</span>
+     {% endif %}
+     {% for handling in handlings %}
+      <span class="badge badge-success">Processing by {{ handling.editor }} since {{ handling.start | timesince }}</span>
+     {% endfor %}
+    </li>
+   {% endfor %}
+  </ul>
+ {% else %}
+  <p class="alert alert-warning">No Tasks open</p>
+ {% endif %}
+{% endblock %}

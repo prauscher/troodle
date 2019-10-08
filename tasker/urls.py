@@ -22,6 +22,7 @@ urlpatterns = [
     path('board/<str:board_hash>/tasks/<int:task_id>/delete', tasks.DeleteTaskView.as_view(), name='delete_task'),
 
     path('board/<slug:board_slug>', board.BoardView.as_view(), name='show_board'),
+    path('board/<slug:board_slug>/summary', board.BoardSummaryView.as_view(), name='board_summary'),
     path('board/<slug:board_slug>/tasks', tasks.TaskListView.as_view(), name='list_tasks'),
     path('board/<slug:board_slug>/clone', board.CloneBoardView.as_view(), name='clone_board'),
 

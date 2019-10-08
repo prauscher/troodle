@@ -13,4 +13,5 @@
 {% endblock %}
 <a href="{% url 'show_board' board.slug %}" class="btn btn-sm btn-outline-info">Show</a>
 <a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn-outline-info">Tasks</a>
+<a href="{% url 'board_summary' board.slug %}" class="btn btn-sm btn-outline-info">Summary</a>
 {% endblock %}

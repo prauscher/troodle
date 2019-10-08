@@ -3,6 +3,7 @@ import random
 
 from django.urls import reverse_lazy
 from django.utils.timezone import now
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
@@ -23,6 +24,25 @@ class CreateBoardView(CreateView):
 @decorators.class_decorator(decorators.board_admin_view)
 class BoardAdminView(TaskListBase):
     template_name = 'tasker/board_admin.html'
+
+
+@decorators.class_decorator(decorators.board_view)
+class BoardSummaryView(TemplateView):
+    template_name = 'tasker/board_summary.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['tasks_done'] = []
+        context['tasks_not_done'] = []
+
+        for task in self.kwargs['board'].tasks.all():
+            if task.is_done():
+                context['tasks_done'].append(task)
+            else:
+                context['tasks_not_done'].append((task, task.get_current_handling().all()))
+
+        return context
 
 
 @decorators.class_decorator([decorators.require_name, decorators.board_view])

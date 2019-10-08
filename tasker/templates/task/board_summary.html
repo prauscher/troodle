@@ -1,0 +1,11 @@
+{% extends "task/base.html" %}
+
+{% load timedelta %}
+
+{% block description %}{% endblock %}
+{% block actions %}{% endblock %}
+{% block card_footer %}
+ <div class="card-footer text-right">
+  <small>Total {{ task.get_total_duration | timedelta }}</small>
+ </div>
+{% endblock %}

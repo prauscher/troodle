@@ -1,24 +1,32 @@
-<div class="card">
+{% load timedelta %}
+
+<div class="card" {% block card_settings %}{% endblock %}>
  <div class="card-header {% if task.nick_status == 'o' %}bg-secondary text-white{% elif task.nick_status == 'l' %}bg-danger text-white{% elif task.nick_status == 'r' %}bg-warning{% elif task.nick_status == 'p' %}bg-primary text-white{% elif task.nick_status == 'd' %}bg-success text-white{% endif %}">
   {% block task_label %}{{ task.label | escape }}{% endblock %}
  </div>
+ {% block description %}
  <div class="card-body">
-  <p class="card-text">{{ task.description | escape }}</p>
+  <p class="card-text">{{ task.description | escape | linebreaksbr }}</p>
  </div>
+ {% endblock %}
  {% block handlings %}
  <ul class="list-group list-group-flush">
   {% for handling in task.handlings.all %}
    <li class="list-group-item">
     {% if handling.end %}
-     {{ handling.editor }}
-     {{ handling.start }}
-     {{ handling.end | timesince:handling.start }}
+     <strong>{{ handling.editor }}</strong>
+     <small>
+      at {{ handling.start | date:"j" }} {{ handling.start | time:"H:i" }} {{ handling.start | date:"b Y" }}
+      for {{ handling.get_duration | timedelta }}
+     </small>
      {% if handling.success %}<span class="badge badge-success">Erfolgreich</span>
      {% else %}<span class="badge badge-danger">Nicht erfolgreich</span>
      {% endif %}
     {% else %}
-     {{ handling.editor }}
-     since {{ handling.start }}
+     <strong>{{ handling.editor }}</strong>
+     <small>
+      since {{ handling.start | date:"j" }} {{ handling.start | time:"H:i" }} {{ handling.start | date:"b Y" }}
+     </small>
      <span class="badge badge-warning">Aktiv</span>
     {% endif %}
     {% for comment in handling.tasker_comments.all %}
@@ -42,8 +50,8 @@
  {% endblock %}
  {% block actions %}
  <div class="card-footer">
-  {% if task.reserved_until > now %}
-   ({{ task.reserved_until | timeuntil }})
+  {% if task.is_locked %}
+   Locked by {{ task.reserved_by }} for {{ task.reserved_until | timeuntil }}
   {% endif %}
   {% if 'start' in task.allowed_actions %}{% block start_actions %}
    <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">Start</a>
@@ -78,4 +86,5 @@
   {% endblock %}{% endif %}
  </div>
  {% endblock %}
+ {% block card_footer %}{% endblock %}
 </div>

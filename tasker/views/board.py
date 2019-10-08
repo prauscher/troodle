@@ -113,7 +113,7 @@ class CloneBoardView(CreateBoardView):
         for task in form.instance.cloned_from.tasks.all():
             task.pk = None
             task.board = form.instance
-            # TODO reset reserved_until
+            task.reserved_until = now()
             task.save()
 
         return return_value

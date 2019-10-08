@@ -89,7 +89,7 @@ class TaskView(DetailView):
 
 
 class TaskListBase(ListView):
-    paginate_by = 2
+    paginate_by = 20
     search_fields = ['label', 'description', 'handlings__editor', 'handlings__tasker_comments__text']
 
     def get_filters(self):

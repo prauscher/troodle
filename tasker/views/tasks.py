@@ -93,7 +93,6 @@ class TaskListBase(ListView):
 
     def get_filters(self):
         return {
-            'unlocked': ('Unlocked', Q(reserved_until__lt=now())),
             'locked': ('Locked', Q(reserved_until__gte=now())),
             'active': ('Active', Q(handlings__isnull=False, handlings__end__isnull=True)),
             'done': ('Done', Q(handlings__isnull=False, handlings__success=True)),
@@ -107,6 +106,10 @@ class TaskListBase(ListView):
         filter_ids = self.request.GET.get("filters", "").split(",")
         return [_id for _id, _filter in self.filters.items() if _id in filter_ids]
 
+    def get_active_excludes(self):
+        filter_ids = self.request.GET.get("excludes", "").split(",")
+        return [_id for _id, _filter in self.filters.items() if _id in filter_ids]
+
     def get_search_term(self):
         return self.request.GET.get("search", "")
 
@@ -116,11 +119,16 @@ class TaskListBase(ListView):
         context['board'] = self.kwargs['board']
         context['filters'] = {_id: _filter[0] for _id, _filter in self.filters.items()}
         context['active_filters'] = self.get_active_filters()
+        context['active_excludes'] = self.get_active_excludes()
 
         return context
 
     def get_queryset(self):
         queryset = self.kwargs['board'].tasks.all()
+
+        for filter_id in self.get_active_excludes():
+            label, filter = self.filters[filter_id]
+            queryset = queryset.exclude(filter)
 
         for filter_id in self.get_active_filters():
             label, filter = self.filters[filter_id]

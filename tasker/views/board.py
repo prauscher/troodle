@@ -74,7 +74,6 @@ class BoardView(DetailView):
         ]
 
         for filter in filters:
-            print(filter)
             if filter:
                 nr = random.randint(0, filter.count() - 1)
                 return filter[nr]

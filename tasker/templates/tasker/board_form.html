@@ -1,6 +1,6 @@
 {% extends 'base_form.html' %}
 
-{% block title %}{{ object.label }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{% if object %}{{ object.label }} &middot; {% endif %}{{ block.super }}{% endblock %}
 
 {% block nav %}
  {% if object %}
@@ -11,5 +11,7 @@
 {% endblock %}
 
 {% block message_create %}
- <p>TODO explain what boards are and what the boardname is used for</p>
+ <p>Welcome again to Troodle. Troodle enables you to work together with your team by hosting a hub of tasks to be done. Each of those hubs (called &quot;<em>board</em>&quot; at Troodle)
+  will have two faces: The backend allows you to create, modify and delete tasks from the board while the frontend allows you and your team to work on tasks.</p>
+ <p>The Label should help you to identify the purpose of the hub. Remember that boards can be cloned to cope with repeating set of tasks, so make sure the label stays unique for you.</p>
 {% endblock %}

@@ -97,6 +97,13 @@ class BoardView(DetailView):
 
 @decorators.class_decorator(decorators.board_view)
 class CloneBoardView(CreateBoardView):
+    template_name_suffix = '_form_clone'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_blueprint'] = self.kwargs['board']
+        return context
+
     def form_valid(self, form):
         form.instance.cloned_from = self.kwargs['board']
 

@@ -5,3 +5,4 @@
 * show link to homepage in navbar
 * add metapages (imprint, ...)
 * view attachment: fix width / height
+* add mailadress to board and allow for "forgot admin link" (with threshold saved in model)

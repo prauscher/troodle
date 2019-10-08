@@ -1,0 +1,9 @@
+{% extends 'tasker/board_form.html' %}
+
+{% block title %}{{ board_blueprint.label }} &middot; {{ block.super }}{% endblock %}
+
+{% block nav %}{% include 'navbar/board_admin.html' with board=board_blueprint %}{% endblock %}
+
+{% block message_create %}
+ <p>TODO welcome to cloning</p>
+{% endblock %}

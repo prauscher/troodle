@@ -7,6 +7,6 @@
 {% block content %}
  {% if random_task %}{% include 'task/board_detail.html' with task=random_task %}
  {% else %}
-  <p>No tasks could be found for you. Maybe take a look at the <a href="{% url 'list_tasks' object.slug %}">list of all Tasks</a> or at the <a href="{% url 'board_summary' object.slug %}">board summary</a>.</p>
+  <p class="alert alert-info">No tasks could be found for you. Maybe take a look at the <a href="{% url 'list_tasks' object.slug %}">list of all Tasks</a> or at the <a href="{% url 'board_summary' object.slug %}">board summary</a>.</p>
  {% endif %}
 {% endblock %}

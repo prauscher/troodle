@@ -5,6 +5,7 @@
 * add metapages (imprint, ...)
 * view attachment: fix width / height
 * add mailadress to board and allow for "forgot admin link" (with threshold saved in model)
-* countdown "locked by You"
 * footer with link to imprint etc
 * nato time: add timezone (maybe use custom filter here)
+* redirect for 404
+* add hidden h1 for print view

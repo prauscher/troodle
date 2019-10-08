@@ -51,7 +51,11 @@
  {% block actions %}
  <div class="card-footer">
   {% if task.is_locked %}
-   <p>Locked by <strong>{{ task.reserved_by }}</strong> for <strong>{{ task.reserved_until | timeuntil }}</strong></p>
+   {% if task.nick_status in 'rp' %}
+    <p>Reserved for <strong>{{ task.reserved_until | timeuntil }}</strong></p>
+   {% else %}
+    <p>Locked by <strong>{{ task.reserved_by }}</strong> for <strong>{{ task.reserved_until | timeuntil }}</strong></p>
+   {% endif %}
   {% endif %}
   {% if 'start' in task.allowed_actions %}{% block start_actions %}
    <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">Start</a>

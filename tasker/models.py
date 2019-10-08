@@ -69,10 +69,10 @@ class Task(models.Model):
 
     def get_nick_status(self, nick):
         try:
-            self.handlings.get(editor=nick, end__isnull=True)
+            self.get_current_handling(nick)
             return Task.PROCESSING
         except Handling.DoesNotExist:
-            if self.handlings.filter(end__isnull=False, success=True).exists():
+            if self.is_done():
                 return Task.DONE
             if self.is_locked_for(nick):
                 return Task.RESERVED
@@ -95,14 +95,29 @@ class Task(models.Model):
 
         return nick_status in self.ACTIONS[action]
 
-    def get_current_handling(self, nick):
-        return self.handlings.get(editor=nick, end=None)
+    def get_current_handling(self, nick=None):
+        query = self.handlings.filter(end__isnull=True)
+        if nick:
+            return query.get(editor=nick)
+        return query
+
+    def get_total_duration(self):
+        time = timedelta()
+        for handling in self.handlings.filter(end__isnull=False):
+            time = time + handling.get_duration()
+        return time
+
+    def is_done(self):
+        return self.handlings.filter(end__isnull=False, success=True).exists()
+
+    def is_locked(self):
+        return not self.is_unlocked()
 
     def is_unlocked(self):
         return now() > self.reserved_until
 
     def is_locked_for(self, nick):
-        return self.reserved_by == nick and not self.is_unlocked()
+        return self.reserved_by == nick and self.is_locked()
 
     def unlock(self):
         self.reserved_until = now()
@@ -110,7 +125,7 @@ class Task(models.Model):
 
     def lock(self, nick, duration=None):
         # TODO refresh value, add transaction
-        if not self.is_unlocked() and not self.is_locked_for(nick):
+        if self.is_locked() and not self.is_locked_for(nick):
             raise ValueError('Task is already locked')
 
         if duration is None:
@@ -137,6 +152,9 @@ class Handling(models.Model):
     def __str__(self):
         # TODO add start / end if existing
         return "{} ({})".format(self.task, self.editor)
+
+    def get_duration(self):
+        return self.end - self.start
 
     class Meta:
         ordering = ['task', 'start']

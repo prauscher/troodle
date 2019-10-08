@@ -2,6 +2,8 @@
 
 {% block nav %}{% include "navbar/board.html" with board=object %}{% endblock %}
 
+{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+
 {% block content %}
  {% if random_task %}{% include 'task/board_detail.html' with task=random_task %}
  {% else %}

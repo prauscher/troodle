@@ -2,6 +2,8 @@
 
 {% load crispy_forms_tags %}
 
+{% block title %}{{ object.label }} &middot; {{ block.super }}{% endblock %}
+
 {% block nav %}{% include "navbar/board_admin.html" with board=object.board %}{% endblock %}
 
 {% block content %}

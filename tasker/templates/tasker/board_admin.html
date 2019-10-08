@@ -1,5 +1,7 @@
 {% extends 'base_task_list.html' %}
 
+{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+
 {% block nav %}{% include "navbar/board_admin.html" with board=board %}{% endblock %}
 
 {% block task_label %}

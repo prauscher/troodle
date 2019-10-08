@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+
 {% block nav %}{% include "navbar/board.html" with board=board %}{% endblock %}
 
 {% block content %}

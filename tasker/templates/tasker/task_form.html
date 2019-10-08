@@ -1,5 +1,7 @@
 {% extends 'base_form.html' %}
 
+{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+
 {% block nav %}{% include "navbar/board_admin.html" with board=board %}{% endblock %}
 
 {% block message_create %}

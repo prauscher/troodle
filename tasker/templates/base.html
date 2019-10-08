@@ -14,6 +14,12 @@
    {% block content %}{% endblock %}
   </main>
 
+  <footer class="footer container py-3 text-center text-muted">
+   <small>
+    <a href="{% url 'start' %}">Troodle</a> is a project by <a href="https://prauscher.de/">@prauscher</a>.
+   </small>
+  </footer>
+
   {% bootstrap_javascript jquery='full' %}
  </body>
 </html>

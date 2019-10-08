@@ -90,6 +90,7 @@ class TaskView(DetailView):
 
 class TaskListBase(ListView):
     paginate_by = 2
+    search_fields = ['label', 'description', 'handlings__editor', 'handlings__tasker_comments__text']
 
     def get_filters(self):
         return {
@@ -99,6 +100,7 @@ class TaskListBase(ListView):
         }
 
     def dispatch(self, *args, **kwargs):
+        # cache filters
         self.filters = self.get_filters()
         return super().dispatch(*args, **kwargs)
 
@@ -112,6 +114,22 @@ class TaskListBase(ListView):
 
     def get_search_term(self):
         return self.request.GET.get("search", "")
+
+    def get_search_terms(self):
+        return [term for term in self.get_search_term().split(' ') if term]
+
+    def get_search_fields(self):
+        return self.search_fields
+
+    def get_search_filter(self):
+        # Q(pk=None) is a hacky way to say "always false"
+        filter = ~Q(pk=None)
+        for term in self.get_search_terms():
+            term_filter = Q(pk=None)
+            for field in self.get_search_fields():
+                term_filter = term_filter | Q(**{"{}__icontains".format(field): term})
+            filter = filter & term_filter
+        return filter
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,9 +152,7 @@ class TaskListBase(ListView):
             label, filter = self.filters[filter_id]
             queryset = queryset.filter(filter)
 
-        search_term = self.get_search_term()
-        if search_term:
-            queryset = queryset.filter(Q(label__icontains=search_term) | Q(description__icontains=search_term))
+        queryset = queryset.filter(self.get_search_filter())
 
         queryset = queryset.distinct()
 

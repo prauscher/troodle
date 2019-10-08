@@ -16,7 +16,7 @@
     {% if handling.end %}
      <strong>{{ handling.editor }}</strong>
      <small>
-      at {{ handling.start | date:"j" }} {{ handling.start | time:"H:i" }} {{ handling.start | date:"b Y" }}
+      {{ handling.end | timesince }} ago
       for {{ handling.get_duration | timedelta }}
      </small>
      {% if handling.success %}<span class="badge badge-success">Done</span>
@@ -25,7 +25,7 @@
     {% else %}
      <strong>{{ handling.editor }}</strong>
      <small>
-      since {{ handling.start | date:"j" }} {{ handling.start | time:"H:i" }} {{ handling.start | date:"b Y" }}
+      {{ handling.start | timesince }} ago
      </small>
      <span class="badge badge-warning">Aktiv</span>
     {% endif %}

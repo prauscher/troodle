@@ -197,7 +197,7 @@ def unlock_task(request, task, nick):
     # do nothing if unlock is not needed
     # this will avoid errors if users click unlock too late
     if task.is_locked():
-        if not task.action_allowed('unlock'):
+        if not task.action_allowed('unlock', nick):
             raise Http404
 
         task.unlock()

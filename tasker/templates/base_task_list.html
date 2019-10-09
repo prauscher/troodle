@@ -33,14 +33,14 @@
   <thead class="thead-dark">
    <tr>
     <th scope="col">Name</th>
-    <th scope="col" style="text-align:right;"></th>
+    <th scope="col" class="text-right"></th>
    </tr>
   </thead>
   <tbody>
   {% for object in object_list %}
    <tr>
     <td>{% block task_label %}{{ object.label | escape }}{% endblock %}</td>
-    <td style="text-align:right;">{% block task_actions %}{% endblock %}</td>
+    <td class="text-right">{% block task_actions %}{% endblock %}</td>
    </tr>
   {% endfor %}
   </tbody>

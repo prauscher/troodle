@@ -1,18 +1,43 @@
 {% extends 'base.html' %}
 
+{% load timedelta %}
+
 {% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}{% include "navbar/board.html" with board=board %}{% endblock %}
 
 {% block content %}
- <h5>Done</h5>
- {% if tasks_done %}
+ {% if tasks_done_complex %}
+  <h5>Done with comments</h5>
   <div class="card-columns">
-   {% for task in tasks_done %}
+   {% for task in tasks_done_complex %}
     {% include "task/board_summary.html" with task=task %}
    {% endfor %}
   </div>
- {% else %}
+ {% endif %}
+ {% if tasks_done_simple %}
+  <h5>Done without comments</h5>
+  <table class="table table-striped">
+   <thead class="thead-dark">
+    <tr>
+     <th scope="col">Task</th>
+     <th scope="col">Done by</th>
+     <th scope="col">Duration</th>
+    </tr>
+   </thead>
+   <tbody>
+    {% for task, handling in tasks_done_simple %}
+     <tr>
+      <td><a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label }}</a></td>
+      <td>{{ handling.editor }}</td>
+      <td class="text-right">{{ task.get_total_duration | timedelta }}</td>
+     </tr>
+    {% endfor %}
+   </tbody>
+  </table>
+ {% endif %}
+ {% if not tasks_done_complex and not tasks_done_simple %}
+  <h5>Done</h5>
   <p class="alert alert-danger">No tasks done</p>
  {% endif %}
 

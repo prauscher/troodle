@@ -33,12 +33,23 @@ class BoardSummaryView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['tasks_done'] = []
+        context['tasks_done_simple'] = []
+        context['tasks_done_complex'] = []
         context['tasks_not_done'] = []
 
-        for task in self.kwargs['board'].tasks.all():
+        tasks = self.kwargs['board'].tasks.all()
+
+        for task in tasks:
             if task.is_done():
-                context['tasks_done'].append(task)
+                handlings = task.handlings.all()
+                print(handlings, len(handlings) == 1, handlings[0].tasker_comments.exists())
+                if len(handlings) == 1 and not handlings[0].tasker_comments.exists() and not handlings[0].tasker_attachments.exists():
+                    assert handlings[0].success, "Task cannot be done if only handling is not done"
+                    assert handlings[0].end is not None, "Task cannot be done if only handling is not complete"
+
+                    context['tasks_done_simple'].append((task, handlings[0]))
+                else:
+                    context['tasks_done_complex'].append(task)
             else:
                 context['tasks_not_done'].append((task, task.get_current_handling().all()))
 

@@ -71,7 +71,6 @@ class BoardSummaryView(TemplateView):
         for task in tasks:
             if task.is_done():
                 handlings = task.handlings.all()
-                print(handlings, len(handlings) == 1, handlings[0].tasker_comments.exists())
                 if len(handlings) == 1 and not handlings[0].tasker_comments.exists() and not handlings[0].tasker_attachments.exists():
                     assert handlings[0].success, "Task cannot be done if only handling is not done"
                     assert handlings[0].end is not None, "Task cannot be done if only handling is not complete"

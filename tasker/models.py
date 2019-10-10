@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.core.signing import Signer
 from django.core.mail import EmailMessage
 from django.utils.timezone import now
+from django.template.loader import get_template
 from autoslug import AutoSlugField
 
 BOARD_ADMIN_SIGNER = Signer(salt='board_admin')
@@ -44,20 +45,11 @@ class Board(models.Model):
         if self.last_admin_mail_sent and now() < self.last_admin_mail_sent + ADMIN_MAIL_DELAY:
             raise ValueError("Last admin mail has been sent too recently.")
 
-        # TODO render by template
-        body = """Hello user,
-
-we created a new board "{label}" for you!
-TODO: decribe next steps
-
-Admin link: {admin_link}
-Frontend link: {frontend_link}
-
-Greetings,
-Troodle
-        """.format(label=self.label,
-                   admin_link=request.build_absolute_uri(self.get_admin_url()),
-                   frontend_link=request.build_absolute_uri(self.get_frontend_url()))
+        body = get_template("board_mail.txt").render({
+            'label': self.label,
+            'admin_link': request.build_absolute_uri(self.get_admin_url()),
+            'frontend_link': request.build_absolute_uri(self.get_frontend_url()),
+        })
         message = EmailMessage(to=[self.admin_mail], subject="Your Troodle-Board {}".format(self.label), body=body)
         message.send()
 

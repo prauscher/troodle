@@ -1,0 +1,10 @@
+Hello user,
+
+we created a new board "{{ label }}" for you!
+TODO: decribe next steps
+
+Admin link: {{ admin_link }}
+Frontend link: {{  frontend_link }}
+
+Greetings,
+Troodle

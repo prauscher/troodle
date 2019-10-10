@@ -1,8 +1,30 @@
 {% extends 'base_task_list.html' %}
 
+{% load urlparser %}
+
 {% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}{% include "navbar/board.html" with board=board active='board_admin' %}{% endblock %}
+
+{% block list %}
+ <div class="btn-group mb-2">
+  <a href="{% get_parameter show="list" %}" class="btn btn{% if request.GET.show and request.GET.show != 'list' %}-outline{% endif %}-info">List</a>
+  <a href="{% get_parameter show="card" %}" class="btn btn{% if not request.GET.show or request.GET.show != 'card' %}-outline{% endif %}-info">Card</a>
+ </div>
+ {% if not request.GET.show or request.GET.show == 'list' %}
+  {{ block.super }}
+ {% else %}
+  {% if object_list %}
+   <div class="card-columns">
+    {% for object in object_list %}
+     {% include 'task/board_admin.html' with task=object %}
+    {% endfor %}
+   </div>
+  {% else %}
+   <p class="alert alert-info">No tasks found.</p>
+  {% endif %}
+ {% endif %}
+{% endblock %}
 
 {% block task_label %}
  {{ block.super }}

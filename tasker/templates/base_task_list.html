@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 
 {% load bootstrap_pagination %}
+{% load urlparser %}
 
 {% block content %}
  <div class="row">
   <div class="col">
    {% for filter_id, filter_label in filters.items %}
     {% if filter_id in active_filters %}
-     <a href="?excludes={{ active_excludes | join:"," }},{{ filter_id }}&filters={% for filter in active_filters %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}&search={{ search_term | escape }}" class="btn btn-success mb-2">{{ filter_label|escape }}</a>
+     <a href="{% get_parameter filters=active_filters|list_without:filter_id|join:"," excludes=active_excludes|list_with:filter_id|join:"," %}" class="btn btn-success mb-2">{{ filter_label|escape }}</a>
     {% elif filter_id in active_excludes %}
-     <a href="?excludes={% for filter in active_excludes %}{% if filter != filter_id %},{{ filter }}{% endif %}{% endfor %}&filters={{ active_filters | join:"," }}&search={{ search_term | escape }}" class="btn btn-danger mb-2">{{ filter_label|escape }}</a>
+     <a href="{% get_parameter excludes=active_excludes|list_without:filter_id|join:"," %}" class="btn btn-danger mb-2">{{ filter_label|escape }}</a>
     {% else %}
-     <a href="?excludes={{ active_excludes | join:"," }}&filters={{ active_filters | join:"," }},{{ filter_id }}&search={{ search_term | escape }}" class="btn btn-outline-secondary mb-2">{{ filter_label|escape }}</a>
+     <a href="{% get_parameter filters=active_filters|list_with:filter_id|join:"," %}" class="btn btn-outline-secondary mb-2">{{ filter_label|escape }}</a>
     {% endif %}
    {% endfor %}
   </div>
   <div class="col-md-auto btn-group-toggle">
    <form action="" method="get" class="form-inline">
-    <input type="hidden" name="filters" value="{{ active_filters | join:"," }}" />
-    <input type="hidden" name="excludes" value="{{ active_excludes | join:"," }}" />
+    {% form_parameter %}
     <div class="input-group mb-2">
      <input class="form-control" type="search" name="search" value="{{ search_term | escape }}" placeholder="Search" aria-label="Search">
      <div class="input-group-append">
@@ -29,6 +29,7 @@
   </div>
  </div>
 
+ {% block list %}
  <table class="table table-striped">
   <thead class="thead-dark">
    <tr>
@@ -51,6 +52,7 @@
   {% endif %}
   </tfoot>
  </table>
+ {% endblock %}
 
  <div class="row">
   <div class="mx-auto">

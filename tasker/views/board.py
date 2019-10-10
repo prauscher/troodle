@@ -100,12 +100,8 @@ class BoardView(DetailView):
         q_my_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True, handlings__editor=self.kwargs['nick'])
 
         filters = [
-            # tasks reserved for me with a current handling for me
-            open_tasks.filter(q_reserved_by_me & q_my_current_handling),
-            # tasks not reserved for me with a current handling for me
-            open_tasks.filter(~q_reserved_by_me & q_my_current_handling),
-            # tasks reserved for me without a current handling for me
-            open_tasks.filter(q_reserved_by_me & ~q_my_current_handling),
+            # my open tasks
+            open_tasks.filter(q_my_current_handling | q_reserved_by_me),
             # tasks without reservation, excluding those with current handling
             open_tasks.filter(~q_reserved & ~q_current_handling),
             # tasks without reservation but current handling by others

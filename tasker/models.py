@@ -3,17 +3,19 @@ from datetime import timedelta
 from django.db import models
 from django.urls import reverse
 from django.core.signing import Signer
+from django.core.mail import EmailMessage
 from django.utils.timezone import now
 from autoslug import AutoSlugField
 
 BOARD_ADMIN_SIGNER = Signer(salt='board_admin')
+ADMIN_MAIL_DELAY = timedelta(days=1)
 
 
 class Board(models.Model):
     slug = AutoSlugField(populate_from='label', unique=True)
     label = models.CharField(max_length=100)
-    admin_mail = models.EmailField(blank=True, null=True)
-    last_admin_mail_sent = models.DateTimeField(auto_now_add=True)
+    admin_mail = models.EmailField(blank=True, null=True, help_text="Your Mailadress. Will only be used to send you mails with links to frontend and backend.")
+    last_admin_mail_sent = models.DateTimeField(blank=True, null=True)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -33,6 +35,35 @@ class Board(models.Model):
     def get_by_hash(cls, board_hash):
         id = BOARD_ADMIN_SIGNER.unsign(board_hash)
         return cls.objects.get(id=id)
+
+    def send_admin_mail(self, request):
+        # TODO use different exceptions
+        if not self.admin_mail:
+            raise ValueError("No Admin mail stored")
+
+        if self.last_admin_mail_sent and now() < self.last_admin_mail_sent + ADMIN_MAIL_DELAY:
+            raise ValueError("Last admin mail has been sent too recently.")
+
+        # TODO render by template
+        body = """Hello user,
+
+we created a new board "{label}" for you!
+TODO: decribe next steps
+
+Admin link: {admin_link}
+Frontend link: {frontend_link}
+
+Greetings,
+Troodle
+        """.format(label=self.label,
+                   admin_link=request.build_absolute_uri(self.get_admin_url()),
+                   frontend_link=request.build_absolute_uri(self.get_frontend_url()))
+        message = EmailMessage(to=[self.admin_mail], subject="Your Troodle-Board {}".format(self.label), body=body)
+        message.send()
+
+        # reset counter
+        self.last_admin_mail_sent = now()
+        self.save()
 
     def __str__(self):
         return self.label

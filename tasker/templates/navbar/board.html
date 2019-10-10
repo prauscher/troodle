@@ -12,6 +12,10 @@
 <span class="navbar-text mr-1"><a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn-outline-warning">Edit</a></span>
 <span class="navbar-text mr-3"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn-outline-danger">Delete</a></span>
 </div>
+{% else %}
+<div class="d-inline-flex">
+<span class="navbar-text mr-3"><a href="{% url 'request_board_link' board.slug %}" class="btn btn-sm btn-outline-danger">Request Link</a></span>
+</div>
 {% endif %}
 <div class="d-inline-flex">
 <span class="navbar-text mr-1"><a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn-outline-primary">Tasks</a></span>

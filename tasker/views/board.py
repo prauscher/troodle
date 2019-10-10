@@ -15,10 +15,38 @@ from .. import decorators
 
 class CreateBoardView(CreateView):
     model = models.Board
-    fields = ['label']
+    fields = ['label', 'admin_mail']
+
+    def form_valid(self, form):
+        # super().form_valid saves the object needed to create links
+        return_value = super().form_valid(form)
+
+        try:
+            self.object.send_admin_mail(self.request)
+        except ValueError:
+            # expected iff user entered no admin mail
+            pass
+
+        return return_value
 
     def get_success_url(self):
         return self.object.get_admin_url()
+
+
+@decorators.class_decorator(decorators.board_view)
+class BoardSendAdminLinkView(TemplateView):
+    template_name = 'tasker/board_adminlinksent.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board'] = self.kwargs['board']
+
+        try:
+            self.kwargs['board'].send_admin_mail(self.request)
+        except ValueError as e:
+            context['error'] = e.args[0]
+
+        return context
 
 
 @decorators.class_decorator(decorators.board_admin_view)
@@ -32,6 +60,7 @@ class BoardSummaryView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['board'] = self.kwargs['board']
 
         context['tasks_done_simple'] = []
         context['tasks_done_complex'] = []

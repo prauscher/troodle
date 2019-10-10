@@ -36,9 +36,9 @@
      <div class="card-columns">
      {% for attachment in handling.tasker_attachments.all %}
       <div class="card bg-dark text-white">
-       <img style="max-width:200px; max-height:200px;" class="card-img" src="{% url 'preview_attachment' task.board.slug task.id attachment.id %}" />
+       <img style="max-width:200px; max-height:200px; width:initial; height:initial;" class="card-img" src="{% url 'preview_attachment' task.board.slug task.id attachment.id %}" />
        <div class="card-img-overlay">
-        <a href="{% url 'fetch_attachment' task.board.slug task.id attachment.id %}">Download</a>
+        <a href="{% url 'fetch_attachment' task.board.slug task.id attachment.id %}" class="stretched-link"></a>
        </div>
       </div>
      {% endfor %}

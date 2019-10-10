@@ -122,10 +122,11 @@ class CloneBoardView(CreateBoardView):
 
         # copy tasks
         for task in form.instance.cloned_from.tasks.all():
-            task.pk = None
-            task.board = form.instance
-            task.reserved_until = now()
-            task.save()
+            models.Task(board=form.instance,
+                        label=task.label,
+                        description=task.description,
+                        reserved_until=now(),
+                        cloned_from=task).save()
 
         return return_value
 

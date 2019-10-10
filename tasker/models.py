@@ -12,6 +12,8 @@ BOARD_ADMIN_SIGNER = Signer(salt='board_admin')
 class Board(models.Model):
     slug = AutoSlugField(populate_from='label', unique=True)
     label = models.CharField(max_length=100)
+    admin_mail = models.EmailField(blank=True, null=True)
+    last_admin_mail_sent = models.DateTimeField(auto_now_add=True)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -60,6 +62,7 @@ class Task(models.Model):
     description = models.TextField()
     reserved_by = models.CharField(max_length=30, blank=True, null=True)
     reserved_until = models.DateTimeField(default=now)
+    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', blank=True, null=True)
 
     def __str__(self):
         return "{}: {}".format(self.board, self.label)

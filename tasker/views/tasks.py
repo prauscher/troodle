@@ -37,6 +37,11 @@ class EditTaskView(UpdateView):
     def get_object(self):
         return self.kwargs['task']
 
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['board'] = self.kwargs['task'].board
+        return context
+
     def get_success_url(self):
         return self.kwargs['task'].board.get_admin_url()
 
@@ -82,10 +87,6 @@ class TaskView(DetailView):
     def get_object(self):
         self.kwargs['task'].fill_nick(self.kwargs['nick'])
         return self.kwargs['task']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 
 class TaskListBase(ListView):

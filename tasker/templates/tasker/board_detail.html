@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block nav %}{% include "navbar/board.html" with board=object %}{% endblock %}
+{% block nav %}{% include "navbar/board.html" with board=object active='board_detail' %}{% endblock %}
 
 {% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
 

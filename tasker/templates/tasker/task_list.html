@@ -2,7 +2,7 @@
 
 {% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
 
-{% block nav %}{% include "navbar/board.html" with board=board %}{% endblock %}
+{% block nav %}{% include "navbar/board.html" with board=board active='list_tasks' %}{% endblock %}
 
 {% block task_label %}
  <a href="{% url 'show_task' object.board.slug object.id %}">{{ object.label | escape }}</a>

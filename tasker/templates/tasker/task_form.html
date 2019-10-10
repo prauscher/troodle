@@ -2,7 +2,13 @@
 
 {% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
 
-{% block nav %}{% include "navbar/board.html" with board=board %}{% endblock %}
+{% block nav %}
+ {% if object %}
+  {% include "navbar/board.html" with board=board active='board_admin' %}
+ {% else %}
+  {% include "navbar/board.html" with board=board active='create_task' %}
+ {% endif %}
+{% endblock %}
 
 {% block message_create %}
  <p>Tasks are the core of each board. A task describes a specific action item which needs to be done. If a task can only be done by specific members of the team, you should note that right in the label of the task.</p>

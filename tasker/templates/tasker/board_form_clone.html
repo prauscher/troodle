@@ -2,7 +2,7 @@
 
 {% block title %}{{ board_blueprint.label }} &middot; {{ block.super }}{% endblock %}
 
-{% block nav %}{% include 'navbar/board.html' with board=board_blueprint %}{% endblock %}
+{% block nav %}{% include 'navbar/board.html' with board=board_blueprint active='clone_board' %}{% endblock %}
 
 {% block message_create %}
  <p>TODO welcome to cloning</p>

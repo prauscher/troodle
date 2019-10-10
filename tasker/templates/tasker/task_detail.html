@@ -2,7 +2,7 @@
 
 {% block title %}{{ object.label }} &middot; {{ block.super }}{% endblock %}
 
-{% block nav %}{% include "navbar/board.html" with board=object.board %}{% endblock %}
+{% block nav %}{% include "navbar/board.html" with board=object.board active='list_tasks' %}{% endblock %}
 
 {% block content %}
  {% include 'task/base.html' with task=object %}

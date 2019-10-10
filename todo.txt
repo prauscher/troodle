@@ -2,3 +2,5 @@
 * i18n
 * show countdown for lock (and reload)
 * make use of cloned_from fields in Board and Task
+* fix mail host in deployment
+* fix static files in deployment

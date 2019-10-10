@@ -12,7 +12,7 @@
 <span class="navbar-text mr-1"><a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'edit_board' %}-outline{% endif %}-warning">Edit</a></span>
 <span class="navbar-text mr-3"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'delete_board' %}-outline{% endif %}-danger">Delete</a></span>
 </div>
-{% else %}
+{% elif board.admin_mail %}
 <div class="d-inline-flex">
 <span class="navbar-text mr-3"><a href="{% url 'request_board_link' board.slug %}" class="btn btn-sm btn{% if active != 'request_board_link' %}-outline{% endif %}-danger">Request Link</a></span>
 </div>

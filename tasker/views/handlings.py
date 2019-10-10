@@ -50,7 +50,7 @@ def complete_task(*args, **kwargs):
 def comment_task(request, task, nick):
     handling = task.get_current_handling(nick)
 
-    if request.POST["text"]:
+    if "text" in request.POST and request.POST["text"]:
         models.Comment(handling=handling, text=request.POST["text"]).save()
 
     if "attachment" in request.FILES:

@@ -35,10 +35,10 @@
     {% if handling.tasker_attachments %}
      <div class="card-columns">
      {% for attachment in handling.tasker_attachments.all %}
-      <div class="card" style="width:200px;">
-       <img class="card-img-top" src="{% url 'preview_attachment' task.board.slug task.id attachment.id %}" />
-       <div class="card-body">
-        <a href="{% url 'fetch_attachment' task.board.slug task.id attachment.id %}" class="btn btn-sm btn-primary">Download</a>
+      <div class="card bg-dark text-white">
+       <img style="max-width:200px; max-height:200px;" class="card-img" src="{% url 'preview_attachment' task.board.slug task.id attachment.id %}" />
+       <div class="card-img-overlay">
+        <a href="{% url 'fetch_attachment' task.board.slug task.id attachment.id %}">Download</a>
        </div>
       </div>
      {% endfor %}

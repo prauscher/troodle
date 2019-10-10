@@ -33,8 +33,8 @@ class Board(models.Model):
 
     @classmethod
     def get_by_hash(cls, board_hash):
-        id = BOARD_ADMIN_SIGNER.unsign(board_hash)
-        return cls.objects.get(id=id)
+        board_id = BOARD_ADMIN_SIGNER.unsign(board_hash)
+        return cls.objects.get(id=board_id)
 
     def send_admin_mail(self, request):
         # TODO use different exceptions
@@ -186,9 +186,6 @@ class Handling(models.Model):
     def __str__(self):
         # TODO add start / end if existing
         return "{} ({})".format(self.task, self.editor)
-
-    def get_duration(self):
-        return self.end - self.start
 
     class Meta:
         ordering = ['task', 'start']

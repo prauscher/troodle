@@ -11,6 +11,14 @@
 {% endblock %}
 
 {% block message_create %}
+ {% if "message" in request.GET and request.GET.message == "created" %}
+  <p class="alert alert-success">Task created</p>
+ {% endif %}
  <p>Tasks are the core of each board. A task describes a specific action item which needs to be done. If a task can only be done by specific members of the team, you should note that right in the label of the task.</p>
  <p class="alert alert-info">Tasks will be given to the users independently, meaning each task must be doable regardless if other tasks have been done or not.</p>
+{% endblock %}
+
+{% block create_button %}
+ {{ block.super }}
+ <button type="submit" class="btn btn-success" name="next" value="{% url 'create_task' board.slug %}?message=created">Create and return to this form</button>
 {% endblock %}

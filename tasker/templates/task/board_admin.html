@@ -1,6 +1,13 @@
 {% extends "task/base.html" %}
 
+{% block task_label %}
+ {{ block.super }}
+ {% if task.is_locked %}<span class="badge badge-warning">Locked by {{ task.reserved_by | escape }} for {{ task.reserved_until | timeuntil }}</span>{% endif %}
+ {% if task.is_done %}<span class="badge badge-success">Done</span>{% endif %}
+{% endblock %}
+
 {% block handlings %}{% endblock %}
+
 {% block actions %}
  <div class="card-footer">
   <a href="{% url 'show_task' task.board.slug task.id %}" class="btn btn-info">Show</a>

@@ -20,5 +20,5 @@
 
 {% block create_button %}
  {{ block.super }}
- <button type="submit" class="btn btn-success" name="next" value="{% url 'create_task' board.slug %}?message=created">Create and return to this form</button>
+ <button type="submit" class="btn btn-success" name="next" value="{% url 'create_task' board.generate_hash %}?message=created">Create and return to this form</button>
 {% endblock %}

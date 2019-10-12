@@ -8,6 +8,16 @@
  {% endif %}
  <form method="post">{% csrf_token %}
   {{ form|crispy }}
-  <input type="submit" class="btn btn-success" value="{% if object %}Save{% else %}Create{% endif %}">
+  {% block buttons %}
+   {% if object %}
+    {% block save_button %}
+     <input type="submit" class="btn btn-success" value="Save" />
+    {% endblock %}
+   {% else %}
+    {% block create_button %}
+     <input type="submit" class="btn btn-success" value="Create" />
+    {% endblock %}
+   {% endif %}
+  {% endblock %}
  </form>
 {% endblock %}

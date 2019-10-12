@@ -1,7 +1,11 @@
 from django.utils.http import is_safe_url
 
 
-def get_redirect_url(request, get_parameter='next', default=''):
-    redirect_to = request.GET.get(get_parameter, default)
-    url_is_safe = is_safe_url(redirect_to, [])
-    return redirect_to if url_is_safe else default
+def get_redirect_url(request, get_parameter='next', post_parameter='next', default=''):
+    if post_parameter in request.POST and is_safe_url(request.POST[post_parameter], []):
+        return request.POST[post_parameter]
+
+    if get_parameter in request.GET and is_safe_url(request.GET[get_parameter], []):
+        return request.GET[get_parameter]
+
+    return default

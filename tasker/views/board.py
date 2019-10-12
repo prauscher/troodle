@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
 
 from .tasks import TaskListBase
+from .. import utils
 from .. import models
 from .. import decorators
 
@@ -30,7 +31,7 @@ class CreateBoardView(CreateView):
         return return_value
 
     def get_success_url(self):
-        return self.object.get_admin_url()
+        return utils.get_redirect_url(self.request, default=self.object.get_admin_url())
 
 
 @decorators.class_decorator(decorators.board_view)
@@ -164,7 +165,7 @@ class EditBoardView(UpdateView):
         return self.kwargs['board']
 
     def get_success_url(self):
-        return self.object.get_admin_url()
+        return utils.get_redirect_url(self.request, default=self.object.get_admin_url())
 
 
 @decorators.class_decorator(decorators.board_admin_view)

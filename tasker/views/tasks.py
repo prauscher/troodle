@@ -26,7 +26,7 @@ class CreateTaskView(CreateView):
         return context
 
     def get_success_url(self):
-        return self.kwargs['board'].get_admin_url()
+        return utils.get_redirect_url(self.request, default=self.kwargs['board'].get_admin_url())
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
@@ -43,7 +43,7 @@ class EditTaskView(UpdateView):
         return context
 
     def get_success_url(self):
-        return self.kwargs['task'].board.get_admin_url()
+        return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
@@ -54,7 +54,7 @@ class DeleteTaskView(DeleteView):
         return self.kwargs['task']
 
     def get_success_url(self):
-        return self.kwargs['task'].board.get_admin_url()
+        return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
@@ -77,7 +77,7 @@ class ResetTaskView(DeleteView):
         return HttpResponseRedirect(success_url)
 
     def get_success_url(self):
-        return self.kwargs['task'].board.get_admin_url()
+        return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
 
 
 @decorators.class_decorator([decorators.require_name, decorators.board_view, decorators.task_view])

@@ -18,7 +18,7 @@
   </div>
   <div class="col-md-auto btn-group-toggle">
    <form action="" method="get" class="form-inline">
-    {% form_parameter %}
+    {% form_parameter !search %}
     <div class="input-group mb-2">
      <input class="form-control" type="search" name="search" value="{{ search_term | escape }}" placeholder="Search" aria-label="Search">
      <div class="input-group-append">

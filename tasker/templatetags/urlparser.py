@@ -1,18 +1,44 @@
 import re
 
 from django.http import QueryDict
-from django.template import Library, Node, TemplateSyntaxError
+from django.template import Library, Node, TemplateSyntaxError, VariableDoesNotExist
 
 register = Library()
 
 
-class ParameterGetNode(Node):
-    def __init__(self, kwargs):
-        self.kwargs = kwargs
+class ParameterNode(Node):
+    @classmethod
+    def create(cls, parser, token):
+        set_parameters = {}
+        delete_parameters = []
 
-    def render(self, context):
+        set_re = re.compile(r'(\w+)=(.+)')
+        delete_re = re.compile(r'!(\w+)')
+
+        for bit in token.split_contents()[1:]:
+            match = set_re.match(bit)
+            if match:
+                name, value = match.groups()
+                set_parameters[name] = parser.compile_filter(value)
+                continue
+
+            match = delete_re.match(bit)
+            if match:
+                name, = match.groups()
+                delete_parameters.append(name)
+                continue
+
+            raise TemplateSyntaxError("Malformed arguments to {set,form}_parameter tag", bit)
+
+        return cls(set_parameters, delete_parameters)
+
+    def __init__(self, set_parameters, delete_parameters):
+        self.set_parameters = set_parameters
+        self.delete_parameters = delete_parameters
+
+    def get_query(self, context):
         query = context['request'].GET.copy()
-        for argname, argvalue in self.kwargs.items():
+        for argname, argvalue in self.set_parameters.items():
             try:
                 query[argname] = argvalue.resolve(context)
             except AttributeError:
@@ -20,58 +46,34 @@ class ParameterGetNode(Node):
             except VariableDoesNotExist:
                 query[argname] = None
 
-        return "?" + query.urlencode()
-
-
-@register.tag
-def get_parameter(parser, token):
-    bits = token.split_contents()[1:]
-
-    kwargs = {}
-
-    kwarg_re = re.compile(r'(\w+)=(.+)')
-    for bit in bits:
-        match = kwarg_re.match(bit)
-        if not match:
-            raise TemplateSyntaxError("Malformed arguments to get_parameter tag", bit)
-        name, value = match.groups()
-        kwargs[name] = parser.compile_filter(value)
-
-    return ParameterGetNode(kwargs)
-
-
-class ParameterFormNode(Node):
-    def __init__(self, kwargs):
-        self.kwargs = kwargs
-
-    def render(self, context):
-        query = context['request'].GET.copy()
-        for argname, argvalue in self.kwargs.items():
+        for argname in self.delete_parameters:
             try:
-                query[argname] = argvalue.resolve(context)
-            except AttributeError:
-                query[argname] = argvalue
-            except VariableDoesNotExist:
-                query[argname] = None
+                del query[argname]
+            except KeyError:
+                pass
 
+        return query
+
+
+class ParameterGetNode(ParameterNode):
+    def render(self, context):
+        return "?" + self.get_query(context).urlencode()
+
+
+class ParameterFormNode(ParameterNode):
+    def render(self, context):
+        query = self.get_query(context)
         return "".join(["<input type=\"hidden\" name=\"{}\" value=\"{}\" />".format(name, value) for name, value in query.items()])
 
 
 @register.tag
+def get_parameter(parser, token):
+    return ParameterGetNode.create(parser, token)
+
+
+@register.tag
 def form_parameter(parser, token):
-    bits = token.split_contents()[1:]
-
-    kwargs = {}
-
-    kwarg_re = re.compile(r'(\w+)=(.+)')
-    for bit in bits:
-        match = kwarg_re.match(bit)
-        if not match:
-            raise TemplateSyntaxError("Malformed arguments to form_parameter tag", bit)
-        name, value = match.groups()
-        kwargs[name] = parser.compile_filter(value)
-
-    return ParameterFormNode(kwargs)
+    return ParameterFormNode.create(parser, token)
 
 
 @register.filter(is_safe=False)

@@ -30,7 +30,7 @@
      <span class="badge badge-warning">Aktiv</span>
     {% endif %}
     {% for comment in handling.tasker_comments.all %}
-     <div class="alert alert-info">{{ comment.text | escape }}</div>
+     <div class="alert alert-info">{{ comment.text | escape | linebreaksbr }}</div>
     {% endfor %}
     {% if handling.tasker_attachments %}
      <div class="card-columns">

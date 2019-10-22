@@ -8,8 +8,8 @@
 
 {% block list %}
  <div class="btn-group mb-2">
-  <a href="{% get_parameter show="list" %}" class="btn btn{% if request.GET.show and request.GET.show != 'list' %}-outline{% endif %}-info">List</a>
-  <a href="{% get_parameter show="card" %}" class="btn btn{% if not request.GET.show or request.GET.show != 'card' %}-outline{% endif %}-info">Card</a>
+  <a href="{% get_parameter show="list" !page %}" class="btn btn{% if request.GET.show and request.GET.show != 'list' %}-outline{% endif %}-info">List</a>
+  <a href="{% get_parameter show="card" !page %}" class="btn btn{% if not request.GET.show or request.GET.show != 'card' %}-outline{% endif %}-info">Card</a>
  </div>
  {% if not request.GET.show or request.GET.show == 'list' %}
   {{ block.super }}

@@ -10,9 +10,9 @@
 
 {% block actions %}
  <div class="card-footer">
-  <a href="{% url 'show_task' task.board.slug task.id %}" class="btn btn-info">Show</a>
-  <a href="{% url 'edit_task' task.board.generate_hash task.id %}" class="btn btn-secondary">Edit</a>
-  <a href="{% url 'reset_task' task.board.generate_hash task.id %}" class="btn btn-warning">Reset</a>
-  <a href="{% url 'delete_task' task.board.generate_hash task.id %}" class="btn btn-danger">Delete</a>
+  <a href="{% url 'show_task' task.board.slug task.id %}" class="btn btn-sm btn-info">Show</a>
+  <a href="{% url 'edit_task' task.board.generate_hash task.id %}" class="btn btn-sm btn-secondary">Edit</a>
+  <a href="{% url 'reset_task' task.board.generate_hash task.id %}" class="btn btn-sm btn-warning">Reset</a>
+  <a href="{% url 'delete_task' task.board.generate_hash task.id %}" class="btn btn-sm btn-danger">Delete</a>
  </div>
 {% endblock %}

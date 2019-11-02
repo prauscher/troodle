@@ -4,3 +4,4 @@
 * make use of cloned_from fields in Board and Task
 * fix mail host in deployment
 * add priorities
+* admin options (reset without loosing data?)

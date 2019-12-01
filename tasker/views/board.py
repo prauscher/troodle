@@ -130,32 +130,6 @@ class BoardView(DetailView):
         return context
 
 
-@decorators.class_decorator(decorators.board_view)
-class CloneBoardView(CreateBoardView):
-    template_name_suffix = '_form_clone'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['board_blueprint'] = self.kwargs['board']
-        return context
-
-    def form_valid(self, form):
-        form.instance.cloned_from = self.kwargs['board']
-
-        # form_valid issues save-command, needed for later copys
-        return_value = super().form_valid(form)
-
-        # copy tasks
-        for task in form.instance.cloned_from.tasks.all():
-            models.Task(board=form.instance,
-                        label=task.label,
-                        description=task.description,
-                        reserved_until=now(),
-                        cloned_from=task).save()
-
-        return return_value
-
-
 @decorators.class_decorator(decorators.board_admin_view)
 class EditBoardView(UpdateView):
     model = models.Board

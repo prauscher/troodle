@@ -24,7 +24,6 @@ urlpatterns = [
     path('board/<slug:board_slug>', board.BoardView.as_view(), name='show_board'),
     path('board/<slug:board_slug>/summary', board.BoardSummaryView.as_view(), name='board_summary'),
     path('board/<slug:board_slug>/tasks', tasks.TaskListView.as_view(), name='list_tasks'),
-    path('board/<slug:board_slug>/clone', board.CloneBoardView.as_view(), name='clone_board'),
     path('board/<slug:board_slug>/request_link', board.BoardSendAdminLinkView.as_view(), name='request_board_link'),
 
     path('board/<slug:board_slug>/task/<int:task_id>', tasks.TaskView.as_view(), name='show_task'),

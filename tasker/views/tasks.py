@@ -29,10 +29,8 @@ class CreateTaskView(CreateView):
         return utils.get_redirect_url(self.request, default=self.kwargs['board'].get_admin_url())
 
 
-@decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
-class EditTaskView(UpdateView):
+class EditTaskBaseView(UpdateView):
     model = models.Task
-    fields = ['label', 'description']
 
     def get_object(self):
         return self.kwargs['task']
@@ -47,6 +45,11 @@ class EditTaskView(UpdateView):
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
+class EditTaskView(EditTaskBaseView):
+    fields = ['label', 'description']
+
+
+@decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
 class DeleteTaskView(DeleteView):
     model = models.Task
 
@@ -55,6 +58,12 @@ class DeleteTaskView(DeleteView):
 
     def get_success_url(self):
         return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
+
+
+@decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
+class SetLockTaskView(EditTaskBaseView):
+    fields = ['reserved_by', 'reserved_until']
+    template_name = 'tasker/task_set_lock.html'
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])

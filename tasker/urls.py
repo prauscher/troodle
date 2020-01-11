@@ -17,6 +17,7 @@ urlpatterns = [
     path('board/<str:board_hash>/edit', board.EditBoardView.as_view(), name='edit_board'),
     path('board/<str:board_hash>/delete', board.DeleteBoardView.as_view(), name='delete_board'),
     path('board/<str:board_hash>/create_task', tasks.CreateTaskView.as_view(), name='create_task'),
+    path('board/<str:board_hash>/tasks/<int:task_id>/set_lock', tasks.SetLockTaskView.as_view(), name='set_task_lock'),
     path('board/<str:board_hash>/tasks/<int:task_id>/reset', tasks.ResetTaskView.as_view(), name='reset_task'),
     path('board/<str:board_hash>/tasks/<int:task_id>/edit', tasks.EditTaskView.as_view(), name='edit_task'),
     path('board/<str:board_hash>/tasks/<int:task_id>/delete', tasks.DeleteTaskView.as_view(), name='delete_task'),

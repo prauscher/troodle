@@ -1,0 +1,630 @@
+# German Locales for Troodle
+# Copyright (C) 2020
+# This file is distributed under the same license as the troodle package.
+# Patrick Rauscher <prauscher@prauscher.de>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Troodle\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-14 17:38+0000\n"
+"PO-Revision-Date: 2020-01-14 20:47+0100\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.2.4\n"
+
+#: tasker/forms.py:6
+msgid "Nickname"
+msgstr "Nickname"
+
+#: tasker/models.py:17 tasker/models.py:85
+msgid "slug"
+msgstr "slug"
+
+#: tasker/models.py:18 tasker/models.py:86
+msgid "label"
+msgstr "Bezeichner"
+
+#: tasker/models.py:19
+msgid "admin mail"
+msgstr "Mailadresse des Administrators"
+
+#: tasker/models.py:19
+msgid ""
+"Your Mailadress. Will only be used to send you mails with links to frontend "
+"and backend."
+msgstr ""
+"Deine Mailadresse, die wir nur verwenden werden um dir Links zu Front- und "
+"Backend zu schicken."
+
+#: tasker/models.py:20
+msgid "last time a mail to the admin was sent"
+msgstr ""
+"Letzter Zeitpunkt an dem eine Mail an den Administrator verschickt wurde"
+
+#: tasker/models.py:21 tasker/models.py:91
+msgid "clones"
+msgstr "klont"
+
+#: tasker/models.py:22
+msgid "created"
+msgstr "erzeugt"
+
+#: tasker/models.py:44
+msgid "No Admin mail stored"
+msgstr "Der Administrator hat keine Mailadresse hinterlegt"
+
+#: tasker/models.py:47
+msgid "Last admin mail has been sent too recently."
+msgstr "Die letzte Mail an den Administrator wurde erst vor kurzem verschickt."
+
+#: tasker/models.py:54
+#, python-brace-format
+msgid "Your Troodle-Board {label}"
+msgstr "Dein Troodle-Board {label}"
+
+#: tasker/models.py:66
+msgid "Board"
+msgstr "Board"
+
+#: tasker/models.py:67
+msgid "Boards"
+msgstr "Boards"
+
+#: tasker/models.py:87 tasker/models.py:170
+#: tasker/templates/navbar/board.html:23
+msgid "Tasks"
+msgstr "Tasks"
+
+#: tasker/models.py:88
+msgid "description"
+msgstr "Beschreibung"
+
+#: tasker/models.py:89
+msgid "reserved by"
+msgstr "reserviert durch"
+
+#: tasker/models.py:90
+msgid "reserved until"
+msgstr "reserviert bis"
+
+#: tasker/models.py:94
+#, python-brace-format
+msgid "{board}: {label}"
+msgstr "{board}: {label}"
+
+#: tasker/models.py:158
+msgid "Task is already locked"
+msgstr "Aufgabe ist bereits gesperrt"
+
+#: tasker/models.py:169 tasker/templates/tasker/board_summary.html:25
+msgid "Task"
+msgstr "Aufgabe"
+
+#: tasker/models.py:174 tasker/models.py:190
+msgid "Handlings"
+msgstr "Bearbeitung"
+
+#: tasker/models.py:175
+msgid "editor"
+msgstr "Bearbeiter"
+
+#: tasker/models.py:176
+msgid "start"
+msgstr "Anfang"
+
+#: tasker/models.py:177
+msgid "end"
+msgstr "Ende"
+
+#: tasker/models.py:178
+msgid "successfully"
+msgstr "erfolgreich"
+
+#: tasker/models.py:185
+#, python-brace-format
+msgid "{task} ({editor})"
+msgstr "{task} ({editor})"
+
+#: tasker/models.py:189
+msgid "Handling"
+msgstr "Bearbeitung"
+
+#: tasker/models.py:200 tasker/models.py:210
+msgid "Notes"
+msgstr "Notizen"
+
+#: tasker/models.py:201
+msgid "posted"
+msgstr "geschrieben"
+
+#: tasker/models.py:204
+msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
+msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
+
+#: tasker/models.py:209
+msgid "Note"
+msgstr "Notiz"
+
+#: tasker/models.py:214
+msgid "text"
+msgstr "Text"
+
+#: tasker/models.py:217 tasker/templates/task/base.html:69
+msgid "Comment"
+msgstr "Kommentar"
+
+#: tasker/models.py:218
+msgid "Comments"
+msgstr "Kommentare"
+
+#: tasker/models.py:222
+msgid "file"
+msgstr "Datei"
+
+#: tasker/models.py:225
+msgid "Attachment"
+msgstr "Anhang"
+
+#: tasker/models.py:226
+msgid "Attachments"
+msgstr "Anhänge"
+
+#: tasker/templates/_base.html:22
+#, python-format
+msgid ""
+"<a href=\"%(start_url)s\">Troodle</a> is a project by <a href=\"https://"
+"prauscher.de/\">@prauscher</a>."
+msgstr ""
+"<a href=\"%(start_url)s\">Troodle</a> ist ein Projekt von <a href=\"https://"
+"prauscher.de/\">@prauscher</a>."
+
+#: tasker/templates/_base.html:24 tasker/templates/meta/imprint.html:6
+msgid "Imprint"
+msgstr "Impressum"
+
+#: tasker/templates/base.html:5
+msgid "Troodle"
+msgstr "Troodle"
+
+#: tasker/templates/base_form.html:15
+msgid "Save"
+msgstr "Speichern"
+
+#: tasker/templates/base_form.html:19
+msgid "Create"
+msgstr "Anlegen"
+
+#: tasker/templates/base_task_list.html:24
+#: tasker/templates/base_task_list.html:26
+msgid "Search"
+msgstr "Suchen"
+
+#: tasker/templates/base_task_list.html:37
+msgid "Name"
+msgstr "Name"
+
+#: tasker/templates/board_mail.txt:2
+#, python-format
+msgid ""
+"\n"
+"Hello user,\n"
+"\n"
+"we created a new board \"%(label)s\" for you!\n"
+"TODO: decribe next steps\n"
+"\n"
+"Admin link: %(admin_link)s\n"
+"Frontend link: %(frontend_link)s\n"
+"\n"
+"Greetings,\n"
+"Troodle\n"
+msgstr ""
+"\n"
+"Hallo Nutzer*in,\n"
+"\n"
+"wir haben ein neues Board \"%(label)s\" für dich angelegt!\n"
+"TODO: Nächste Schritte beschreiben\n"
+"\n"
+"Link zum Admininterface: %(admin_link)s\n"
+"Link zum Frontend: %(frontend_link)s\n"
+"\n"
+"Viele Grüße,\n"
+"Troodle\n"
+
+#: tasker/templates/meta/error_404.html:7
+msgid "Oooops!"
+msgstr "Hoppla!"
+
+#: tasker/templates/meta/error_404.html:9
+#, python-format
+msgid ""
+"The page you requested could not be found. Maybe <a href=\"%(start_url)s"
+"\">Start from scratch</a>?"
+msgstr ""
+"Die Seite die du angefragt hast wurde nicht gefunden. Vielleicht willst du "
+"<a href=\"%(start_url)s\">von vorne beginnen</a>?"
+
+#: tasker/templates/meta/imprint.html:8
+msgid ""
+"\n"
+" <a href=\"mailto:prauscher@prauscher.de\">Patrick Rauscher</a>\n"
+" "
+msgstr ""
+"\n"
+"<a href=\"mailto:prauscher@prauscher.de\">Patrick Rauscher</a>"
+
+#: tasker/templates/meta/learn-more.html:6
+msgid "What is Troodle?"
+msgstr "Was ist Troodle?"
+
+#: tasker/templates/meta/start.html:7
+msgid "Welcome to Troodle"
+msgstr "Willkommen bei Troodle"
+
+#: tasker/templates/meta/start.html:9
+msgid "Learn more"
+msgstr "Mehr erfahren"
+
+#: tasker/templates/meta/start.html:10
+msgid "Start now"
+msgstr "Jetzt beginnen"
+
+#: tasker/templates/meta/start.html:13
+msgid "Your latest boards"
+msgstr "Deine zuletzt betrachteten Boards"
+
+#: tasker/templates/meta/start.html:19 tasker/templates/navbar/board.html:12
+msgid "Admin"
+msgstr "Admin"
+
+#: tasker/templates/navbar/base.html:12
+msgid "Create Board"
+msgstr "Board anlegen"
+
+#: tasker/templates/navbar/base.html:18
+msgid "Leave"
+msgstr "Abmelden"
+
+#: tasker/templates/navbar/board.html:13
+msgid "Create Task"
+msgstr "Aufgabe anlegen"
+
+#: tasker/templates/navbar/board.html:14
+#: tasker/templates/task/board_admin.html:14
+#: tasker/templates/tasker/board_admin.html:38
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: tasker/templates/navbar/board.html:15
+#: tasker/templates/task/board_admin.html:16
+#: tasker/templates/tasker/board_admin.html:41
+msgid "Delete"
+msgstr "Löschen"
+
+#: tasker/templates/navbar/board.html:19
+msgid "Request Link"
+msgstr "Link anfragen"
+
+#: tasker/templates/navbar/board.html:24
+msgid "Summary"
+msgstr "Zusammenfassung"
+
+#: tasker/templates/task/base.html:23 tasker/templates/task/base.html:63
+#: tasker/templates/task/board_admin.html:6
+#: tasker/templates/tasker/board_admin.html:33
+#: tasker/templates/tasker/board_summary.html:43
+#: tasker/templates/tasker/task_list.html:15
+msgid "Done"
+msgstr "Erledigt"
+
+#: tasker/templates/task/base.html:24
+msgid "Aborted"
+msgstr "Abgebrochen"
+
+#: tasker/templates/task/base.html:28
+#, python-format
+msgid "%(handling_since)s ago"
+msgstr "Seit %(handling_since)s"
+
+#: tasker/templates/task/base.html:29 tasker/templates/tasker/task_list.html:14
+msgid "Active"
+msgstr "In Bearbeitung"
+
+#: tasker/templates/task/base.html:54
+#, python-format
+msgid "Reserved for <strong>%(reserved_until)s</strong>"
+msgstr "Noch <strong>%(reserved_until)s</strong> reserviert"
+
+#: tasker/templates/task/base.html:56
+#, python-format
+msgid ""
+"Locked by <strong>%(reserved_by)s</strong> for <strong>%(reserved_until)s</"
+"strong>"
+msgstr ""
+"Noch <strong>%(reserved_until)s</strong> gesperrt von <strong>"
+"%(reserved_by)s</strong>"
+
+#: tasker/templates/task/base.html:60
+msgid "Start"
+msgstr "Start"
+
+#: tasker/templates/task/base.html:62
+msgid "Abort"
+msgstr "Abbrechen"
+
+#: tasker/templates/task/base.html:65
+msgid "Unlock"
+msgstr "Freigeben"
+
+#: tasker/templates/task/base.html:67
+#: tasker/templates/tasker/board_admin.html:39
+msgid "Lock"
+msgstr "Sperren"
+
+#: tasker/templates/task/base.html:70 tasker/templates/task/base.html:86
+msgid "Attach"
+msgstr "Datei anhängen"
+
+#: tasker/templates/task/base.html:74
+msgid "Comment:"
+msgstr "Kommentar:"
+
+#: tasker/templates/task/base.html:77
+msgid "Send"
+msgstr "Absenden"
+
+#: tasker/templates/task/base.html:83
+msgid "Attachment:"
+msgstr "Anhang:"
+
+#: tasker/templates/task/board_admin.html:5
+#: tasker/templates/tasker/board_admin.html:32
+#: tasker/templates/tasker/board_summary.html:54
+#, python-format
+msgid "Locked by %(reserved_by)s for %(reserved_until)s"
+msgstr "Noch %(reserved_until)s gesperrt von %(reserved_by)s"
+
+#: tasker/templates/task/board_admin.html:13
+#: tasker/templates/tasker/board_admin.html:37
+msgid "Show"
+msgstr "Anzeigen"
+
+#: tasker/templates/task/board_admin.html:15
+#: tasker/templates/tasker/board_admin.html:40
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: tasker/templates/task/board_detail.html:4
+msgid "Show new"
+msgstr "Neue anzeigen"
+
+#: tasker/templates/task/board_summary.html:10
+#, python-format
+msgid "Total %(total_duration)s"
+msgstr "Insgesamt %(total_duration)s"
+
+#: tasker/templates/tasker/board_admin.html:12
+msgid "List"
+msgstr "Liste"
+
+#: tasker/templates/tasker/board_admin.html:13
+msgid "Card"
+msgstr "Karten"
+
+#: tasker/templates/tasker/board_admin.html:25
+msgid "No tasks found."
+msgstr "Keine Aufgaben gefunden."
+
+#: tasker/templates/tasker/board_admin.html:48
+msgid "Create new"
+msgstr "Neu anlegen"
+
+#: tasker/templates/tasker/board_admin.html:56
+#, python-format
+msgid ""
+"This board contains no tasks. Start by <a href=\"%(create_task_url)s"
+"\">creating one</a>"
+msgstr ""
+"Dieses Board enthält keine Aufgaben. Fang an und <a href="
+"\"%(create_task_url)s\">leg einen an</a>"
+
+#: tasker/templates/tasker/board_admin.html:62
+msgid "No tasks found with current filters"
+msgstr "Keine Aufgaben passen zu den aktuellen Filtern"
+
+#: tasker/templates/tasker/board_adminlinksent.html:13
+msgid "The admin will receive a mail shortly."
+msgstr "Der Administrator wird in kürze eine Mail erhalten."
+
+#: tasker/templates/tasker/board_confirm_delete.html:12
+#, python-format
+msgid "Are you sure you want to delete board \"%(board)s\"?"
+msgstr "Bist du sicher, dass du das Board \"%(board)s\" löschen möchtest?"
+
+#: tasker/templates/tasker/board_confirm_delete.html:13
+#: tasker/templates/tasker/task_confirm_delete.html:13
+#: tasker/templates/tasker/task_confirm_reset.html:13
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: tasker/templates/tasker/board_detail.html:11
+msgid ""
+"Find a random task to start working below. If you find the task suitable for "
+"you, please click \"Start\". To show another task, please use \"Show New\"."
+msgstr ""
+"Hier siehst du eine zufällige Aufgabe um mit der Arbeit zu beginnen. Wenn "
+"dir die Aufgabe zusagt, drücke bitte auf \"Start\". Um eine andere Aufgabe "
+"angezeigt zu bekommen, klicke bitte auf \"Neue anzeigen\"."
+
+#: tasker/templates/tasker/board_detail.html:16
+#, python-format
+msgid ""
+"No tasks could be found for you. Maybe take a look at the <a href="
+"\"%(list_tasks_url)s\">list of all Tasks</a> or at the <a href="
+"\"%(board_summary_url)s\">board summary</a>."
+msgstr ""
+"Für dich konnte keine Aufgabe gefunden werden. Schau vielleicht bei der <a "
+"href=\"%(list_tasks_url)s\">Liste aller Aufgaben</a> oder bei der <a href="
+"\"%(board_summary_url)s\">Zusamenfassung</a> vorbei."
+
+#: tasker/templates/tasker/board_form.html:16
+msgid ""
+"Welcome again to Troodle. Troodle enables you to work together with your "
+"team by hosting a hub of tasks to be done. Each of those hubs (called &quot;"
+"<em>board</em>&quot; at Troodle)\n"
+"  will have two faces: The backend allows you to create, modify and delete "
+"tasks from the board while the frontend allows you and your team to work on "
+"tasks."
+msgstr ""
+"Willkommen bei Troodle. Troodle erlaubt dir mit deinem Team "
+"zusammenzuarbeiten, indem es einen zentralen Ort für deine zu erledigenden "
+"Aufgaben bereitstellt. Jeder dieser Sammlungen (bei Troodle nennen wir sie "
+"\"<em>Boards</em>\") wird zwei Seiten haben: Im Backend kannst du Aufgaben "
+"vom Board anlegen, bearbeiten und löschen, während im Frontend du und dein "
+"Team an den Aufgaben arbeiten können."
+
+#: tasker/templates/tasker/board_form.html:18
+msgid ""
+"The Label should help you to identify the purpose of the hub. Remember that "
+"boards can be cloned to cope with repeating set of tasks, so make sure the "
+"label stays unique for you."
+msgstr ""
+"Die Bezeichnung soll das Board eindeutig identifizieren. Denk daran, dass "
+"Boards geklont werden kann um für regelmäßig wiederkehrende Aufgaben "
+"verwendet zu werden: Sorg also dafür, dass die Bezeichnung eindeutig für "
+"dich bleibt."
+
+#: tasker/templates/tasker/board_summary.html:12
+msgid "Done with comments"
+msgstr "Erledigt mit Anmerkungen"
+
+#: tasker/templates/tasker/board_summary.html:20
+msgid "Done without comments"
+msgstr "Erledigt ohne Anmerkungen"
+
+#: tasker/templates/tasker/board_summary.html:26
+msgid "Done by"
+msgstr "Erledigt durch"
+
+#: tasker/templates/tasker/board_summary.html:27
+msgid "Duration"
+msgstr "Dauer"
+
+#: tasker/templates/tasker/board_summary.html:44
+msgid "No tasks done"
+msgstr "Bisher wurden keine Aufgaben erledigt"
+
+#: tasker/templates/tasker/board_summary.html:47
+msgid "Open Tasks"
+msgstr "Offene Aufgaben"
+
+#: tasker/templates/tasker/board_summary.html:57
+#, python-format
+msgid "Active by %(editor)s since %(since)s"
+msgstr "In Bearbeitung durch %(editor)s seit %(since)s"
+
+#: tasker/templates/tasker/board_summary.html:63
+msgid "No tasks open"
+msgstr "Aktuell sind keine Aufgaben offen"
+
+#: tasker/templates/tasker/enter_nick.html:7
+msgid ""
+"Welcome to Troodle. Troodle allows you to get tasks done as a team. It will "
+"randomly pick a task to work on and if you agree, it will protect the task "
+"from others colliding with your work."
+msgstr ""
+"Willkommen bei Troodle. Troodle erlaubt dir Aufgaben gemeinsam als Team zu "
+"erledigen. Aus den verfügbaren Aufgaben wählt es eine für dich aus und wenn "
+"du zustimmst, sperrt es diese Aufgabe für andere um Konflikte zu vermeiden."
+
+#: tasker/templates/tasker/enter_nick.html:8
+msgid ""
+"To identify you, Troodle uses the concept of Nicknames. Pick one which "
+"identifies you unambiguously in the team you are working on:"
+msgstr ""
+"Um dich zu identifizieren, verwendet Troodle Nicknames. Wähle einen der dich "
+"eindeutig in diesem Team identifiziert:"
+
+#: tasker/templates/tasker/enter_nick.html:11
+msgid "Enter"
+msgstr "Teilnehmen"
+
+#: tasker/templates/tasker/task_confirm_delete.html:12
+#, python-format
+msgid ""
+"Are you sure you want to delete task \"%(task)s\" in board \"%(board)s\"?"
+msgstr ""
+"Bist du sicher, dass du die Aufgabe \"%(task)s\" in Board \"%(board)s\" "
+"löschen möchtest?"
+
+#: tasker/templates/tasker/task_confirm_reset.html:12
+#, python-format
+msgid ""
+"Are you sure you want to reset task \"%(task)s\" in board \"%(board)s\"?"
+msgstr ""
+"Bist du sicher, dass du die Aufgabe \"%(task)s\" in Board \"%(board)s\" "
+"zurücksetzen möchtest?"
+
+#: tasker/templates/tasker/task_form.html:17
+msgid "Task created"
+msgstr "Die Aufgabe wurde angelegt"
+
+#: tasker/templates/tasker/task_form.html:19
+msgid ""
+"Tasks are the core of each board. A task describes a specific action item "
+"which needs to be done. If a task can only be done by specific members of "
+"the team, you should note that right in the label of the task."
+msgstr ""
+"Aufgaben sind das Herz jedes Boards. Eine Aufgabe beschreibt einen konkreten "
+"Arbeitspunkt der erledigt werden muss. Wenn eine Aufgabe nur von bestimmten "
+"Teammitgliedern erledigt werden kann, solltest du das am besten direkt in "
+"der Bezeichnung der Aufgabe vermerken."
+
+#: tasker/templates/tasker/task_form.html:20
+msgid ""
+"Tasks will be given to the users independently, meaning each task must be "
+"doable regardless if other tasks have been done or not."
+msgstr ""
+"Aufgaben werden unabhängig voneinander an Nutzer*innen vergeben, weshalb "
+"jede Aufgabe machbar sein, unabhängig davon ob andere Aufgaben erledigt "
+"wurden oder nicht."
+
+#: tasker/templates/tasker/task_form.html:25
+msgid "Create and return to this form"
+msgstr "Anlegen und zu diesem Formular zurückkehren"
+
+#: tasker/templates/tasker/task_list.html:12
+msgid "Locked"
+msgstr "Gesperrt"
+
+#: tasker/templates/tasker/task_list.html:13
+msgid "Reserved"
+msgstr "Reserviert"
+
+#: tasker/templates/tasker/task_list.html:21
+msgid "(no matches)"
+msgstr "(keine Treffer)"
+
+#: tasker/templates/tasker/task_list.html:27
+msgid "(empty)"
+msgstr "(leer)"
+
+#: tasker/templates/tasker/task_set_lock.html:8
+msgid ""
+"Locking a task will prevent it from being shown to users with different "
+"nicks than specified until the expiration date set below."
+msgstr ""
+"Eine Aufgabe zu sperren wird bis zum eingestellten Ablaufzeitpunkt dafür "
+"sorgen, dass er Nutzer*innen mit anderen Nicknamen als dem angegebenen "
+"angezeigt wird."
+
+#: tasker/templates/tasker/task_set_lock.html:9
+msgid "To unlock a task, simply set the expiration date to a past date."
+msgstr ""
+"Um eine Aufgabe zu entsperren, setze das Ablaufdatum einfach auf ein "
+"vergangenes Datum."

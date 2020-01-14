@@ -54,7 +54,7 @@
       <span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>
      {% endif %}
      {% for handling in handlings %}
-      <span class="badge badge-primary">{% blocktrans with editor=handling.editor|escape since=handling.start|escape %}Active by {{ editor }} since {{ since }}{% endblocktrans %}</span>
+      <span class="badge badge-primary">{% blocktrans with editor=handling.editor|escape since=handling.start|timesince %}Active by {{ editor }} since {{ since }}{% endblocktrans %}</span>
      {% endfor %}
     </li>
    {% endfor %}

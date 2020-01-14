@@ -17,8 +17,7 @@
     {% if handling.end %}
      <strong>{{ handling.editor | escape }}</strong>
      <small>
-      {{ handling.end | timesince }} ago
-      for {{ handling.get_duration | timedelta }}
+      {% blocktrans with time_ago=handling.end|timesince duration=handling.get_duration|timedelta %}{{ time_ago }} ago for {{ duration }}{% endblocktrans %}
      </small>
      {% if handling.success %}<span class="badge badge-success">{% trans "Done" %}</span>
      {% else %}<span class="badge badge-danger">{% trans "Aborted" %}</span>

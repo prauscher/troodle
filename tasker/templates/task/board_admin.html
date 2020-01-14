@@ -1,5 +1,7 @@
 {% extends "task/base.html" %}
 
+{% load i18n %}
+
 {% block task_label %}
  {{ block.super }}
  {% if task.is_locked %}<span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}

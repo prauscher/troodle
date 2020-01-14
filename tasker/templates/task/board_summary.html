@@ -1,6 +1,7 @@
 {% extends "task/base.html" %}
 
 {% load timedelta %}
+{% load i18n %}
 
 {% block task_label %}<a href="{% url 'show_task' task.board.slug task.id %}">{{ block.super }}</a>{% endblock %}
 {% block description %}{% endblock %}

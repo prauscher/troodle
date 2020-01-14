@@ -1,13 +1,14 @@
 from django import template
+from django.utils.translation import gettext_lazy as _
 
 register = template.Library()
 
 
 TIME_FORMATS = [
-    (1 * 60 * 60 * 24, '{}d', '{}d'),
-    (1 * 60 * 60, '{}h', '{}h'),
-    (1 * 60, '{}m', '{}m'),
-    (1, '{}s', '{}s'),
+    (1 * 60 * 60 * 24, _('{} day'), _('{} days')),
+    (1 * 60 * 60, _('{} hour'), _('{} hours')),
+    (1 * 60, _('{} minute'), _('{} minutes')),
+    (1, _('{} second'), _('{} seconds')),
 ]
 
 

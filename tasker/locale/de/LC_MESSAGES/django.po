@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-14 20:00+0000\n"
-"PO-Revision-Date: 2020-01-14 21:03+0100\n"
+"POT-Creation-Date: 2020-01-14 20:06+0000\n"
+"PO-Revision-Date: 2020-01-14 21:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -634,3 +634,35 @@ msgid "To unlock a task, simply set the expiration date to a past date."
 msgstr ""
 "Um eine Aufgabe zu entsperren, setze das Ablaufdatum einfach auf ein "
 "vergangenes Datum."
+
+#: tasker/templatetags/timedelta.py:8
+msgid "{} day"
+msgstr "{} Tag"
+
+#: tasker/templatetags/timedelta.py:8
+msgid "{} days"
+msgstr "{} Tage"
+
+#: tasker/templatetags/timedelta.py:9
+msgid "{} hour"
+msgstr "{} Stunde"
+
+#: tasker/templatetags/timedelta.py:9
+msgid "{} hours"
+msgstr "{} Stunden"
+
+#: tasker/templatetags/timedelta.py:10
+msgid "{} minute"
+msgstr "{} Minute"
+
+#: tasker/templatetags/timedelta.py:10
+msgid "{} minutes"
+msgstr "{} Minuten"
+
+#: tasker/templatetags/timedelta.py:11
+msgid "{} second"
+msgstr "{} Sekunde"
+
+#: tasker/templatetags/timedelta.py:11
+msgid "{} seconds"
+msgstr "{} Sekunden"

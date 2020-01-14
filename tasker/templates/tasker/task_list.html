@@ -1,27 +1,29 @@
 {% extends 'base_task_list.html' %}
 
-{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+{% load i18n %}
+
+{% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}{% include "navbar/board.html" with board=board active='list_tasks' %}{% endblock %}
 
 {% block task_label %}
  <a href="{% url 'show_task' object.board.slug object.id %}">{{ object.label | escape }}</a>
  {% if object.nick_status == 'o' %}
- {% elif object.nick_status == 'l' %}<span class="badge badge-danger">Locked</span>
- {% elif object.nick_status == 'r' %}<span class="badge badge-warning">Reserved</span>
- {% elif object.nick_status == 'p' %}<span class="badge badge-primary">Active</span>
- {% elif object.nick_status == 'd' %}<span class="badge badge-success">Done</span>
+ {% elif object.nick_status == 'l' %}<span class="badge badge-danger">{% trans "Locked" %}</span>
+ {% elif object.nick_status == 'r' %}<span class="badge badge-warning">{% trans "Reserved" %}</span>
+ {% elif object.nick_status == 'p' %}<span class="badge badge-primary">{% trans "Active" %}</span>
+ {% elif object.nick_status == 'd' %}<span class="badge badge-success">{% trans "Done" %}</span>
  {% endif %}
 {% endblock %}
 
 {% block list_footer_filter_empty %}
  <tr>
-  <td colspan="2">(no matches)</td>
+  <td colspan="2">{% trans "(no matches)" %}</td>
  </tr>
 {% endblock %}
 
 {% block list_footer_empty %}
  <tr>
-  <td colspan="2">(empty)</td>
+  <td colspan="2">{% trans "(empty)" %}</td>
  </tr>
 {% endblock %}

@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block content %}
-<h1>Imprint</h1>
+<h1>{% trans "Imprint" %}</h1>
 <pre>
+ {% blocktrans %}
  <a href="mailto:prauscher@prauscher.de">Patrick Rauscher</a>
+ {% endblocktrans %}
 </pre>
 {% endblock %}

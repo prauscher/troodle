@@ -1,4 +1,5 @@
 {% load timedelta %}
+{% load i18n %}
 
 <div class="card" {% block card_settings %}{% endblock %}>
  <div class="card-header {% if task.nick_status == 'o' %}bg-secondary text-white{% elif task.nick_status == 'l' %}bg-danger text-white{% elif task.nick_status == 'r' %}bg-warning{% elif task.nick_status == 'p' %}bg-primary text-white{% elif task.nick_status == 'd' %}bg-success text-white{% endif %}">
@@ -14,20 +15,18 @@
   {% for handling in task.handlings.all %}
    <li class="list-group-item">
     {% if handling.end %}
-     <strong>{{ handling.editor }}</strong>
+     <strong>{{ handling.editor | escape }}</strong>
      <small>
       {{ handling.end | timesince }} ago
       for {{ handling.get_duration | timedelta }}
      </small>
-     {% if handling.success %}<span class="badge badge-success">Done</span>
-     {% else %}<span class="badge badge-danger">Aborted</span>
+     {% if handling.success %}<span class="badge badge-success">{% trans "Done" %}</span>
+     {% else %}<span class="badge badge-danger">{% trans "Aborted" %}</span>
      {% endif %}
     {% else %}
      <strong>{{ handling.editor }}</strong>
-     <small>
-      {{ handling.start | timesince }} ago
-     </small>
-     <span class="badge badge-warning">Aktiv</span>
+     <small>{% blocktrans with handling_since=handling.start|timesince %}{{ handling_since }} ago{% endblocktrans %}</small>
+     <span class="badge badge-warning">{% trans "Active" %}</span>
     {% endif %}
     {% for comment in handling.tasker_comments.all %}
      <div class="alert alert-info">{{ comment.text | escape | linebreaksbr }}</div>
@@ -52,39 +51,39 @@
  <div class="card-footer">
   {% if task.is_locked %}
    {% if task.nick_status in 'rp' %}
-    <p>Reserved for <strong>{{ task.reserved_until | timeuntil }}</strong></p>
+    <p>{% blocktrans with reserved_until=task.reserved_until|timeuntil %}Reserved for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
    {% else %}
-    <p>Locked by <strong>{{ task.reserved_by }}</strong> for <strong>{{ task.reserved_until | timeuntil }}</strong></p>
+    <p>{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by <strong>{{ reserved_by }}</strong> for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
    {% endif %}
   {% endif %}
   {% if 'start' in task.allowed_actions %}{% block start_actions %}
-   <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">Start</a>
+   <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">{% trans "Start" %}</a>
   {% endblock %}{% endif %}{% if 'stop' in task.allowed_actions %}{% block stop_actions %}
-   <a href="{% url 'abort_handling' task.board.slug task.id %}" class="btn btn-danger">Abort</a>
-   <a href="{% url 'complete_handling' task.board.slug task.id %}" class="btn btn-success">Done</a>
+   <a href="{% url 'abort_handling' task.board.slug task.id %}" class="btn btn-danger">{% trans "Abort" %}</a>
+   <a href="{% url 'complete_handling' task.board.slug task.id %}" class="btn btn-success">{% trans "Done" %}</a>
   {% endblock %}{% endif %}{% if 'unlock' in task.allowed_actions and not hide_lock_actions %}{% block unlock_actions %}
-   <a href="{% url 'unlock_task' task.board.slug task.id %}" class="btn btn-warning">Unlock</a>
+   <a href="{% url 'unlock_task' task.board.slug task.id %}" class="btn btn-warning">{% trans "Unlock" %}</a>
   {% endblock %}{% endif %}{% if 'lock' in task.allowed_actions and not hide_lock_actions %}{% block lock_actions %}
-   <a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">Lock</a>
+   <a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">{% trans "Lock" %}</a>
   {% endblock %}{% endif %}{% if 'comment' in task.allowed_actions %}{% block comment_actions %}
-   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Comment</button>
-   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseAttachment" aria-expanded="false" aria-controls="collapseAttachment">Attach</button>
+   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">{% trans "Comment" %}</button>
+   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseAttachment" aria-expanded="false" aria-controls="collapseAttachment">{% trans "Attach" %}</button>
    <div class="collapse" id="collapseComment">
    <form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div id="div_id_text" class="form-group">
-     <label for="id_text" class="col-form-label">Comment:</label>
+     <label for="id_text" class="col-form-label">{% trans "Comment:" %}</label>
      <div><textarea name="text" class="form-control" id="id_text"></textarea></div>
     </div>
-    <input type="submit" class="btn btn-info" value="Send">
+    <input type="submit" class="btn btn-info" value="{% trans "Send" %}">
    </form>
    </div>
    <div class="collapse" id="collapseAttachment">
    <form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div id="div_id_attachment" class="form-group">
-     <label for="id_attachment" class="col-form-label">Attachment:</label>
+     <label for="id_attachment" class="col-form-label">{% trans "Attachment:" %}</label>
      <div><input type="file" class="form-control-file" name="attachment" id="id_attachment"></div>
     </div>
-    <input type="submit" class="btn btn-info" value="Attach">
+    <input type="submit" class="btn btn-info" value="{% trans "Attach" %}">
    </form>
    </div>
   {% endblock %}{% endif %}

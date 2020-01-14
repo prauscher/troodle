@@ -1,10 +1,12 @@
 {% extends 'base_form.html' %}
 
-{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+{% load i18n %}
+
+{% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block message_edit %}
- <p>Locking a task will prevent it from being shown to users with different nicks than specified until the expiration date set below.</p>
- <p class="alert alert-info">To unlock a task, simply set the expiration date to a past date.</p>
+ <p>{% blocktrans %}Locking a task will prevent it from being shown to users with different nicks than specified until the expiration date set below.{% endblocktrans %}</p>
+ <p class="alert alert-info">{% blocktrans %}To unlock a task, simply set the expiration date to a past date.{% endblocktrans %}</p>
 {% endblock %}
 
 {% block nav %}

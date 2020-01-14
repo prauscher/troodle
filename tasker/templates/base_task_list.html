@@ -2,6 +2,7 @@
 
 {% load bootstrap_pagination %}
 {% load urlparser %}
+{% load i18n %}
 
 {% block content %}
  <div class="row">
@@ -20,9 +21,9 @@
    <form action="" method="get" class="form-inline">
     {% form_parameter !search !page %}
     <div class="input-group mb-2">
-     <input class="form-control" type="search" name="search" value="{{ search_term | escape }}" placeholder="Search" aria-label="Search">
+     <input class="form-control" type="search" name="search" value="{{ search_term | escape }}" placeholder="{% trans "Search" %}" aria-label="{% trans "Search" %}">
      <div class="input-group-append">
-      <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-primary" type="submit">{% trans "Search" %}</button>
      </div>
     </div>
    </form>
@@ -33,7 +34,7 @@
  <table class="table table-striped">
   <thead class="thead-dark">
    <tr>
-    <th scope="col">Name</th>
+    <th scope="col">{% trans "Name" %}</th>
     <th scope="col" class="text-right"></th>
    </tr>
   </thead>

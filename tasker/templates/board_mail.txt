@@ -1,3 +1,5 @@
+{% load i18n %}
+{% blocktrans %}
 Hello user,
 
 we created a new board "{{ label }}" for you!
@@ -8,3 +10,4 @@ Frontend link: {{  frontend_link }}
 
 Greetings,
 Troodle
+{% endblocktrans %}

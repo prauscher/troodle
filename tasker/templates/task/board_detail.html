@@ -1,5 +1,5 @@
 {% extends "task/base.html" %}
 
 {% block unlock_actions %}
- <a href="{% url 'unlock_task' random_task.board.slug random_task.id %}?next={{ request.get_full_path|urlencode }}" class="btn btn-secondary">Next</a>
+ <a href="{% url 'unlock_task' random_task.board.slug random_task.id %}?next={{ request.get_full_path|urlencode }}" class="btn btn-secondary">{% trans "Show new" %}</a>
 {% endblock %}

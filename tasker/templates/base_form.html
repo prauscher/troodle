@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
  {% if object %}{% block message_edit %}{% endblock %}
@@ -11,11 +12,11 @@
   {% block buttons %}
    {% if object %}
     {% block save_button %}
-     <input type="submit" class="btn btn-success" value="Save" />
+     <input type="submit" class="btn btn-success" value="{% trans "Save" %}" />
     {% endblock %}
    {% else %}
     {% block create_button %}
-     <input type="submit" class="btn btn-success" value="Create" />
+     <input type="submit" class="btn btn-success" value="{% trans "Create" %}" />
     {% endblock %}
    {% endif %}
   {% endblock %}

@@ -6,6 +6,7 @@ from django.core.signing import Signer
 from django.core.mail import EmailMessage
 from django.utils.timezone import now
 from django.template.loader import get_template
+from django.utils.translation import gettext_lazy as _
 from autoslug import AutoSlugField
 
 BOARD_ADMIN_SIGNER = Signer(salt='board_admin')
@@ -13,12 +14,12 @@ ADMIN_MAIL_DELAY = timedelta(days=1)
 
 
 class Board(models.Model):
-    slug = AutoSlugField(populate_from='label', unique=True)
-    label = models.CharField(max_length=100)
-    admin_mail = models.EmailField(blank=True, null=True, help_text="Your Mailadress. Will only be used to send you mails with links to frontend and backend.")
-    last_admin_mail_sent = models.DateTimeField(blank=True, null=True)
-    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
+    slug = AutoSlugField(_('slug'), populate_from='label', unique=True)
+    label = models.CharField(_('label'), max_length=100)
+    admin_mail = models.EmailField(_('admin mail'), blank=True, null=True, help_text=_("Your Mailadress. Will only be used to send you mails with links to frontend and backend."))
+    last_admin_mail_sent = models.DateTimeField(_('last time a mail to the admin was sent'), blank=True, null=True)
+    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('clones'), blank=True, null=True)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
 
     def get_absolute_url(self):
         return self.get_admin_url()
@@ -40,17 +41,17 @@ class Board(models.Model):
     def send_admin_mail(self, request):
         # TODO use different exceptions
         if not self.admin_mail:
-            raise ValueError("No Admin mail stored")
+            raise ValueError(_("No Admin mail stored"))
 
         if self.last_admin_mail_sent and now() < self.last_admin_mail_sent + ADMIN_MAIL_DELAY:
-            raise ValueError("Last admin mail has been sent too recently.")
+            raise ValueError(_("Last admin mail has been sent too recently."))
 
         body = get_template("board_mail.txt").render({
             'label': self.label,
             'admin_link': request.build_absolute_uri(self.get_admin_url()),
             'frontend_link': request.build_absolute_uri(self.get_frontend_url()),
         })
-        message = EmailMessage(to=[self.admin_mail], subject="Your Troodle-Board {}".format(self.label), body=body)
+        message = EmailMessage(to=[self.admin_mail], subject=_("Your Troodle-Board {label}").format(label=self.label), body=body)
         message.send()
 
         # reset counter
@@ -62,6 +63,8 @@ class Board(models.Model):
 
     class Meta:
         ordering = ['created']
+        verbose_name = _('Board')
+        verbose_name_plural = _('Boards')
 
 
 class Task(models.Model):
@@ -79,16 +82,16 @@ class Task(models.Model):
         'comment': [PROCESSING],
     }
 
-    slug = AutoSlugField(populate_from='label', unique_with=['board'])
-    label = models.CharField(max_length=100)
-    board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks')
-    description = models.TextField()
-    reserved_by = models.CharField(max_length=30, blank=True, null=True)
-    reserved_until = models.DateTimeField(default=now)
-    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', blank=True, null=True)
+    slug = AutoSlugField(_('slug'), populate_from='label', unique_with=['board'])
+    label = models.CharField(_('label'), max_length=100)
+    board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks', verbose_name=_('Tasks'))
+    description = models.TextField(_('description'))
+    reserved_by = models.CharField(_('reserved by'), max_length=30, blank=True, null=True)
+    reserved_until = models.DateTimeField(_('reserved until'), default=now)
+    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('clones'), blank=True, null=True)
 
     def __str__(self):
-        return "{}: {}".format(self.board, self.label)
+        return _("{board}: {label}").format(board=self.board, label=self.label)
 
     def get_frontend_url(self):
         return reverse('show_task', kwargs={'board_slug': self.board.slug, 'task_id': self.id})
@@ -152,7 +155,7 @@ class Task(models.Model):
     def lock(self, nick, duration=None):
         # TODO refresh value, add transaction
         if self.is_locked() and not self.is_locked_for(nick):
-            raise ValueError('Task is already locked')
+            raise ValueError(_('Task is already locked'))
 
         if duration is None:
             duration = timedelta(seconds=30)
@@ -163,24 +166,28 @@ class Task(models.Model):
 
     class Meta:
         ordering = ['board']
+        verbose_name = _('Task')
+        verbose_name_plural = _('Tasks')
 
 
 class Handling(models.Model):
-    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='handlings')
-    editor = models.CharField(max_length=30)
-    start = models.DateTimeField(default=now)
-    end = models.DateTimeField(blank=True, null=True)
-    success = models.BooleanField(blank=True, null=True)
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='handlings', verbose_name=_('Handlings'))
+    editor = models.CharField(_('editor'), max_length=30)
+    start = models.DateTimeField(_('start'), default=now)
+    end = models.DateTimeField(_('end'), blank=True, null=True)
+    success = models.BooleanField(_('successfully'), blank=True, null=True)
 
     def get_duration(self):
         return self.end - self.start
 
     def __str__(self):
         # TODO add start / end if existing
-        return "{} ({})".format(self.task, self.editor)
+        return _("{task} ({editor})").format(task=self.task, editor=self.editor)
 
     class Meta:
         ordering = ['task', 'start']
+        verbose_name = _('Handling')
+        verbose_name_plural = _('Handlings')
         constraints = [
             models.UniqueConstraint(fields=['task', 'editor', 'start'], name='unique_start'),
             models.UniqueConstraint(fields=['task', 'editor', 'end'], name='unique_end'),
@@ -190,20 +197,30 @@ class Handling(models.Model):
 
 
 class Note(models.Model):
-    handling = models.ForeignKey('Handling', on_delete=models.CASCADE, related_name='%(app_label)s_%(class)ss')
-    posted = models.DateTimeField(auto_now_add=True)
+    handling = models.ForeignKey('Handling', on_delete=models.CASCADE, related_name='%(app_label)s_%(class)ss', verbose_name=_('Notes'))
+    posted = models.DateTimeField(_('posted'), auto_now_add=True)
 
     def __str__(self):
-        return "{} am {:%Y-%m-%d %H:%I:%S} bei {}".format(self.__class__.__name__, self.posted, self.handling)
+        return _("{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}").format(type=self.__class__.__name__, posted=self.posted, handling=self.handling)
 
     class Meta:
         ordering = ['handling', 'posted']
         abstract = True
+        verbose_name = _('Note')
+        verbose_name_plural = _('Notes')
 
 
 class Comment(Note):
-    text = models.TextField()
+    text = models.TextField(_('text'))
+
+    class Meta:
+        verbose_name = _('Comment')
+        verbose_name_plural = _('Comments')
 
 
 class Attachment(Note):
-    file = models.FileField(upload_to="attachments/")
+    file = models.FileField(_('file'), upload_to="attachments/")
+
+    class Meta:
+        verbose_name = _('Attachment')
+        verbose_name_plural = _('Attachments')

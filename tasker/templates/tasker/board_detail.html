@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block nav %}{% include "navbar/board.html" with board=object active='board_detail' %}{% endblock %}
 
-{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block content %}
  {% if random_task %}
-  <p class="alert alert-info">Find a random task to start working below. If you find the task suitable for you, please click "Start". To show another task, please use "Next".</p>
+  <p class="alert alert-info">{% blocktrans %}Find a random task to start working below. If you find the task suitable for you, please click "Start". To show another task, please use "Show New".{% endblocktrans %}</p>
   {% include 'task/board_detail.html' with task=random_task %}
  {% else %}
-  <p class="alert alert-info">No tasks could be found for you. Maybe take a look at the <a href="{% url 'list_tasks' object.slug %}">list of all Tasks</a> or at the <a href="{% url 'board_summary' object.slug %}">board summary</a>.</p>
+  {% url 'list_tasks' object.slug as list_tasks_url %}
+  {% url 'board_summary' object.slug as board_summary_url %}
+  <p class="alert alert-info">{% blocktrans %}No tasks could be found for you. Maybe take a look at the <a href="{{ list_tasks_url }}">list of all Tasks</a> or at the <a href="{{ board_summary_url }}">board summary</a>.{% endblocktrans %}</p>
  {% endif %}
 {% endblock %}

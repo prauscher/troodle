@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+{% load i18n %}
+
+{% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}{% include "navbar/board.html" with board=board active='request_board_link' %}{% endblock %}
 
@@ -8,6 +10,6 @@
  {% if error %}
   <p class="alert alert-danger">{{ error }}</p>
  {% else %}
-  <p class="alert alert-info">The admin will receive a mail shortly.</p>
+  <p class="alert alert-info">{% trans "The admin will receive a mail shortly." %}</p>
  {% endif %}
 {% endblock %}

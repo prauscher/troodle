@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
-{% block title %}{{ object.label }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{{ object.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}{% include "navbar/board.html" with board=object.board active='board_admin' %}{% endblock %}
 
 {% block content %}
 <form method="post">{% csrf_token %}
- <p class="alert alert-danger">Are you sure you want to reset task "{{ object.label }}" in board "{{ object.board.label }}"?</p>
- <input type="submit" class="btn btn-warning" value="Confirm">
+ <p class="alert alert-danger">{% blocktrans with task=object.label|escape board=object.board.label|escape %}Are you sure you want to reset task "{{ task }}" in board "{{ board }}"?{% endblocktrans %}</p>
+ <input type="submit" class="btn btn-warning" value="{% trans "Confirm" %}">
 </form>
 {% endblock %}

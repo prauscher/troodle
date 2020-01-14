@@ -1,15 +1,16 @@
 {% extends 'base_task_list.html' %}
 
 {% load urlparser %}
+{% load i18n %}
 
-{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}{% include "navbar/board.html" with board=board active='board_admin' %}{% endblock %}
 
 {% block list %}
  <div class="btn-group mb-2">
-  <a href="{% get_parameter show="list" !page %}" class="btn btn{% if request.GET.show and request.GET.show != 'list' %}-outline{% endif %}-info">List</a>
-  <a href="{% get_parameter show="card" !page %}" class="btn btn{% if not request.GET.show or request.GET.show != 'card' %}-outline{% endif %}-info">Card</a>
+  <a href="{% get_parameter show="list" !page %}" class="btn btn{% if request.GET.show and request.GET.show != 'list' %}-outline{% endif %}-info">{% trans "List" %}</a>
+  <a href="{% get_parameter show="card" !page %}" class="btn btn{% if not request.GET.show or request.GET.show != 'card' %}-outline{% endif %}-info">{% trans "Card" %}</a>
  </div>
  {% if not request.GET.show or request.GET.show == 'list' %}
   {{ block.super }}
@@ -21,42 +22,43 @@
     {% endfor %}
    </div>
   {% else %}
-   <p class="alert alert-info">No tasks found.</p>
+   <p class="alert alert-info">{% trans "No tasks found." %}</p>
   {% endif %}
  {% endif %}
 {% endblock %}
 
 {% block task_label %}
  {{ block.super }}
- {% if object.is_locked %}<span class="badge badge-warning">Locked by {{ object.reserved_by | escape }} for {{ object.reserved_until | timeuntil }}</span>{% endif %}
- {% if object.is_done %}<span class="badge badge-success">Done</span>{% endif %}
+ {% if object.is_locked %}<span class="badge badge-warning">{% blocktrans with reserved_by=object.reserved_by|escape reserved_until=object.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
+ {% if object.is_done %}<span class="badge badge-success">{% trans "Done" %}</span>{% endif %}
 {% endblock %}
 
 {% block task_actions %}
- <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">Show</a>
- <a href="{% url 'edit_task' object.board.generate_hash object.id %}" class="btn btn-secondary btn-sm">Edit</a>
- <a href="{% url 'set_task_lock' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">Lock</a>
- <a href="{% url 'reset_task' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">Reset</a>
- <a href="{% url 'delete_task' object.board.generate_hash object.id %}" class="btn btn-danger btn-sm">Delete</a>
+ <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">{% trans "Show" %}</a>
+ <a href="{% url 'edit_task' object.board.generate_hash object.id %}" class="btn btn-secondary btn-sm">{% trans "Edit" %}</a>
+ <a href="{% url 'set_task_lock' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Lock" %}</a>
+ <a href="{% url 'reset_task' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Reset" %}</a>
+ <a href="{% url 'delete_task' object.board.generate_hash object.id %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
 {% endblock %}
 
 {% block list_footer %}
  <tr>
   <td></td>
   <td class="text-right">
-   <a href="{% url 'create_task' board.generate_hash %}" class="btn btn-success btn-sm">Create new</a>
+   <a href="{% url 'create_task' board.generate_hash %}" class="btn btn-success btn-sm">{% trans "Create new" %}</a>
   </td>
  </tr>
 {% endblock %}
 
 {% block list_footer_empty %}
  <tr>
-  <td colspan="2">This board contains no tasks. Start by <a href="{% url 'create_task' board.generate_hash %}">creating one</a></td>
+  {% url 'create_task' board.generate_hash as create_task_url %}
+  <td colspan="2">{% blocktrans %}This board contains no tasks. Start by <a href="{{ create_task_url }}">creating one</a>{% endblocktrans %}</td>
  </tr>
 {% endblock %}
 
 {% block list_footer_filter_empty %}
  <tr>
-  <td colspan="2">No tasks found with current filters</td>
+  <td colspan="2">{% trans "No tasks found with current filters" %}</td>
  </tr>
 {% endblock %}

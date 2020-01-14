@@ -1,6 +1,8 @@
 {% extends 'base_form.html' %}
 
-{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+{% load i18n %}
+
+{% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}
  {% if object %}
@@ -12,13 +14,13 @@
 
 {% block message_create %}
  {% if "message" in request.GET and request.GET.message == "created" %}
-  <p class="alert alert-success">Task created</p>
+  <p class="alert alert-success">{% trans "Task created" %}</p>
  {% endif %}
- <p>Tasks are the core of each board. A task describes a specific action item which needs to be done. If a task can only be done by specific members of the team, you should note that right in the label of the task.</p>
- <p class="alert alert-info">Tasks will be given to the users independently, meaning each task must be doable regardless if other tasks have been done or not.</p>
+ <p>{% blocktrans %}Tasks are the core of each board. A task describes a specific action item which needs to be done. If a task can only be done by specific members of the team, you should note that right in the label of the task.{% endblocktrans %}</p>
+ <p class="alert alert-info">{% blocktrans %}Tasks will be given to the users independently, meaning each task must be doable regardless if other tasks have been done or not.{% endblocktrans %}</p>
 {% endblock %}
 
 {% block create_button %}
  {{ block.super }}
- <button type="submit" class="btn btn-success" name="next" value="{% url 'create_task' board.generate_hash %}?message=created">Create and return to this form</button>
+ <button type="submit" class="btn btn-success" name="next" value="{% url 'create_task' board.generate_hash %}?message=created">{% trans "Create and return to this form" %}</button>
 {% endblock %}

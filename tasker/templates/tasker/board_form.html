@@ -1,6 +1,8 @@
 {% extends 'base_form.html' %}
 
-{% block title %}{% if object %}{{ object.label }} &middot; {% endif %}{{ block.super }}{% endblock %}
+{% load i18n %}
+
+{% block title %}{% if object %}{{ object.label | escape }} &middot; {% endif %}{{ block.super }}{% endblock %}
 
 {% block nav %}
  {% if object %}
@@ -11,7 +13,7 @@
 {% endblock %}
 
 {% block message_create %}
- <p>Welcome again to Troodle. Troodle enables you to work together with your team by hosting a hub of tasks to be done. Each of those hubs (called &quot;<em>board</em>&quot; at Troodle)
-  will have two faces: The backend allows you to create, modify and delete tasks from the board while the frontend allows you and your team to work on tasks.</p>
- <p class="alert alert-info">The Label should help you to identify the purpose of the hub. Remember that boards can be cloned to cope with repeating set of tasks, so make sure the label stays unique for you.</p>
+ <p>{% blocktrans %}Welcome again to Troodle. Troodle enables you to work together with your team by hosting a hub of tasks to be done. Each of those hubs (called &quot;<em>board</em>&quot; at Troodle)
+  will have two faces: The backend allows you to create, modify and delete tasks from the board while the frontend allows you and your team to work on tasks.{% endblocktrans %}</p>
+ <p class="alert alert-info">{% blocktrans %}The Label should help you to identify the purpose of the hub. Remember that boards can be cloned to cope with repeating set of tasks, so make sure the label stays unique for you.{% endblocktrans %}</p>
 {% endblock %}

@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% load timedelta %}
+{% load i18n %}
 
-{% block title %}{{ board.label }} &middot; {{ block.super }}{% endblock %}
+{% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
 {% block nav %}{% include "navbar/board.html" with board=board active='board_summary' %}{% endblock %}
 
 {% block content %}
  {% if tasks_done_complex %}
-  <h5>Done with comments</h5>
+  <h5>{% trans "Done with comments" %}</h5>
   <div class="card-columns">
    {% for task in tasks_done_complex %}
     {% include "task/board_summary.html" with task=task %}
@@ -16,21 +17,21 @@
   </div>
  {% endif %}
  {% if tasks_done_simple %}
-  <h5>Done without comments</h5>
+  <h5>{% trans "Done without comments" %}</h5>
   <div class="table-responsive">
    <table class="table table-striped">
     <thead class="thead-dark">
      <tr>
-      <th scope="col" style="width:100%">Task</th>
-      <th scope="col" class="text-nowrap">Done by</th>
-      <th scope="col" class="text-nowrap">Duration</th>
+      <th scope="col" style="width:100%">{% trans "Task" %}</th>
+      <th scope="col" class="text-nowrap">{% trans "Done by" %}</th>
+      <th scope="col" class="text-nowrap">{% trans "Duration" %}</th>
      </tr>
     </thead>
     <tbody>
      {% for task, handling in tasks_done_simple %}
       <tr>
-       <td><a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label }}</a></td>
-       <td class="text-nowrap">{{ handling.editor }}</td>
+       <td><a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label | escape }}</a></td>
+       <td class="text-nowrap">{{ handling.editor | escape }}</td>
        <td class="text-nowrap text-right">{{ task.get_total_duration | timedelta }}</td>
       </tr>
      {% endfor %}
@@ -39,26 +40,26 @@
   </div>
  {% endif %}
  {% if not tasks_done_complex and not tasks_done_simple %}
-  <h5>Done</h5>
-  <p class="alert alert-danger">No tasks done</p>
+  <h5>{% trans "Done" %}</h5>
+  <p class="alert alert-danger">{% trans "No tasks done" %}</p>
  {% endif %}
 
- <h5>Open Tasks</h5>
+ <h5>{% trans "Open Tasks" %}</h5>
  {% if tasks_not_done %}
   <ul class="list-group">
    {% for task, handlings in tasks_not_done %}
     <li class="list-group-item">
-     <a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label }}</a>
+     <a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label | escape }}</a>
      {% if task.is_locked %}
-      <span class="badge badge-warning">Locked by {{ task.reserved_by }} for {{ task.reserved_until | timeuntil }}</span>
+      <span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>
      {% endif %}
      {% for handling in handlings %}
-      <span class="badge badge-primary">Active by {{ handling.editor }} since {{ handling.start | timesince }}</span>
+      <span class="badge badge-primary">{% blocktrans with editor=handling.editor|escape since=handling.start|escape %}Active by {{ editor }} since {{ since }}{% endblocktrans %}</span>
      {% endfor %}
     </li>
    {% endfor %}
   </ul>
  {% else %}
-  <p class="alert alert-warning">No tasks open</p>
+  <p class="alert alert-warning">{% trans "No tasks open" %}</p>
  {% endif %}
 {% endblock %}

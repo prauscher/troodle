@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
+{% load i18n %}
 
 {% block content %}
- <p>Welcome to Troodle. Troodle allows you to get tasks done as a team. It will randomly pick a task to work on and if you agree, it will protect the task from others colliding with your work.</p>
- <p>To identify you, Troodle uses the concept of Nicknames. Pick one which identifies you unambiguously in the team you are working on:</p>
+ <p>{% blocktrans %}Welcome to Troodle. Troodle allows you to get tasks done as a team. It will randomly pick a task to work on and if you agree, it will protect the task from others colliding with your work.{% endblocktrans %}</p>
+ <p>{% blocktrans %}To identify you, Troodle uses the concept of Nicknames. Pick one which identifies you unambiguously in the team you are working on:{% endblocktrans %}</p>
  <form method="post">{% csrf_token %}
   {{ form|crispy }}
-  <input type="submit" class="btn btn-success" value="Enter">
+  <input type="submit" class="btn btn-success" value="{% trans "Enter" %}">
  </form>
 {% endblock %}

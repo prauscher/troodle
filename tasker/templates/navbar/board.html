@@ -1,5 +1,7 @@
 {% extends "navbar/base.html" %}
 
+{% load i18n %}
+
 {% block brand %}
 <a href="{% url 'show_board' board.slug %}" class="navbar-brand">{{ board.label | escape }}</a>
 {% endblock %}
@@ -7,18 +9,18 @@
 {% block links %}
 {% if board.slug in request.session.admin_boards %}
 <div class="d-inline-flex">
-<span class="navbar-text mr-1"><a href="{% url 'board_admin' board.generate_hash %}" class="btn btn-sm btn{% if active != 'board_admin' %}-outline{% endif %}-danger">Admin</a></span>
-<span class="navbar-text mr-1"><a href="{% url 'create_task' board.generate_hash %}" class="btn btn-sm btn{% if active != 'create_task' %}-outline{% endif %}-success">Create Task</a></span>
-<span class="navbar-text mr-1"><a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'edit_board' %}-outline{% endif %}-warning">Edit</a></span>
-<span class="navbar-text mr-3"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'delete_board' %}-outline{% endif %}-danger">Delete</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'board_admin' board.generate_hash %}" class="btn btn-sm btn{% if active != 'board_admin' %}-outline{% endif %}-danger">{% trans "Admin" %}</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'create_task' board.generate_hash %}" class="btn btn-sm btn{% if active != 'create_task' %}-outline{% endif %}-success">{% trans "Create Task" %}</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'edit_board' %}-outline{% endif %}-warning">{% trans "Edit" %}</a></span>
+<span class="navbar-text mr-3"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'delete_board' %}-outline{% endif %}-danger">{% trans "Delete" %}</a></span>
 </div>
 {% elif board.admin_mail %}
 <div class="d-inline-flex">
-<span class="navbar-text mr-3"><a href="{% url 'request_board_link' board.slug %}" class="btn btn-sm btn{% if active != 'request_board_link' %}-outline{% endif %}-danger">Request Link</a></span>
+<span class="navbar-text mr-3"><a href="{% url 'request_board_link' board.slug %}" class="btn btn-sm btn{% if active != 'request_board_link' %}-outline{% endif %}-danger">{% trans "Request Link" %}</a></span>
 </div>
 {% endif %}
 <div class="d-inline-flex">
-<span class="navbar-text mr-1"><a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn{% if active != 'list_tasks' %}-outline{% endif %}-primary">Tasks</a></span>
-<span class="navbar-text mr-1"><a href="{% url 'board_summary' board.slug %}" class="btn btn-sm btn{% if active != 'board_summary' %}-outline{% endif %}-info">Summary</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn{% if active != 'list_tasks' %}-outline{% endif %}-primary">{% trans "Tasks" %}</a></span>
+<span class="navbar-text mr-1"><a href="{% url 'board_summary' board.slug %}" class="btn btn-sm btn{% if active != 'board_summary' %}-outline{% endif %}-info">{% trans "Summary" %}</a></span>
 </div>
 {% endblock %}

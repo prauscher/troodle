@@ -18,7 +18,7 @@ class Board(models.Model):
     label = models.CharField(_('label'), max_length=100)
     admin_mail = models.EmailField(_('admin mail'), blank=True, null=True, help_text=_("Your Mailadress. Will only be used to send you mails with links to frontend and backend."))
     last_admin_mail_sent = models.DateTimeField(_('last time a mail to the admin was sent'), blank=True, null=True)
-    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('clones'), blank=True, null=True)
+    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
     created = models.DateTimeField(_('created'), auto_now_add=True)
 
     def get_absolute_url(self):
@@ -84,11 +84,11 @@ class Task(models.Model):
 
     slug = AutoSlugField(_('slug'), populate_from='label', unique_with=['board'])
     label = models.CharField(_('label'), max_length=100)
-    board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks', verbose_name=_('Tasks'))
+    board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks', verbose_name=_('Board'))
     description = models.TextField(_('description'))
     reserved_by = models.CharField(_('reserved by'), max_length=30, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
-    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('clones'), blank=True, null=True)
+    cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
 
     def __str__(self):
         return _("{board}: {label}").format(board=self.board, label=self.label)
@@ -171,7 +171,7 @@ class Task(models.Model):
 
 
 class Handling(models.Model):
-    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='handlings', verbose_name=_('Handlings'))
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='handlings', verbose_name=_('Task'))
     editor = models.CharField(_('editor'), max_length=30)
     start = models.DateTimeField(_('start'), default=now)
     end = models.DateTimeField(_('end'), blank=True, null=True)

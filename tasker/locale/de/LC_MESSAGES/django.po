@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-18 20:51+0000\n"
-"PO-Revision-Date: 2020-01-18 21:53+0100\n"
+"POT-Creation-Date: 2020-01-19 00:31+0000\n"
+"PO-Revision-Date: 2020-01-19 01:35+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -47,10 +47,6 @@ msgid "last time a mail to the admin was sent"
 msgstr ""
 "Letzter Zeitpunkt an dem eine Mail an den Administrator verschickt wurde"
 
-#: tasker/models.py:21 tasker/models.py:91
-msgid "clones"
-msgstr "klont"
-
 #: tasker/models.py:22
 msgid "created"
 msgstr "erzeugt"
@@ -68,7 +64,7 @@ msgstr "Die letzte Mail an den Administrator wurde erst vor kurzem verschickt."
 msgid "Your Troodle-Board {label}"
 msgstr "Dein Troodle-Board {label}"
 
-#: tasker/models.py:66
+#: tasker/models.py:66 tasker/models.py:87
 msgid "Board"
 msgstr "Board"
 
@@ -76,102 +72,106 @@ msgstr "Board"
 msgid "Boards"
 msgstr "Boards"
 
-#: tasker/models.py:87 tasker/models.py:170
-#: tasker/templates/navbar/board.html:23
-msgid "Tasks"
-msgstr "Tasks"
-
 #: tasker/models.py:88
 msgid "description"
 msgstr "Beschreibung"
 
-#: tasker/models.py:89
+#: tasker/models.py:90
 msgid "reserved by"
 msgstr "reserviert durch"
 
-#: tasker/models.py:90
+#: tasker/models.py:91
 msgid "reserved until"
 msgstr "reserviert bis"
 
-#: tasker/models.py:94
+#: tasker/models.py:92
+msgid "cloned from"
+msgstr "geklont von"
+
+#: tasker/models.py:96
 #, python-brace-format
 msgid "{board}: {label}"
 msgstr "{board}: {label}"
 
-#: tasker/models.py:158
+#: tasker/models.py:160
 msgid "Task is already locked"
 msgstr "Aufgabe ist bereits gesperrt"
 
-#: tasker/models.py:169 tasker/templates/tasker/board_summary.html:25
+#: tasker/models.py:171 tasker/models.py:176
+#: tasker/templates/tasker/board_summary.html:25
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:174 tasker/models.py:190
-msgid "Handlings"
-msgstr "Bearbeitung"
+#: tasker/models.py:172 tasker/templates/navbar/board.html:23
+msgid "Tasks"
+msgstr "Tasks"
 
-#: tasker/models.py:175
+#: tasker/models.py:177
 msgid "editor"
 msgstr "Bearbeiter"
 
-#: tasker/models.py:176
+#: tasker/models.py:178
 msgid "start"
 msgstr "Anfang"
 
-#: tasker/models.py:177
+#: tasker/models.py:179
 msgid "end"
 msgstr "Ende"
 
-#: tasker/models.py:178
+#: tasker/models.py:180
 msgid "successfully"
 msgstr "erfolgreich"
 
-#: tasker/models.py:185
+#: tasker/models.py:187
 #, python-brace-format
 msgid "{task} ({editor})"
 msgstr "{task} ({editor})"
 
-#: tasker/models.py:189
+#: tasker/models.py:191
 msgid "Handling"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:200 tasker/models.py:210
+#: tasker/models.py:192
+msgid "Handlings"
+msgstr "Bearbeitung"
+
+#: tasker/models.py:202 tasker/models.py:212
 msgid "Notes"
 msgstr "Notizen"
 
-#: tasker/models.py:201
+#: tasker/models.py:203
 msgid "posted"
 msgstr "geschrieben"
 
-#: tasker/models.py:204
+#: tasker/models.py:206
 msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
 msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
 
-#: tasker/models.py:209
+#: tasker/models.py:211
 msgid "Note"
 msgstr "Notiz"
 
-#: tasker/models.py:214
+#: tasker/models.py:216
 msgid "text"
 msgstr "Text"
 
-#: tasker/models.py:217 tasker/templates/task/base.html:68
+#: tasker/models.py:219 tasker/templates/task/base.html:68
 msgid "Comment"
 msgstr "Kommentar"
 
-#: tasker/models.py:218
+#: tasker/models.py:220
 msgid "Comments"
 msgstr "Kommentare"
 
-#: tasker/models.py:222
+#: tasker/models.py:224
 msgid "file"
 msgstr "Datei"
 
-#: tasker/models.py:225
+#: tasker/models.py:227
 msgid "Attachment"
 msgstr "Anhang"
 
-#: tasker/models.py:226
+#: tasker/models.py:228
 msgid "Attachments"
 msgstr "Anhänge"
 
@@ -667,3 +667,6 @@ msgstr "{} Sekunde"
 #: tasker/templatetags/timedelta.py:11
 msgid "{} seconds"
 msgstr "{} Sekunden"
+
+#~ msgid "clones"
+#~ msgstr "klont"

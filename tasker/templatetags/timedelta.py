@@ -16,10 +16,14 @@ TIME_FORMATS = [
 def timedelta_filter(value):
     remaining_seconds = value.total_seconds()
     parts = []
+    remaining_parts = 2
     for seconds, singular, plural in TIME_FORMATS:
-        if remaining_seconds >= seconds:
+        if remaining_seconds >= seconds and remaining_parts > 0:
+            remaining_parts = remaining_parts - 1
             count = int(remaining_seconds / seconds)
-            if count == 1:
+            if count == 0:
+                pass
+            elif count == 1:
                 parts.append(singular.format(count))
             else:
                 parts.append(plural.format(count))

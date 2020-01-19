@@ -42,10 +42,17 @@ class BoardSendAdminLinkView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['board'] = self.kwargs['board']
 
+        # token does not has to be secure, just unique. hash will be applied afterwards
+        new_auth_token = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
+
+        # only save changes if mail has been sent, otherwise we will exclude the admin
         try:
+            self.kwargs['board'].admin_id = "{}:{}".format(self.kwargs['board'].id, new_auth_token)
             self.kwargs['board'].send_admin_mail(self.request)
         except ValueError as e:
             context['error'] = e.args[0]
+        else:
+            self.kwargs['board'].save()
 
         return context
 

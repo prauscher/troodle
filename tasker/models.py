@@ -22,6 +22,7 @@ class Board(models.Model):
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
     created = models.DateTimeField(_('created'), auto_now_add=True)
 
+    # used for django-admin
     def get_absolute_url(self):
         return self.get_admin_url()
 

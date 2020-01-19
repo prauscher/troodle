@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 09:41+0000\n"
+"POT-Creation-Date: 2020-01-19 10:01+0000\n"
 "PO-Revision-Date: 2020-01-19 10:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Nickname"
 msgstr "Nickname"
 
-#: tasker/models.py:17 tasker/models.py:87
+#: tasker/models.py:17 tasker/models.py:88
 msgid "slug"
 msgstr "slug"
 
-#: tasker/models.py:18 tasker/models.py:88
+#: tasker/models.py:18 tasker/models.py:89
 msgid "label"
 msgstr "Bezeichner"
 
@@ -55,7 +55,7 @@ msgid "last time a mail to the admin was sent"
 msgstr ""
 "Letzter Zeitpunkt an dem eine Mail an den Administrator verschickt wurde"
 
-#: tasker/models.py:22 tasker/models.py:94
+#: tasker/models.py:22 tasker/models.py:95
 msgid "cloned from"
 msgstr "geklont von"
 
@@ -63,131 +63,131 @@ msgstr "geklont von"
 msgid "created"
 msgstr "erzeugt"
 
-#: tasker/models.py:45
+#: tasker/models.py:46
 msgid "No Admin mail stored"
 msgstr "Der Administrator hat keine Mailadresse hinterlegt"
 
-#: tasker/models.py:48
+#: tasker/models.py:49
 msgid "Last admin mail has been sent too recently."
 msgstr "Die letzte Mail an den Administrator wurde erst vor kurzem verschickt."
 
-#: tasker/models.py:55
+#: tasker/models.py:56
 #, python-brace-format
 msgid "Your Troodle-Board {label}"
 msgstr "Dein Troodle-Board {label}"
 
-#: tasker/models.py:67 tasker/models.py:89
+#: tasker/models.py:68 tasker/models.py:90
 msgid "Board"
 msgstr "Board"
 
-#: tasker/models.py:68
+#: tasker/models.py:69
 msgid "Boards"
 msgstr "Boards"
 
-#: tasker/models.py:90
+#: tasker/models.py:91
 msgid "description"
 msgstr "Beschreibung"
 
-#: tasker/models.py:91
+#: tasker/models.py:92
 msgid "done"
 msgstr "erledigt"
 
-#: tasker/models.py:92
+#: tasker/models.py:93
 msgid "reserved by"
 msgstr "reserviert durch"
 
-#: tasker/models.py:93
+#: tasker/models.py:94
 msgid "reserved until"
 msgstr "reserviert bis"
 
-#: tasker/models.py:95
+#: tasker/models.py:96
 msgid "requires"
 msgstr "setzt voraus"
 
-#: tasker/models.py:98
+#: tasker/models.py:99
 #, python-brace-format
 msgid "{board}: {label}"
 msgstr "{board}: {label}"
 
-#: tasker/models.py:164
+#: tasker/models.py:165
 msgid "Task is already locked"
 msgstr "Aufgabe ist bereits gesperrt"
 
-#: tasker/models.py:175 tasker/models.py:180
+#: tasker/models.py:176 tasker/models.py:181
 #: tasker/templates/tasker/board_summary.html:25
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:176 tasker/templates/navbar/board.html:26
+#: tasker/models.py:177 tasker/templates/navbar/board.html:26
 msgid "Tasks"
 msgstr "Tasks"
 
-#: tasker/models.py:181
+#: tasker/models.py:182
 msgid "editor"
 msgstr "Bearbeiter"
 
-#: tasker/models.py:182
+#: tasker/models.py:183
 msgid "start"
 msgstr "Anfang"
 
-#: tasker/models.py:183
+#: tasker/models.py:184
 msgid "end"
 msgstr "Ende"
 
-#: tasker/models.py:184
+#: tasker/models.py:185
 msgid "successfully"
 msgstr "erfolgreich"
 
-#: tasker/models.py:191
+#: tasker/models.py:192
 #, python-brace-format
 msgid "{task} ({editor})"
 msgstr "{task} ({editor})"
 
-#: tasker/models.py:195
+#: tasker/models.py:196
 msgid "Handling"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:196
+#: tasker/models.py:197
 msgid "Handlings"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:206 tasker/models.py:216
+#: tasker/models.py:207 tasker/models.py:217
 msgid "Notes"
 msgstr "Notizen"
 
-#: tasker/models.py:207
+#: tasker/models.py:208
 msgid "posted"
 msgstr "geschrieben"
 
-#: tasker/models.py:210
+#: tasker/models.py:211
 msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
 msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
 
-#: tasker/models.py:215
+#: tasker/models.py:216
 msgid "Note"
 msgstr "Notiz"
 
-#: tasker/models.py:220
+#: tasker/models.py:221
 msgid "text"
 msgstr "Text"
 
-#: tasker/models.py:223 tasker/templates/task/base.html:71
+#: tasker/models.py:224 tasker/templates/task/base.html:71
 msgid "Comment"
 msgstr "Kommentar"
 
-#: tasker/models.py:224
+#: tasker/models.py:225
 msgid "Comments"
 msgstr "Kommentare"
 
-#: tasker/models.py:228
+#: tasker/models.py:229
 msgid "file"
 msgstr "Datei"
 
-#: tasker/models.py:231
+#: tasker/models.py:232
 msgid "Attachment"
 msgstr "Anhang"
 
-#: tasker/models.py:232
+#: tasker/models.py:233
 msgid "Attachments"
 msgstr "Anhänge"
 

@@ -1,4 +1,5 @@
 from datetime import datetime
+import string
 import random
 
 from django.urls import reverse, reverse_lazy
@@ -42,6 +43,8 @@ class BoardSendAdminLinkView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['board'] = self.kwargs['board']
 
+        old_admin_id = context['board'].admin_id
+
         # token does not has to be secure, just unique. hash will be applied afterwards
         new_auth_token = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
 
@@ -49,10 +52,11 @@ class BoardSendAdminLinkView(TemplateView):
         try:
             self.kwargs['board'].admin_id = "{}:{}".format(self.kwargs['board'].id, new_auth_token)
             self.kwargs['board'].send_admin_mail(self.request)
-        except ValueError as e:
-            context['error'] = e.args[0]
-        else:
             self.kwargs['board'].save()
+        except ValueError as e:
+            # restore admin_id to make links in navbar work
+            self.kwargs['board'].admin_id = old_admin_id
+            context['error'] = e.args[0]
 
         return context
 

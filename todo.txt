@@ -5,5 +5,5 @@
 * add priorities
 * admin options (reset without loosing data?)
 * show which tasks block task in task/base.html
-* make admin-link resendable (recreateable)
 * make links clickable (open in new window?)
+* rethink navigation bar (maybe have admin dashboard?)

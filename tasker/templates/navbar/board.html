@@ -12,7 +12,10 @@
 <span class="navbar-text mr-1"><a href="{% url 'board_admin' board.generate_hash %}" class="btn btn-sm btn{% if active != 'board_admin' %}-outline{% endif %}-danger">{% trans "Admin" %}</a></span>
 <span class="navbar-text mr-1"><a href="{% url 'create_task' board.generate_hash %}" class="btn btn-sm btn{% if active != 'create_task' %}-outline{% endif %}-success">{% trans "Create Task" %}</a></span>
 <span class="navbar-text mr-1"><a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'edit_board' %}-outline{% endif %}-warning">{% trans "Edit" %}</a></span>
-<span class="navbar-text mr-3"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'delete_board' %}-outline{% endif %}-danger">{% trans "Delete" %}</a></span>
+<span class="navbar-text {% if board.admin_mail %}mr-1{% else %}mr-3{% endif %}"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'delete_board' %}-outline{% endif %}-danger">{% trans "Delete" %}</a></span>
+{% if board.admin_mail %}
+<span class="navbar-text mr-3"><a href="{% url 'request_board_link' board.slug %}" class="btn btn-sm btn{% if active != 'request_board_link' %}-outline{% endif %}-danger">{% trans "Reset Backend links" %}</a></span>
+{% endif %}
 </div>
 {% elif board.admin_mail %}
 <div class="d-inline-flex">

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 09:36+0000\n"
-"PO-Revision-Date: 2020-01-19 10:36+0100\n"
+"POT-Creation-Date: 2020-01-19 09:41+0000\n"
+"PO-Revision-Date: 2020-01-19 10:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -118,7 +118,7 @@ msgstr "Aufgabe ist bereits gesperrt"
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:176 tasker/templates/navbar/board.html:23
+#: tasker/models.py:176 tasker/templates/navbar/board.html:26
 msgid "Tasks"
 msgstr "Tasks"
 
@@ -323,11 +323,15 @@ msgstr "Bearbeiten"
 msgid "Delete"
 msgstr "Löschen"
 
-#: tasker/templates/navbar/board.html:19
+#: tasker/templates/navbar/board.html:17
+msgid "Reset Backend links"
+msgstr "Backend Links zurücksetzen"
+
+#: tasker/templates/navbar/board.html:22
 msgid "Request Link"
 msgstr "Link anfragen"
 
-#: tasker/templates/navbar/board.html:24
+#: tasker/templates/navbar/board.html:27
 msgid "Summary"
 msgstr "Zusammenfassung"
 

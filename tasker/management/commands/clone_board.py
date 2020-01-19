@@ -26,5 +26,13 @@ class Command(BaseCommand):
                  reserved_until=now(),
                  cloned_from=task).save()
 
+        # Clone requirements
+        for cloned_task in cloned.tasks.all():
+            for required_task in cloned_task.cloned_from.requires.all():
+                cloned_required_task = cloned.tasks.filter(cloned_from=required_task).get()
+                print(required_task, cloned_required_task)
+                cloned_task.requires.add(cloned_required_task)
+            cloned_task.save()
+
         print("Done: {} / {}".format(cloned.get_admin_url(), cloned.get_frontend_url()))
 

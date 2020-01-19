@@ -102,7 +102,7 @@ class Task(models.Model):
             self.get_current_handling(nick)
             return Task.PROCESSING
         except Handling.DoesNotExist:
-            if self.is_done():
+            if self.done:
                 return Task.DONE
             if self.is_locked_for(nick):
                 return Task.RESERVED
@@ -136,9 +136,6 @@ class Task(models.Model):
         for handling in self.handlings.filter(end__isnull=False):
             time = time + handling.get_duration()
         return time
-
-    def is_done(self):
-        return self.handlings.filter(end__isnull=False, success=True).exists()
 
     def is_locked(self):
         return not self.is_unlocked()

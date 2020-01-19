@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 00:37+0000\n"
-"PO-Revision-Date: 2020-01-19 01:38+0100\n"
+"POT-Creation-Date: 2020-01-19 00:54+0000\n"
+"PO-Revision-Date: 2020-01-19 01:54+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -97,85 +97,85 @@ msgstr "reserviert bis"
 msgid "{board}: {label}"
 msgstr "{board}: {label}"
 
-#: tasker/models.py:160
+#: tasker/models.py:157
 msgid "Task is already locked"
 msgstr "Aufgabe ist bereits gesperrt"
 
-#: tasker/models.py:171 tasker/models.py:176
+#: tasker/models.py:168 tasker/models.py:173
 #: tasker/templates/tasker/board_summary.html:25
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:172 tasker/templates/navbar/board.html:23
+#: tasker/models.py:169 tasker/templates/navbar/board.html:23
 msgid "Tasks"
 msgstr "Tasks"
 
-#: tasker/models.py:177
+#: tasker/models.py:174
 msgid "editor"
 msgstr "Bearbeiter"
 
-#: tasker/models.py:178
+#: tasker/models.py:175
 msgid "start"
 msgstr "Anfang"
 
-#: tasker/models.py:179
+#: tasker/models.py:176
 msgid "end"
 msgstr "Ende"
 
-#: tasker/models.py:180
+#: tasker/models.py:177
 msgid "successfully"
 msgstr "erfolgreich"
 
-#: tasker/models.py:187
+#: tasker/models.py:184
 #, python-brace-format
 msgid "{task} ({editor})"
 msgstr "{task} ({editor})"
 
-#: tasker/models.py:191
+#: tasker/models.py:188
 msgid "Handling"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:192
+#: tasker/models.py:189
 msgid "Handlings"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:202 tasker/models.py:212
+#: tasker/models.py:199 tasker/models.py:209
 msgid "Notes"
 msgstr "Notizen"
 
-#: tasker/models.py:203
+#: tasker/models.py:200
 msgid "posted"
 msgstr "geschrieben"
 
-#: tasker/models.py:206
+#: tasker/models.py:203
 msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
 msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
 
-#: tasker/models.py:211
+#: tasker/models.py:208
 msgid "Note"
 msgstr "Notiz"
 
-#: tasker/models.py:216
+#: tasker/models.py:213
 msgid "text"
 msgstr "Text"
 
-#: tasker/models.py:219 tasker/templates/task/base.html:68
+#: tasker/models.py:216 tasker/templates/task/base.html:68
 msgid "Comment"
 msgstr "Kommentar"
 
-#: tasker/models.py:220
+#: tasker/models.py:217
 msgid "Comments"
 msgstr "Kommentare"
 
-#: tasker/models.py:224
+#: tasker/models.py:221
 msgid "file"
 msgstr "Datei"
 
-#: tasker/models.py:227
+#: tasker/models.py:224
 msgid "Attachment"
 msgstr "Anhang"
 
-#: tasker/models.py:228
+#: tasker/models.py:225
 msgid "Attachments"
 msgstr "Anhänge"
 
@@ -525,6 +525,10 @@ msgstr "Erledigt durch"
 #: tasker/templates/tasker/board_summary.html:27
 msgid "Duration"
 msgstr "Dauer"
+
+#: tasker/templates/tasker/board_summary.html:34
+msgid "(none)"
+msgstr "(keine*r)"
 
 #: tasker/templates/tasker/board_summary.html:44
 msgid "No tasks done"

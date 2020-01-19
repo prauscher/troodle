@@ -106,7 +106,7 @@ class TaskListBase(ListView):
         return {
             'locked': ('Locked', Q(reserved_until__gte=now())),
             'active': ('Active', Q(handlings__isnull=False, handlings__end__isnull=True)),
-            'done': ('Done', Q(handlings__isnull=False, handlings__success=True)),
+            'done': ('Done', Q(done=True)),
         }
 
     def dispatch(self, *args, **kwargs):

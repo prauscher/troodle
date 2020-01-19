@@ -5,7 +5,7 @@
 {% block task_label %}
  {{ block.super }}
  {% if task.is_locked %}<span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
- {% if task.is_done %}<span class="badge badge-success">{% trans "Done" %}</span>{% endif %}
+ {% if task.done %}<span class="badge badge-success">{% trans "Done" %}</span>{% endif %}
 {% endblock %}
 
 {% block handlings %}{% endblock %}

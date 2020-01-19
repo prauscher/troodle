@@ -70,12 +70,11 @@ class BoardSummaryView(TemplateView):
         tasks = self.kwargs['board'].tasks.all()
 
         for task in tasks:
-            if task.is_done():
+            if task.done:
                 handlings = task.handlings.all()
+                if len(handlings) == 0:
+                    context['tasks_done_simple'].append((task, None))
                 if len(handlings) == 1 and not handlings[0].tasker_comments.exists() and not handlings[0].tasker_attachments.exists():
-                    assert handlings[0].success, "Task cannot be done if only handling is not done"
-                    assert handlings[0].end is not None, "Task cannot be done if only handling is not complete"
-
                     context['tasks_done_simple'].append((task, handlings[0]))
                 else:
                     context['tasks_done_complex'].append(task)
@@ -93,7 +92,7 @@ class BoardView(DetailView):
         return self.kwargs['board']
 
     def find_random_task(self):
-        open_tasks = self.get_object().tasks.exclude(handlings__success=True)
+        open_tasks = self.get_object().tasks.filter(done=True)
 
         q_reserved = Q(reserved_until__gte=now())
         q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])

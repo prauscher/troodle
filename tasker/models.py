@@ -63,6 +63,14 @@ class Board(models.Model):
     def __str__(self):
         return self.label
 
+    def save(self):
+        super().save()
+
+        # check after saving to have pk initialized
+        if not self.admin_id:
+            self.admin_id = self.pk
+            super().save()
+
     class Meta:
         ordering = ['created']
         verbose_name = _('Board')

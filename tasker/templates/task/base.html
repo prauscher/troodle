@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <div class="card" {% block card_settings %}{% endblock %}>
- <div class="card-header {% if task.nick_status == 'o' %}bg-secondary text-white{% elif task.nick_status == 'l' %}bg-danger text-white{% elif task.nick_status == 'r' %}bg-warning{% elif task.nick_status == 'p' %}bg-primary text-white{% elif task.nick_status == 'd' %}bg-success text-white{% endif %}">
+ <div class="card-header {% if task.nick_status == 'o' %}bg-secondary text-white{% elif task.nick_status == 'b' %}bg-warning{% elif task.nick_status == 'l' %}bg-danger text-white{% elif task.nick_status == 'r' %}bg-warning{% elif task.nick_status == 'p' %}bg-primary text-white{% elif task.nick_status == 'd' %}bg-success text-white{% endif %}">
   {% block task_label %}{{ task.label | escape }}{% endblock %}
  </div>
  {% block description %}
@@ -54,6 +54,9 @@
    {% else %}
     <p>{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by <strong>{{ reserved_by }}</strong> for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
    {% endif %}
+  {% endif %}
+  {% if task.is_blocked %}
+   <p>{% blocktrans %}Task is blocked by other tasks{% endblocktrans %}</p>
   {% endif %}
   {% if 'start' in task.allowed_actions %}{% block start_actions %}
    <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">{% trans "Start" %}</a>

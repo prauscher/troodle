@@ -70,6 +70,7 @@ class Board(models.Model):
 class Task(models.Model):
     OPEN = 'o'
     LOCKED = 'l'
+    BLOCKED = 'b'
     RESERVED = 'r'
     PROCESSING = 'p'
     DONE = 'd'
@@ -105,6 +106,8 @@ class Task(models.Model):
         except Handling.DoesNotExist:
             if self.done:
                 return Task.DONE
+            if self.is_blocked():
+                return Task.BLOCKED
             if self.is_locked_for(nick):
                 return Task.RESERVED
             if self.is_unlocked():
@@ -137,6 +140,9 @@ class Task(models.Model):
         for handling in self.handlings.filter(end__isnull=False):
             time = time + handling.get_duration()
         return time
+
+    def is_blocked(self):
+        return self.requires.filter(done=False).count() > 0
 
     def is_locked(self):
         return not self.is_unlocked()

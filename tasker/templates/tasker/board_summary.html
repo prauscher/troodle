@@ -50,6 +50,9 @@
    {% for task, handlings in tasks_not_done %}
     <li class="list-group-item">
      <a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label | escape }}</a>
+     {% if task.is_blocked %}
+      <span class="badge badge-warning">{% trans "Blocked" %}</span>
+     {% endif %}
      {% if task.is_locked %}
       <span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>
      {% endif %}

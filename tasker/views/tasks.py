@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 from django.forms import ModelForm
 
@@ -127,9 +128,10 @@ class TaskListBase(ListView):
 
     def get_filters(self):
         return {
-            'locked': ('Locked', Q(reserved_until__gte=now())),
-            'active': ('Active', Q(handlings__isnull=False, handlings__end__isnull=True)),
-            'done': ('Done', Q(done=True)),
+            'locked': (_('Locked'), Q(reserved_until__gte=now())),
+            'active': (_('Active'), Q(handlings__isnull=False, handlings__end__isnull=True)),
+            'done': (_('Done'), Q(done=True)),
+            'blocked': (_('Blocked'), Q(requires__done=False)),
         }
 
     def dispatch(self, *args, **kwargs):

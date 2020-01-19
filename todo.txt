@@ -6,3 +6,5 @@
 * admin options (reset without loosing data?)
 * make links clickable (open in new window?)
 * rethink navigation bar (maybe have admin dashboard?)
+* dependency graph for tasks
+* categories for tasks (with filters)

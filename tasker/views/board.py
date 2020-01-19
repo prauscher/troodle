@@ -1,7 +1,7 @@
 from datetime import datetime
 import random
 
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.timezone import now
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
@@ -84,31 +84,23 @@ class BoardSummaryView(TemplateView):
         return context
 
 
-@decorators.class_decorator([decorators.require_name, decorators.board_view])
-class BoardView(DetailView):
+class BoardBaseView(DetailView):
     model = models.Board
+    lock_random_task = True
 
     def get_object(self):
         return self.kwargs['board']
 
-    def find_random_task(self):
-        open_tasks = self.get_object().tasks \
+    def get_open_tasks(self):
+        return self.get_object().tasks \
             .filter(done=False) \
             .exclude(requires__done=False)
 
-        q_reserved = Q(reserved_until__gte=now())
-        q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])
-        q_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True)
-        q_my_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True, handlings__editor=self.kwargs['nick'])
+    def get_filters(self):
+        raise NotImplementedError
 
-        filters = [
-            # my open tasks
-            open_tasks.filter(q_my_current_handling | q_reserved_by_me),
-            # tasks without reservation, excluding those with current handling
-            open_tasks.filter(~q_reserved & ~q_current_handling),
-            # tasks without reservation but current handling by others
-            open_tasks.filter(~q_reserved & q_current_handling & ~q_my_current_handling),
-        ]
+    def find_random_task(self):
+        filters = self.get_filters()
 
         for filter in filters:
             if filter:
@@ -119,16 +111,62 @@ class BoardView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # TODO transaction
-
         context['random_task'] = self.find_random_task()
+        return context
+
+
+@decorators.class_decorator([decorators.require_name, decorators.board_view])
+class BoardView(BoardBaseView):
+    def get_filters(self):
+        open_tasks = self.get_open_tasks()
+
+        q_reserved = Q(reserved_until__gte=now())
+        q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])
+        q_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True)
+        q_my_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True, handlings__editor=self.kwargs['nick'])
+
+        return [
+            # my open tasks
+            open_tasks.filter(q_my_current_handling | q_reserved_by_me),
+            # tasks without reservation, excluding those with current handling
+            open_tasks.filter(~q_reserved & ~q_current_handling),
+            # tasks without reservation but current handling by others
+            open_tasks.filter(~q_reserved & q_current_handling & ~q_my_current_handling),
+        ]
+
+    def get_context_data(self, **kwargs):
+        # TODO transaction
+        context = super().get_context_data(**kwargs)
         if context['random_task']:
-            if not context['random_task'].is_locked_for(self.kwargs['nick']):
+            if self.lock_random_task and not context['random_task'].is_locked_for(self.kwargs['nick']):
                 assert context['random_task'].action_allowed('lock', self.kwargs['nick']), "Tried to lock task but locking is not allowed for this nick"
                 context['random_task'].lock(self.kwargs['nick'])
+
             context['random_task'].fill_nick(self.kwargs['nick'])
 
+        return context
+
+
+@decorators.class_decorator([decorators.board_view])
+class BoardMonitorView(BoardBaseView):
+    template_name = "tasker/board_monitor.html"
+
+    def get_filters(self):
+        open_tasks = self.get_open_tasks()
+
+        q_reserved = Q(reserved_until__gte=now())
+        q_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True)
+
+        return [
+            # tasks without reservation, excluding those with current handling
+            open_tasks.filter(~q_reserved & ~q_current_handling),
+        ]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if context['random_task']:
+            path = reverse('create_handling', kwargs={"board_slug": context['random_task'].board.slug, "task_id": context['random_task'].id})
+            context['random_task_url'] = self.request.build_absolute_uri(path)
         return context
 
 

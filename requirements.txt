@@ -3,4 +3,5 @@ django-autoslug
 django-bootstrap4
 django-bootstrap-pagination
 django-crispy-forms
+django-qr-code
 preview-generator

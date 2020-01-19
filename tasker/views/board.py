@@ -92,7 +92,9 @@ class BoardView(DetailView):
         return self.kwargs['board']
 
     def find_random_task(self):
-        open_tasks = self.get_object().tasks.filter(done=False)
+        open_tasks = self.get_object().tasks \
+            .filter(done=False) \
+            .exclude(requires__done=False)
 
         q_reserved = Q(reserved_until__gte=now())
         q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])
@@ -123,6 +125,7 @@ class BoardView(DetailView):
         context['random_task'] = self.find_random_task()
         if context['random_task']:
             if not context['random_task'].is_locked_for(self.kwargs['nick']):
+                assert context['random_task'].action_allowed('lock', self.kwargs['nick']), "Tried to lock task but locking is not allowed for this nick"
                 context['random_task'].lock(self.kwargs['nick'])
             context['random_task'].fill_nick(self.kwargs['nick'])
 

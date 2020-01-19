@@ -56,7 +56,12 @@
    {% endif %}
   {% endif %}
   {% if task.is_blocked %}
-   <p>{% blocktrans %}Task is blocked by other tasks{% endblocktrans %}</p>
+   <p>{% blocktrans %}Task is blocked by the following other tasks:{% endblocktrans %}</p>
+   <div class="list-group">
+    {% for blocking_task in task.get_blocking_tasks %}
+     <a href="{% url 'show_task' blocking_task.board.slug blocking_task.id %}" class="list-group-item list-group-item-action">{{ blocking_task.label | escape }}</a>
+    {% endfor %}
+   </div>
   {% endif %}
   {% if 'start' in task.allowed_actions %}{% block start_actions %}
    <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">{% trans "Start" %}</a>

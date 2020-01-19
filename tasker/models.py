@@ -143,8 +143,11 @@ class Task(models.Model):
             time = time + handling.get_duration()
         return time
 
+    def get_blocking_tasks(self):
+        return self.requires.filter(done=False)
+
     def is_blocked(self):
-        return self.requires.filter(done=False).count() > 0
+        return self.get_blocking_tasks().count() > 0
 
     def is_locked(self):
         return not self.is_unlocked()

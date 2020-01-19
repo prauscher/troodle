@@ -4,6 +4,5 @@
 * fix mail host in deployment
 * add priorities
 * admin options (reset without loosing data?)
-* show which tasks block task in task/base.html
 * make links clickable (open in new window?)
 * rethink navigation bar (maybe have admin dashboard?)

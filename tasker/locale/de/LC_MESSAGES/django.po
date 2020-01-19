@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 00:31+0000\n"
-"PO-Revision-Date: 2020-01-19 01:35+0100\n"
+"POT-Creation-Date: 2020-01-19 00:37+0000\n"
+"PO-Revision-Date: 2020-01-19 01:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -47,6 +47,10 @@ msgid "last time a mail to the admin was sent"
 msgstr ""
 "Letzter Zeitpunkt an dem eine Mail an den Administrator verschickt wurde"
 
+#: tasker/models.py:21 tasker/models.py:92
+msgid "cloned from"
+msgstr "geklont von"
+
 #: tasker/models.py:22
 msgid "created"
 msgstr "erzeugt"
@@ -76,6 +80,10 @@ msgstr "Boards"
 msgid "description"
 msgstr "Beschreibung"
 
+#: tasker/models.py:89
+msgid "done"
+msgstr "erledigt"
+
 #: tasker/models.py:90
 msgid "reserved by"
 msgstr "reserviert durch"
@@ -83,10 +91,6 @@ msgstr "reserviert durch"
 #: tasker/models.py:91
 msgid "reserved until"
 msgstr "reserviert bis"
-
-#: tasker/models.py:92
-msgid "cloned from"
-msgstr "geklont von"
 
 #: tasker/models.py:96
 #, python-brace-format

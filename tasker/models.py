@@ -86,6 +86,7 @@ class Task(models.Model):
     label = models.CharField(_('label'), max_length=100)
     board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks', verbose_name=_('Board'))
     description = models.TextField(_('description'))
+    done = models.BooleanField(_('done'), default=False)
     reserved_by = models.CharField(_('reserved by'), max_length=30, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)

@@ -29,6 +29,10 @@ def stop_task(request, task, nick, success):
     handling.success = success
     handling.save()
 
+    if success:
+        task.done = True
+        task.save()
+
     if task.is_locked_for(nick):
         task.unlock()
 

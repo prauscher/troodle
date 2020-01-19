@@ -7,7 +7,8 @@ import django.db.models.deletion
 def fill_done(apps, schema_editor):
     Task = apps.get_model('tasker', 'Task')
     for task in Task.objects.annotate(successful_handling=models.Max("handlings__success")).all():
-        task.done = task.successful_handling
+        task.done = (task.successful_handling == 1)
+        task.save()
 
 
 class Migration(migrations.Migration):

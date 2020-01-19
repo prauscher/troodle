@@ -92,7 +92,7 @@ class BoardView(DetailView):
         return self.kwargs['board']
 
     def find_random_task(self):
-        open_tasks = self.get_object().tasks.filter(done=True)
+        open_tasks = self.get_object().tasks.filter(done=False)
 
         q_reserved = Q(reserved_until__gte=now())
         q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])

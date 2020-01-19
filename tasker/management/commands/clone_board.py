@@ -19,19 +19,23 @@ class Command(BaseCommand):
                        cloned_from=board)
         cloned.save()
 
+        tasks = {}
+
         for task in board.tasks.all():
-            Task(board=cloned,
-                 label=task.label,
-                 description=task.description,
-                 reserved_until=now(),
-                 cloned_from=task).save()
+            cloned_task = Task(board=cloned,
+                               label=task.label,
+                               description=task.description,
+                               reserved_until=now(),
+                               cloned_from=task)
+            cloned_task.save()
+
+            tasks[task.pk] = (cloned_task, [required_task.pk for required_task in task.requires.all()])
 
         # Clone requirements
-        for cloned_task in cloned.tasks.all():
-            for required_task in cloned_task.cloned_from.requires.all():
-                cloned_required_task = cloned.tasks.filter(cloned_from=required_task).get()
-                print(required_task, cloned_required_task)
-                cloned_task.requires.add(cloned_required_task)
+        for task_id, task_tuple in tasks.items():
+            cloned_task, required_task_pks = task_tuple
+            for required_task_pk in required_task_pks:
+                cloned_task.requires.add(tasks[required_task_pk][0])
             cloned_task.save()
 
         print("Done: {} / {}".format(cloned.get_admin_url(), cloned.get_frontend_url()))

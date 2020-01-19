@@ -5,16 +5,27 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.utils.timezone import now
 from django.db.models import Q
+from django.forms import ModelForm
 
 from .. import decorators
 from .. import models
 from .. import utils
 
 
+class TaskForm(ModelForm):
+    class Meta:
+        model = models.Task
+        fields = ['label', 'description', 'requires']
+
+    def __init__(self, *args, board, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['requires'].queryset = models.Task.objects.filter(board=board)
+
+
 @decorators.class_decorator(decorators.board_admin_view)
 class CreateTaskView(CreateView):
-    model = models.Task
-    fields = ['label', 'description']
+    form_class = TaskForm
+    template_name = "tasker/task_form.html"
 
     def form_valid(self, form):
         form.instance.board = self.kwargs['board']
@@ -25,13 +36,16 @@ class CreateTaskView(CreateView):
         context['board'] = self.kwargs['board']
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['board'] = self.kwargs['board']
+        return kwargs
+
     def get_success_url(self):
         return utils.get_redirect_url(self.request, default=self.kwargs['board'].get_admin_url())
 
 
 class EditTaskBaseView(UpdateView):
-    model = models.Task
-
     def get_object(self):
         return self.kwargs['task']
 
@@ -46,7 +60,13 @@ class EditTaskBaseView(UpdateView):
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
 class EditTaskView(EditTaskBaseView):
-    fields = ['label', 'description']
+    form_class = TaskForm
+    template_name = "tasker/task_form.html"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['board'] = self.kwargs['task'].board
+        return kwargs
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
@@ -62,6 +82,7 @@ class DeleteTaskView(DeleteView):
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
 class SetLockTaskView(EditTaskBaseView):
+    model = models.Task
     fields = ['reserved_by', 'reserved_until']
     template_name = 'tasker/task_set_lock.html'
 

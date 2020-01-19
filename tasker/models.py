@@ -16,6 +16,7 @@ ADMIN_MAIL_DELAY = timedelta(days=1)
 class Board(models.Model):
     slug = AutoSlugField(_('slug'), populate_from='label', unique=True)
     label = models.CharField(_('label'), max_length=100)
+    admin_id = models.CharField(_('admin id'), unique=True, max_length=30, help_text=_('id used to authenticate for admin interface'))
     admin_mail = models.EmailField(_('admin mail'), blank=True, null=True, help_text=_("Your Mailadress. Will only be used to send you mails with links to frontend and backend."))
     last_admin_mail_sent = models.DateTimeField(_('last time a mail to the admin was sent'), blank=True, null=True)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
@@ -31,12 +32,12 @@ class Board(models.Model):
         return reverse('show_board', kwargs={'board_slug': self.slug})
 
     def generate_hash(self):
-        return BOARD_ADMIN_SIGNER.sign(self.id)
+        return BOARD_ADMIN_SIGNER.sign(self.admin_id)
 
     @classmethod
     def get_by_hash(cls, board_hash):
         board_id = BOARD_ADMIN_SIGNER.unsign(board_hash)
-        return cls.objects.get(id=board_id)
+        return cls.objects.get(admin_id=board_id)
 
     def send_admin_mail(self, request):
         # TODO use different exceptions

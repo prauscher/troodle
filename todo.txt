@@ -1,9 +1,9 @@
 * "hashed" image for nick
-* i18n
 * show countdown for lock (and reload)
 * make use of cloned_from fields in Board and Task
 * fix mail host in deployment
 * add priorities
 * admin options (reset without loosing data?)
-* hide own task in requires-list during task editing
 * show which tasks block task in task/base.html
+* make admin-link resendable (recreateable)
+* make links clickable (open in new window?)

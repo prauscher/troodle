@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 03:04+0000\n"
+"POT-Creation-Date: 2020-01-19 08:56+0000\n"
 "PO-Revision-Date: 2020-01-19 04:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -534,7 +534,7 @@ msgstr ""
 "den QR-Code auf der linken Seite mit deinem Smartphone und fang an zu "
 "arbeiten."
 
-#: tasker/templates/tasker/board_monitor.html:23
+#: tasker/templates/tasker/board_monitor.html:21
 msgid "Currently there are no open tasks waiting, please come back later!"
 msgstr ""
 "Aktuell warten keine Aufgaben auf deine Hilfe, bitte komm später wieder!"

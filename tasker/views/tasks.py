@@ -17,9 +17,11 @@ class TaskForm(ModelForm):
         model = models.Task
         fields = ['label', 'description', 'requires']
 
-    def __init__(self, *args, board, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, *args, board, instance, **kwargs):
+        super().__init__(*args, instance=instance, **kwargs)
         self.fields['requires'].queryset = models.Task.objects.filter(board=board)
+        if instance:
+            self.fields['requires'].queryset = self.fields['requires'].queryset.exclude(pk=instance.pk)
 
 
 @decorators.class_decorator(decorators.board_admin_view)

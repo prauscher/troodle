@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-19 22:13+0000\n"
-"PO-Revision-Date: 2020-01-19 23:13+0100\n"
+"PO-Revision-Date: 2020-01-19 23:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -425,7 +425,7 @@ msgstr "Noch %(reserved_until)s gesperrt für %(reserved_by)s"
 #: tasker/templates/tasker/board_summary.html:54
 #: tasker/templates/tasker/task_list.html:14 tasker/views/tasks.py:134
 msgid "Blocked"
-msgstr "Gesperrt"
+msgstr "Blockiert"
 
 #: tasker/templates/task/board_admin.html:16
 #: tasker/templates/tasker/board_admin.html:38

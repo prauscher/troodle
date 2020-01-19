@@ -9,14 +9,14 @@
 
 {% block content %}
  {% if random_task %}
-  <p class="alert alert-info">{% blocktrans %}Check the task below - if you like it, scan the QR-code on the right using your smartphone to start working.{% endblocktrans %}</p>
+  <p class="alert alert-info">{% blocktrans %}Check the task below - if you like it, scan the QR-code on the left using your smartphone to start working.{% endblocktrans %}</p>
 
   <div class="row">
-   <div class="col">
-    {% include 'task/board_monitor.html' with task=random_task %}
-   </div>
    <div class="col-4 text-right">
     {% qr_from_text random_task_url %}
+   </div>
+   <div class="col">
+    {% include 'task/board_monitor.html' with task=random_task %}
    </div>
   </div>
  {% else %}

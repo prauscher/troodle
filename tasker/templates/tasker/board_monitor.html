@@ -11,13 +11,11 @@
  {% if random_task %}
   <p class="alert alert-info">{% blocktrans %}Check the task below - if you like it, scan the QR-code on the left using your smartphone to start working.{% endblocktrans %}</p>
 
-  <div class="row">
-   <div class="col-4 text-right">
-    {% qr_from_text random_task_url %}
-   </div>
-   <div class="col">
-    {% include 'task/board_monitor.html' with task=random_task %}
-   </div>
+  <div style="float:left;">
+   {% qr_from_text random_task_url %}
+  </div>
+  <div>
+   {% include 'task/board_monitor.html' with task=random_task %}
   </div>
  {% else %}
   <p class="alert alert-info">{% blocktrans %}Currently there are no open tasks waiting, please come back later!{% endblocktrans %}</p>
@@ -30,5 +28,4 @@
  <script type="text/javascript">
   window.setTimeout(function() {window.location.reload()}, 30 * 1000);
  </script>
- RELOAD
 {% endblock %}

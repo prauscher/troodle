@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 22:13+0000\n"
-"PO-Revision-Date: 2020-01-19 23:38+0100\n"
+"POT-Creation-Date: 2020-01-21 16:35+0000\n"
+"PO-Revision-Date: 2020-01-21 17:35+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -721,6 +721,10 @@ msgstr "{} Sekunde"
 #: tasker/templatetags/timedelta.py:11
 msgid "{} seconds"
 msgstr "{} Sekunden"
+
+#: tasker/views/tasks.py:204
+msgid "Mine"
+msgstr "Meine"
 
 #~ msgid "The admin will receive a mail shortly."
 #~ msgstr "Der Administrator wird in kürze eine Mail erhalten."

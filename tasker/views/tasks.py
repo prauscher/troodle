@@ -129,7 +129,7 @@ class TaskListBase(ListView):
     def get_filters(self):
         return {
             'locked': (_('Locked'), Q(reserved_until__gte=now())),
-            'active': (_('Active'), Q(handlings__isnull=False, handlings__end__isnull=True)),
+            'active': (_('Active'), Q(done=False, handlings__isnull=False, handlings__end__isnull=True)),
             'done': (_('Done'), Q(done=True)),
             'blocked': (_('Blocked'), Q(requires__done=False)),
         }

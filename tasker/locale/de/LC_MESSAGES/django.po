@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-21 16:35+0000\n"
-"PO-Revision-Date: 2020-01-21 17:35+0100\n"
+"POT-Creation-Date: 2020-01-21 17:06+0000\n"
+"PO-Revision-Date: 2020-01-21 18:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -103,6 +103,12 @@ msgstr "reserviert bis"
 #: tasker/models.py:104
 msgid "requires"
 msgstr "setzt voraus"
+
+#: tasker/models.py:104
+msgid "Tasks which have to be done before this task can be started."
+msgstr ""
+"Aufgaben die erledigt werden müssen bevor mit dieser Aufgabe begonnen werden "
+"kann."
 
 #: tasker/models.py:107
 #, python-brace-format
@@ -646,16 +652,7 @@ msgstr ""
 "Teammitgliedern erledigt werden kann, solltest du das am besten direkt in "
 "der Bezeichnung der Aufgabe vermerken."
 
-#: tasker/templates/tasker/task_form.html:20
-msgid ""
-"Tasks will be given to the users independently, meaning each task must be "
-"doable regardless if other tasks have been done or not."
-msgstr ""
-"Aufgaben werden unabhängig voneinander an Nutzer*innen vergeben, weshalb "
-"jede Aufgabe machbar sein, unabhängig davon ob andere Aufgaben erledigt "
-"wurden oder nicht."
-
-#: tasker/templates/tasker/task_form.html:25
+#: tasker/templates/tasker/task_form.html:24
 msgid "Create and return to this form"
 msgstr "Anlegen und zu diesem Formular zurückkehren"
 
@@ -725,6 +722,14 @@ msgstr "{} Sekunden"
 #: tasker/views/tasks.py:204
 msgid "Mine"
 msgstr "Meine"
+
+#~ msgid ""
+#~ "Tasks will be given to the users independently, meaning each task must be "
+#~ "doable regardless if other tasks have been done or not."
+#~ msgstr ""
+#~ "Aufgaben werden unabhängig voneinander an Nutzer*innen vergeben, weshalb "
+#~ "jede Aufgabe machbar sein, unabhängig davon ob andere Aufgaben erledigt "
+#~ "wurden oder nicht."
 
 #~ msgid "The admin will receive a mail shortly."
 #~ msgstr "Der Administrator wird in kürze eine Mail erhalten."

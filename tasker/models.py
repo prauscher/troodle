@@ -101,7 +101,7 @@ class Task(models.Model):
     reserved_by = models.CharField(_('reserved by'), max_length=30, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
-    requires = models.ManyToManyField('self', symmetrical=False, related_name='required_by', verbose_name=_('requires'), blank=True)
+    requires = models.ManyToManyField('self', symmetrical=False, related_name='required_by', verbose_name=_('requires'), blank=True, help_text=_("Tasks which have to be done before this task can be started."))
 
     def __str__(self):
         return _("{board}: {label}").format(board=self.board, label=self.label)

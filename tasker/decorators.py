@@ -35,6 +35,9 @@ def _add_latest_board(request, board):
 
 def require_name(func):
     def wrapper(request, *args, **kwargs):
+        if 'nick' in request.GET:
+            request.session['nick'] = request.GET['nick']
+
         if 'nick' not in request.session:
             return redirect(reverse('enter_nick') + "?" + urlencode({'next': request.get_full_path()}))
 

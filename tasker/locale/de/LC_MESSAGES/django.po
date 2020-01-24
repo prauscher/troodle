@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-21 17:06+0000\n"
-"PO-Revision-Date: 2020-01-24 19:22+0100\n"
+"POT-Creation-Date: 2020-01-24 23:50+0000\n"
+"PO-Revision-Date: 2020-01-25 00:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -124,7 +124,8 @@ msgstr "Aufgabe ist bereits gesperrt"
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:188 tasker/templates/navbar/board.html:26
+#: tasker/models.py:188 tasker/templates/navbar/board.html:14
+#: tasker/templates/navbar/board.html:26
 msgid "Tasks"
 msgstr "Aufgaben"
 
@@ -305,35 +306,37 @@ msgstr "Deine zuletzt betrachteten Boards"
 msgid "Admin"
 msgstr "Admin"
 
-#: tasker/templates/navbar/base.html:12
+#: tasker/templates/navbar/base.html:13
 msgid "Create Board"
 msgstr "Board anlegen"
 
-#: tasker/templates/navbar/base.html:18
+#: tasker/templates/navbar/base.html:20
 msgid "Leave"
 msgstr "Abmelden"
 
-#: tasker/templates/navbar/board.html:13
+#: tasker/templates/navbar/board.html:15
 msgid "Create Task"
 msgstr "Aufgabe anlegen"
 
-#: tasker/templates/navbar/board.html:14
+#: tasker/templates/navbar/board.html:16
 #: tasker/templates/task/board_admin.html:17
-#: tasker/templates/tasker/board_admin.html:39
+#: tasker/templates/tasker/board_admin.html:42
+#: tasker/templates/tasker/board_admin.html:51
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: tasker/templates/navbar/board.html:15
+#: tasker/templates/navbar/board.html:17
 #: tasker/templates/task/board_admin.html:19
-#: tasker/templates/tasker/board_admin.html:42
+#: tasker/templates/tasker/board_admin.html:46
+#: tasker/templates/tasker/board_admin.html:54
 msgid "Delete"
 msgstr "Löschen"
 
-#: tasker/templates/navbar/board.html:17
+#: tasker/templates/navbar/board.html:19
 msgid "Reset Backend links"
 msgstr "Backend Links zurücksetzen"
 
-#: tasker/templates/navbar/board.html:22
+#: tasker/templates/navbar/board.html:24
 msgid "Request Link"
 msgstr "Link anfragen"
 
@@ -399,7 +402,8 @@ msgid "Unlock"
 msgstr "Freigeben"
 
 #: tasker/templates/task/base.html:74
-#: tasker/templates/tasker/board_admin.html:40
+#: tasker/templates/tasker/board_admin.html:43
+#: tasker/templates/tasker/board_admin.html:52
 msgid "Lock"
 msgstr "Sperren"
 
@@ -434,12 +438,14 @@ msgid "Blocked"
 msgstr "Blockiert"
 
 #: tasker/templates/task/board_admin.html:16
-#: tasker/templates/tasker/board_admin.html:38
+#: tasker/templates/tasker/board_admin.html:41
+#: tasker/templates/tasker/board_admin.html:50
 msgid "Show"
 msgstr "Anzeigen"
 
 #: tasker/templates/task/board_admin.html:18
-#: tasker/templates/tasker/board_admin.html:41
+#: tasker/templates/tasker/board_admin.html:45
+#: tasker/templates/tasker/board_admin.html:53
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -464,11 +470,15 @@ msgstr "Karten"
 msgid "No tasks found."
 msgstr "Keine Aufgaben gefunden."
 
-#: tasker/templates/tasker/board_admin.html:49
+#: tasker/templates/tasker/board_admin.html:39
+msgid "Actions"
+msgstr "Aktionen"
+
+#: tasker/templates/tasker/board_admin.html:61
 msgid "Create new"
 msgstr "Neu anlegen"
 
-#: tasker/templates/tasker/board_admin.html:57
+#: tasker/templates/tasker/board_admin.html:69
 #, python-format
 msgid ""
 "This board contains no tasks. Start by <a href=\"%(create_task_url)s"
@@ -477,7 +487,7 @@ msgstr ""
 "Dieses Board enthält keine Aufgaben. Fang an und <a href="
 "\"%(create_task_url)s\">leg einen an</a>"
 
-#: tasker/templates/tasker/board_admin.html:63
+#: tasker/templates/tasker/board_admin.html:75
 msgid "No tasks found with current filters"
 msgstr "Keine Aufgaben passen zu den aktuellen Filtern"
 

@@ -8,22 +8,21 @@
 
 {% block links %}
 {% if board.slug in request.session.admin_boards %}
-<div class="d-inline-flex">
-<span class="navbar-text mr-1"><a href="{% url 'board_admin' board.generate_hash %}" class="btn btn-sm btn{% if active != 'board_admin' %}-outline{% endif %}-danger">{% trans "Admin" %}</a></span>
-<span class="navbar-text mr-1"><a href="{% url 'create_task' board.generate_hash %}" class="btn btn-sm btn{% if active != 'create_task' %}-outline{% endif %}-success">{% trans "Create Task" %}</a></span>
-<span class="navbar-text mr-1"><a href="{% url 'edit_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'edit_board' %}-outline{% endif %}-warning">{% trans "Edit" %}</a></span>
-<span class="navbar-text {% if board.admin_mail %}mr-1{% else %}mr-3{% endif %}"><a href="{% url 'delete_board' board.generate_hash %}" class="btn btn-sm btn{% if active != 'delete_board' %}-outline{% endif %}-danger">{% trans "Delete" %}</a></span>
+<li class="nav-item dropdown">
+ <a class="nav-link dropdown-toggle {% if active in 'board_admin,create_task,edit_board,delete_board' %}active{% endif %}" href="#" id="adminBarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Admin" %}</a>
+ <div class="dropdown-menu" aria-labelledby="#adminBarDropdown">
+  <a class="dropdown-item {% if active == 'board_admin' %}active{% endif %}" href="{% url 'board_admin' board.generate_hash %}">{% trans "Tasks" %}</a>
+  <a class="dropdown-item {% if active == 'create_task' %}active{% endif %}" href="{% url 'create_task' board.generate_hash %}">{% trans "Create Task" %}</a>
+  <a class="dropdown-item {% if active == 'edit_board' %}active{% endif %}" href="{% url 'edit_board' board.generate_hash %}">{% trans "Edit" %}</a>
+  <a class="dropdown-item {% if active == 'delete_board' %}active{% endif %}" href="{% url 'delete_board' board.generate_hash %}">{% trans "Delete" %}</a>
 {% if board.admin_mail %}
-<span class="navbar-text mr-3"><a href="{% url 'request_board_link' board.slug %}" class="btn btn-sm btn{% if active != 'request_board_link' %}-outline{% endif %}-danger">{% trans "Reset Backend links" %}</a></span>
+  <a class="dropdown-item {% if active == 'request_board_link' %}active{% endif %}" href="{% url 'request_board_link' board.slug %}">{% trans "Reset Backend links" %}</a>
 {% endif %}
-</div>
+ </div>
+</li>
 {% elif board.admin_mail %}
-<div class="d-inline-flex">
-<span class="navbar-text mr-3"><a href="{% url 'request_board_link' board.slug %}" class="btn btn-sm btn{% if active != 'request_board_link' %}-outline{% endif %}-danger">{% trans "Request Link" %}</a></span>
-</div>
+<li class="nav-item"><a href="{% url 'request_board_link' board.slug %}" class="nav-link {% if active == 'request_board_link' %}active{% endif %}">{% trans "Request Link" %}</a></li>
 {% endif %}
-<div class="d-inline-flex">
-<span class="navbar-text mr-1"><a href="{% url 'list_tasks' board.slug %}" class="btn btn-sm btn{% if active != 'list_tasks' %}-outline{% endif %}-primary">{% trans "Tasks" %}</a></span>
-<span class="navbar-text mr-1"><a href="{% url 'board_summary' board.slug %}" class="btn btn-sm btn{% if active != 'board_summary' %}-outline{% endif %}-info">{% trans "Summary" %}</a></span>
-</div>
+<li class="nav-item"><a href="{% url 'list_tasks' board.slug %}" class="nav-link {% if active == 'list_tasks' %}active{% endif %}">{% trans "Tasks" %}</a></li>
+<li class="nav-item"><a href="{% url 'board_summary' board.slug %}" class="nav-link {% if active == 'board_summary' %}active{% endif %}">{% trans "Summary" %}</a></span></li>
 {% endblock %}

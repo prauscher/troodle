@@ -7,11 +7,13 @@
  </span>
  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
  <div class="collapse navbar-collapse" id="navbarCollapse">
-  {% block links %}
-   <span class="navbar-text">
-    <a href="{% url 'create_board' %}" class="btn btn-outline-success btn-sm">{% trans "Create Board" %}</a>
-   </span>
-  {% endblock %}
+  <ul class="navbar-nav">
+   {% block links %}
+    <li class="nav-item">
+     <a href="{% url 'create_board' %}" class="nav-link">{% trans "Create Board" %}</a>
+    </li>
+   {% endblock %}
+  </ul>
   <span class="navbar-text mr-auto"></span>
   {% if 'nick' in request.session %}
   <span class="navbar-text">

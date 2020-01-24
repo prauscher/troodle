@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-21 17:06+0000\n"
-"PO-Revision-Date: 2020-01-21 18:06+0100\n"
+"PO-Revision-Date: 2020-01-24 19:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -126,7 +126,7 @@ msgstr "Aufgabe"
 
 #: tasker/models.py:188 tasker/templates/navbar/board.html:26
 msgid "Tasks"
-msgstr "Tasks"
+msgstr "Aufgaben"
 
 #: tasker/models.py:193
 msgid "editor"

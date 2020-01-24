@@ -35,16 +35,25 @@
 {% endblock %}
 
 {% block task_actions %}
- <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">{% trans "Show" %}</a>
- <a href="{% url 'edit_task' object.board.generate_hash object.id %}" class="btn btn-secondary btn-sm">{% trans "Edit" %}</a>
- <a href="{% url 'set_task_lock' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Lock" %}</a>
- <a href="{% url 'reset_task' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Reset" %}</a>
- <a href="{% url 'delete_task' object.board.generate_hash object.id %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+ <button class="btn d-lg-none btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#actions{{ object.pk }}" aria-expanded="false" aria-controls="collapseExample">Optionen</button>
+ <span class="collapse" id="actions{{ object.pk }}">
+  <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">{% trans "Show" %}</a>
+  <a href="{% url 'edit_task' object.board.generate_hash object.id %}" class="btn btn-secondary btn-sm">{% trans "Edit" %}</a>
+  <a href="{% url 'set_task_lock' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Lock" %}</a>
+  <a href="{% url 'reset_task' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Reset" %}</a>
+  <a href="{% url 'delete_task' object.board.generate_hash object.id %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+ </span>
+ <span class="d-none d-lg-inline">
+  <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">{% trans "Show" %}</a>
+  <a href="{% url 'edit_task' object.board.generate_hash object.id %}" class="btn btn-secondary btn-sm">{% trans "Edit" %}</a>
+  <a href="{% url 'set_task_lock' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Lock" %}</a>
+  <a href="{% url 'reset_task' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Reset" %}</a>
+  <a href="{% url 'delete_task' object.board.generate_hash object.id %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+ </span>
 {% endblock %}
 
 {% block list_footer %}
  <tr>
-  <td></td>
   <td class="text-right">
    <a href="{% url 'create_task' board.generate_hash %}" class="btn btn-success btn-sm">{% trans "Create new" %}</a>
   </td>

@@ -1,0 +1,11 @@
+{% extends 'base_form.html' %}
+
+{% load i18n %}
+
+{% block title %}{{ task.label | escape }} &middot; {{ block.super }}{% endblock %}
+
+{% block nav %}{% include "navbar/board.html" with board=task.board active='board_admin' %}{% endblock %}
+
+{% block message_create %}
+ <p>{% blocktrans %}This can be used to mark a task done without using the frontend. It might come in handy if you assigned the task by hand and tracked the result outside of Troodle.{% endblocktrans %}</p>
+{% endblock %}

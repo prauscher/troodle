@@ -1,19 +1,21 @@
+from datetime import timedelta
+
+from django import forms
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
-from django.forms import ModelForm
 
 from .. import decorators
 from .. import models
 from .. import utils
 
 
-class TaskForm(ModelForm):
+class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
         fields = ['label', 'description', 'requires']
@@ -23,6 +25,22 @@ class TaskForm(ModelForm):
         self.fields['requires'].queryset = models.Task.objects.filter(board=board)
         if instance:
             self.fields['requires'].queryset = self.fields['requires'].queryset.exclude(pk=instance.pk)
+
+
+class QuickDoneForm(forms.ModelForm):
+    duration = forms.DurationField(label=_('Duration'))
+
+    class Meta:
+        model = models.Handling
+        fields = ['editor']
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data['duration'] < timedelta(0):
+            self.add_error('duration', _("Duration must be positive"))
+
+        return cleaned_data
 
 
 @decorators.class_decorator(decorators.board_admin_view)
@@ -88,6 +106,32 @@ class SetLockTaskView(EditTaskBaseView):
     model = models.Task
     fields = ['reserved_by', 'reserved_until']
     template_name = 'tasker/task_set_lock.html'
+
+
+@decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
+class QuickDoneTaskView(FormView):
+    form_class = QuickDoneForm
+    template_name = 'tasker/task_quickdone.html'
+
+    def form_valid(self, form):
+        form.instance.task = self.kwargs['task']
+        form.instance.end = now()
+        form.instance.start = form.instance.end - form.cleaned_data['duration']
+        form.instance.success = True
+        form.save()
+
+        form.instance.task.done = True
+        form.instance.task.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['task'] = self.kwargs['task']
+        return context
+
+    def get_success_url(self):
+        return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])

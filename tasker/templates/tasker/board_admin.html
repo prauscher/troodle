@@ -41,6 +41,7 @@
    <a class="dropdown-item" href="{% url 'show_task' object.board.slug object.id %}">{% trans "Show" %}</a>
    <a class="dropdown-item" href="{% url 'edit_task' object.board.generate_hash object.id %}">{% trans "Edit" %}</a>
    <a class="dropdown-item" href="{% url 'set_task_lock' object.board.generate_hash object.id %}">{% trans "Lock" %}</a>
+   <a class="dropdown-item" href="{% url 'quickdone_task' object.board.generate_hash object.id %}">{% trans "Mark as done" %}</a>
    <div class="dropdown-divider"></div>
    <a class="dropdown-item" href="{% url 'reset_task' object.board.generate_hash object.id %}">{% trans "Reset" %}</a>
    <a class="dropdown-item" href="{% url 'delete_task' object.board.generate_hash object.id %}">{% trans "Delete" %}</a>
@@ -50,6 +51,7 @@
   <a href="{% url 'show_task' object.board.slug object.id %}" class="btn btn-info btn-sm">{% trans "Show" %}</a>
   <a href="{% url 'edit_task' object.board.generate_hash object.id %}" class="btn btn-secondary btn-sm">{% trans "Edit" %}</a>
   <a href="{% url 'set_task_lock' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Lock" %}</a>
+  <a href="{% url 'quickdone_task' object.board.generate_hash object.id %}" class="btn btn-success btn-sm">{% trans "Mark as done" %}</a>
   <a href="{% url 'reset_task' object.board.generate_hash object.id %}" class="btn btn-warning btn-sm">{% trans "Reset" %}</a>
   <a href="{% url 'delete_task' object.board.generate_hash object.id %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
  </span>

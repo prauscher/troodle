@@ -1,7 +1,7 @@
-from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
 
+from . import ActionView
 from .. import auth
 from .. import forms
 from .. import decorators
@@ -26,9 +26,9 @@ class EnterNickView(auth.AuthBoardMixin, FormView):
         return utils.get_redirect_url(self.request, default=reverse('start'))
 
 
-@decorators.board_view
-@decorators.require_name
-def reset_nick(request, board, participant):
-    auth.logout(request, board)
+@decorators.class_decorator([decorators.board_view, decorators.require_name])
+class ResetNickView(auth.AuthBoardMixin, ActionView):
+    default_pattern_name = 'start'
 
-    return redirect(utils.get_redirect_url(request, default=reverse('start')))
+    def action(self, *args, **kwargs):
+        auth.logout(self.request, self.kwargs['board'])

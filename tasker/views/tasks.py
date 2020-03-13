@@ -1,8 +1,7 @@
 from datetime import timedelta
 
 from django import forms
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.http import Http404, HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -10,6 +9,7 @@ from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 
+from . import TaskActionBaseView
 from .. import auth
 from .. import decorators
 from .. import models
@@ -53,8 +53,8 @@ class CreateTaskView(auth.AuthBoardMixin, CreateView):
         form.instance.board = self.kwargs['board']
         return super().form_valid(form)
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context['board'] = self.kwargs['board']
         return context
 
@@ -71,8 +71,8 @@ class EditTaskBaseView(auth.AuthBoardMixin, UpdateView):
     def get_object(self):
         return self.kwargs['task']
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context['board'] = self.kwargs['task'].board
         return context
 
@@ -170,6 +170,11 @@ class TaskListBase(auth.AuthBoardMixin, ListView):
     paginate_by = 20
     search_fields = ['label', 'description', 'handlings__editor', 'handlings__tasker_comments__text']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # cache filters
+        self.filters = self.get_filters()
+
     def get_filters(self):
         return {
             'locked': (_('Locked'), Q(reserved_until__gte=now())),
@@ -177,11 +182,6 @@ class TaskListBase(auth.AuthBoardMixin, ListView):
             'done': (_('Done'), Q(done=True)),
             'blocked': (_('Blocked'), Q(requires__done=False)),
         }
-
-    def dispatch(self, *args, **kwargs):
-        # cache filters
-        self.filters = self.get_filters()
-        return super().dispatch(*args, **kwargs)
 
     def get_active_filters(self):
         filter_ids = self.request.GET.get("filters", "").split(",")
@@ -202,13 +202,13 @@ class TaskListBase(auth.AuthBoardMixin, ListView):
 
     def get_search_filter(self):
         # Q(pk=None) is a hacky way to say "always false"
-        filter = ~Q(pk=None)
+        search_filter = ~Q(pk=None)
         for term in self.get_search_terms():
             term_filter = Q(pk=None)
             for field in self.get_search_fields():
                 term_filter = term_filter | Q(**{"{}__icontains".format(field): term})
-            filter = filter & term_filter
-        return filter
+            search_filter = search_filter & term_filter
+        return search_filter
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -224,12 +224,12 @@ class TaskListBase(auth.AuthBoardMixin, ListView):
         queryset = self.kwargs['board'].tasks.all()
 
         for filter_id in self.get_active_excludes():
-            label, filter = self.filters[filter_id]
-            queryset = queryset.exclude(filter)
+            _, search_filter = self.filters[filter_id]
+            queryset = queryset.exclude(search_filter)
 
         for filter_id in self.get_active_filters():
-            label, filter = self.filters[filter_id]
-            queryset = queryset.filter(filter)
+            _, search_filter = self.filters[filter_id]
+            queryset = queryset.filter(search_filter)
 
         queryset = queryset.filter(self.get_search_filter())
 
@@ -243,33 +243,26 @@ class TaskListView(TaskListBase):
     template_name = 'tasker/task_list.html'
 
     def get_filters(self):
-        filters = super().get_filters()
-        filters.update({
+        search_filters = super().get_filters()
+        search_filters.update({
             'mine': (_('Mine'), Q(handlings__isnull=False, handlings__editor=self.kwargs['participant']) | Q(reserved_by=self.kwargs['participant'], reserved_until__gte=now())),
         })
-        return filters
+        return search_filters
 
 
-@decorators.board_view
-@decorators.require_name
-@decorators.task_view
-@decorators.require_action('lock')
-def lock_task(request, task, participant):
-    task.lock(participant)
-
-    return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('lock')])
+class LockTaskView(TaskActionBaseView):
+    def action(self, *args, **kwargs):
+        self.kwargs['task'].lock(self.kwargs['participant'])
 
 
-@decorators.board_view
-@decorators.require_name
-@decorators.task_view
-def unlock_task(request, task, participant):
-    # do nothing if unlock is not needed
-    # this will avoid errors if users click unlock too late
-    if task.is_locked():
-        if not task.action_allowed('unlock', participant):
-            raise Http404
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view])
+class UnlockTaskView(TaskActionBaseView):
+    def action(self, *args, **kwargs):
+        # do nothing if unlock is not needed
+        # this will avoid errors if users click unlock too late
+        if self.kwargs['task'].is_locked():
+            if not self.kwargs['task'].action_allowed('unlock', self.kwargs['participant']):
+                raise Http404
 
-        task.unlock()
-
-    return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))
+            self.kwargs['task'].unlock()

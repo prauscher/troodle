@@ -1,4 +1,3 @@
-from datetime import datetime
 import string
 import random
 
@@ -114,10 +113,10 @@ class BoardBaseView(auth.AuthBoardMixin, DetailView):
     def find_random_task(self):
         filters = self.get_filters()
 
-        for filter in filters:
+        for search_filter in filters:
             if filter:
-                nr = random.randint(0, filter.count() - 1)
-                return filter[nr]
+                nr = random.randint(0, search_filter.count() - 1)
+                return search_filter[nr]
 
         return None
 

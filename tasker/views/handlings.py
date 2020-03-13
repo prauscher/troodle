@@ -1,63 +1,51 @@
 from datetime import timedelta
 
-from django.shortcuts import redirect
-from django.http import Http404
 from django.utils.timezone import now
 
+from . import TaskActionBaseView
 from .. import decorators
 from .. import models
-from .. import utils
 
 
-@decorators.board_view
-@decorators.require_name
-@decorators.task_view
-@decorators.require_action('start', redirect_target='lock_task')
-def start_task(request, task, nick):
-    task.lock(nick, timedelta(minutes=30))
-    models.Handling(task=task, editor=nick).save()
-    return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('start', redirect_target='lock_task')])
+class StartTaskView(TaskActionBaseView):
+    def action(self, *args, **kwargs):
+        self.kwargs['task'].lock(self.kwargs['participant'], timedelta(minutes=30))
+        models.Handling(task=self.kwargs['task'], editor=self.kwargs['participant']).save()
 
 
-@decorators.board_view
-@decorators.require_name
-@decorators.task_view
-@decorators.require_action('stop')
-def stop_task(request, task, nick, success):
-    handling = task.get_current_handling(nick)
-    handling.end = now()
-    handling.success = success
-    handling.save()
+class StopTaskBaseView(TaskActionBaseView):
+    def action(self, *args, **kwargs):
+        handling = self.kwargs['task'].get_current_handling(self.kwargs['participant'])
+        handling.end = now()
+        handling.success = self.success
+        handling.save()
 
-    if success:
-        task.done = True
-        task.save()
+        if self.success:
+            self.kwargs['task'].done = True
+            self.kwargs['task'].save()
 
-    if task.is_locked_for(nick):
-        task.unlock()
-
-    return redirect(utils.get_redirect_url(request, default=task.board.get_frontend_url()))
+        if self.kwargs['task'].is_locked_for(self.kwargs['participant']):
+            self.kwargs['task'].unlock()
 
 
-def abort_task(*args, **kwargs):
-    return stop_task(success=False, *args, **kwargs)
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('stop')])
+class AbortTaskView(StopTaskBaseView):
+    success = False
 
 
-def complete_task(*args, **kwargs):
-    return stop_task(success=True, *args, **kwargs)
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('stop')])
+class CompleteTaskView(StopTaskBaseView):
+    success = True
 
 
-@decorators.board_view
-@decorators.require_name
-@decorators.task_view
-@decorators.require_action('comment')
-def comment_task(request, task, nick):
-    handling = task.get_current_handling(nick)
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('comment')])
+class CommentTaskView(TaskActionBaseView):
+    def action(self, *args, **kwargs):
+        handling = self.kwargs['task'].get_current_handling(self.kwargs['participant'])
 
-    if "text" in request.POST and request.POST["text"]:
-        models.Comment(handling=handling, text=request.POST["text"]).save()
+        if "text" in self.request.POST and self.request.POST["text"]:
+            models.Comment(handling=handling, text=self.request.POST["text"]).save()
 
-    if "attachment" in request.FILES:
-        models.Attachment(handling=handling, file=request.FILES["attachment"]).save()
-
-    return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))
+        if "attachment" in self.request.FILES:
+            models.Attachment(handling=handling, file=self.request.FILES["attachment"]).save()

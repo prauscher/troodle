@@ -25,7 +25,7 @@
      {% else %}<span class="badge badge-danger">{% trans "Aborted" %}</span>
      {% endif %}
     {% else %}
-     <strong>{{ handling.editor }}</strong>
+     <strong>{{ handling.editor.nick }}</strong>
      <small>{% blocktrans with handling_since=handling.start|timesince %}{{ handling_since }} ago{% endblocktrans %}</small>
      <span class="badge badge-warning">{% trans "Active" %}</span>
     {% endif %}

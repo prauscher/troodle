@@ -9,7 +9,7 @@ urlpatterns = [
     path('meta/imprint', TemplateView.as_view(template_name='meta/imprint.html'), name='imprint'),
 
     path('board/<slug:board_slug>/enter_nick', nick.EnterNickView.as_view(), name='enter_nick'),
-    path('board/<slug:board_slug>/reset_nick', nick.reset_nick, name='reset_nick'),
+    path('board/<slug:board_slug>/reset_nick', nick.ResetNickView.as_view(), name='reset_nick'),
 
     path('create_board/', board.CreateBoardView.as_view(), name='create_board'),
 

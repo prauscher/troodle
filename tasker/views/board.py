@@ -149,11 +149,9 @@ class BoardView(BoardBaseView):
         # TODO transaction
         context = super().get_context_data(**kwargs)
         if context['random_task']:
-            if self.lock_random_task and not context['random_task'].is_locked_for(self.kwargs['nick']):
-                assert context['random_task'].action_allowed('lock', self.kwargs['nick']), "Tried to lock task but locking is not allowed for this nick"
-                context['random_task'].lock(self.kwargs['nick'])
-
-            context['random_task'].fill_nick(self.kwargs['nick'])
+            if self.lock_random_task and not context['random_task'].is_locked_for(self.kwargs['participant']):
+                assert context['random_task'].action_allowed('lock', self.kwargs['participant']), "Tried to lock task but locking is not allowed for this nick"
+                context['random_task'].lock(self.kwargs['participant'])
 
         return context
 

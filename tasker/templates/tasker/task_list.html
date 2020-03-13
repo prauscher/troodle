@@ -1,6 +1,7 @@
 {% extends 'base_task_list.html' %}
 
 {% load i18n %}
+{% load tasks %}
 
 {% block title %}{{ board.label | escape }} &middot; {{ block.super }}{% endblock %}
 
@@ -8,12 +9,12 @@
 
 {% block task_label %}
  <a href="{% url 'show_task' object.board.slug object.id %}">{{ object.label | escape }}</a>
- {% if object.nick_status == 'o' %}
- {% elif object.nick_status == 'l' %}<span class="badge badge-danger">{% trans "Locked" %}</span>
- {% elif object.nick_status == 'r' %}<span class="badge badge-warning">{% trans "Reserved" %}</span>
- {% elif object.nick_status == 'b' %}<span class="badge badge-warning">{% trans "Blocked" %}</span>
- {% elif object.nick_status == 'p' %}<span class="badge badge-primary">{% trans "Active" %}</span>
- {% elif object.nick_status == 'd' %}<span class="badge badge-success">{% trans "Done" %}</span>
+ {% if object|task_status:participant == 'o' %}
+ {% elif object|task_status:participant == 'l' %}<span class="badge badge-danger">{% trans "Locked" %}</span>
+ {% elif object|task_status:participant == 'r' %}<span class="badge badge-warning">{% trans "Reserved" %}</span>
+ {% elif object|task_status:participant == 'b' %}<span class="badge badge-warning">{% trans "Blocked" %}</span>
+ {% elif object|task_status:participant == 'p' %}<span class="badge badge-primary">{% trans "Active" %}</span>
+ {% elif object|task_status:participant == 'd' %}<span class="badge badge-success">{% trans "Done" %}</span>
  {% endif %}
 {% endblock %}
 

@@ -117,40 +117,32 @@ class Task(models.Model):
     def get_frontend_url(self):
         return reverse('show_task', kwargs={'board_slug': self.board.slug, 'task_id': self.id})
 
-    def get_nick_status(self, nick):
+    def action_allowed(self, action, participant):
+        return action in self.get_allowed_actions(participant)
+
+    def get_allowed_actions(self, participant):
+        participant_status = self.get_participant_status(participant)
+        return [action for action, states in Task.ACTIONS.items() if participant_status in states]
+
+    def get_participant_status(self, participant):
         try:
-            self.get_current_handling(nick)
+            self.get_current_handling(participant)
             return Task.PROCESSING
         except Handling.DoesNotExist:
-            if self.done:
+            if self.is_done():
                 return Task.DONE
             if self.is_blocked():
                 return Task.BLOCKED
-            if self.is_locked_for(nick):
+            if self.is_locked_for(participant):
                 return Task.RESERVED
             if self.is_unlocked():
                 return Task.OPEN
             return Task.LOCKED
 
-    def fill_nick(self, nick):
-        self.nick_status = self.get_nick_status(nick)
-        self.allowed_actions = [action for action, status in self.ACTIONS.items() if self.nick_status in status]
-
-    def action_allowed(self, action, nick=None):
-        if nick is None:
-            if not self.nick_status:
-                raise ValueError
-
-            nick_status = self.nick_status
-        else:
-            nick_status = self.get_nick_status(nick)
-
-        return nick_status in self.ACTIONS[action]
-
-    def get_current_handling(self, nick=None):
+    def get_current_handling(self, participant=None):
         query = self.handlings.filter(end__isnull=True)
-        if nick:
-            return query.get(editor=nick)
+        if participant:
+            return query.get(editor=participant)
         return query
 
     def get_total_duration(self):
@@ -162,8 +154,18 @@ class Task(models.Model):
     def get_blocking_tasks(self):
         return self.requires.filter(done=False)
 
+    def is_done(self):
+        return self.done
+
     def is_blocked(self):
         return self.get_blocking_tasks().count() > 0
+
+    def is_processing(self, participant):
+        try:
+            self.get_current_handling(participant)
+            return True
+        except Handling.DoesNotExist:
+            return False
 
     def is_locked(self):
         return not self.is_unlocked()
@@ -171,22 +173,22 @@ class Task(models.Model):
     def is_unlocked(self):
         return now() > self.reserved_until
 
-    def is_locked_for(self, nick):
-        return self.reserved_by == nick and self.is_locked()
+    def is_locked_for(self, participant):
+        return self.reserved_by == participant and self.is_locked()
 
     def unlock(self):
         self.reserved_until = now()
         self.save()
 
-    def lock(self, nick, duration=None):
+    def lock(self, participant, duration=None):
         # TODO refresh value, add transaction
-        if self.is_locked() and not self.is_locked_for(nick):
+        if self.is_locked() and not self.is_locked_for(participant):
             raise ValueError(_('Task is already locked'))
 
         if duration is None:
             duration = timedelta(seconds=30)
 
-        self.reserved_by = nick
+        self.reserved_by = participant
         self.reserved_until = now() + duration
         self.save()
 

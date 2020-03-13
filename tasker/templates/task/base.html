@@ -1,9 +1,10 @@
 {% load timedelta %}
 {% load urlize %}
 {% load i18n %}
+{% load tasks %}
 
 <div class="card" {% block card_settings %}{% endblock %}>
- <div class="card-header {% if task.nick_status == 'o' %}bg-secondary text-white{% elif task.nick_status == 'b' %}bg-warning{% elif task.nick_status == 'l' %}bg-danger text-white{% elif task.nick_status == 'r' %}bg-warning{% elif task.nick_status == 'p' %}bg-primary text-white{% elif task.nick_status == 'd' %}bg-success text-white{% endif %}">
+ <div class="card-header {% if task|task_status:participant == 'o' %}bg-secondary text-white{% elif task|task_status:participant == 'b' %}bg-warning{% elif task|task_status:participant == 'l' %}bg-danger text-white{% elif task|task_status:participant == 'r' %}bg-warning{% elif task|task_status:participant == 'p' %}bg-primary text-white{% elif task|task_status:participant == 'd' %}bg-success text-white{% endif %}">
   {% block task_label %}{{ task.label | escape }}{% endblock %}
  </div>
  {% block description %}
@@ -50,7 +51,7 @@
  {% block actions %}
  <div class="card-footer">
   {% if task.is_locked %}
-   {% if task.nick_status in 'rp' %}
+   {% if task|task_status:participant in 'rp' %}
     <p>{% blocktrans with reserved_until=task.reserved_until|timeuntil %}Reserved for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
    {% else %}
     <p>{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by <strong>{{ reserved_by }}</strong> for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
@@ -64,16 +65,16 @@
     {% endfor %}
    </div>
   {% endif %}
-  {% if 'start' in task.allowed_actions %}{% block start_actions %}
+  {% if 'start' in task|allowed_actions:participant %}{% block start_actions %}
    <a href="{% url 'create_handling' task.board.slug task.id %}" class="btn btn-primary">{% trans "Start" %}</a>
-  {% endblock %}{% endif %}{% if 'stop' in task.allowed_actions %}{% block stop_actions %}
+  {% endblock %}{% endif %}{% if 'stop' in task|allowed_actions:participant %}{% block stop_actions %}
    <a href="{% url 'abort_handling' task.board.slug task.id %}" class="btn btn-danger">{% trans "Abort" %}</a>
    <a href="{% url 'complete_handling' task.board.slug task.id %}" class="btn btn-success">{% trans "Done" %}</a>
-  {% endblock %}{% endif %}{% if 'unlock' in task.allowed_actions and not hide_lock_actions %}{% block unlock_actions %}
+  {% endblock %}{% endif %}{% if 'unlock' in task|allowed_actions:participant and not hide_lock_actions %}{% block unlock_actions %}
    <a href="{% url 'unlock_task' task.board.slug task.id %}" class="btn btn-warning">{% trans "Unlock" %}</a>
-  {% endblock %}{% endif %}{% if 'lock' in task.allowed_actions and not hide_lock_actions %}{% block lock_actions %}
+  {% endblock %}{% endif %}{% if 'lock' in task|allowed_actions:participant and not hide_lock_actions %}{% block lock_actions %}
    <a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">{% trans "Lock" %}</a>
-  {% endblock %}{% endif %}{% if 'comment' in task.allowed_actions %}{% block comment_actions %}
+  {% endblock %}{% endif %}{% if 'comment' in task|allowed_actions:participant %}{% block comment_actions %}
    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">{% trans "Comment" %}</button>
    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseAttachment" aria-expanded="false" aria-controls="collapseAttachment">{% trans "Attach" %}</button>
    <div class="collapse" id="collapseComment">

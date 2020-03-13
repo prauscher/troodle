@@ -77,6 +77,14 @@ class Board(models.Model):
         verbose_name_plural = _('Boards')
 
 
+class Participant(models.Model):
+    board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='participants', verbose_name=_('Board'))
+    nick = models.CharField(_('Nick'), max_length=50)
+
+    def __str__(self):
+        return "{} ({})".format(self.nick, self.board)
+
+
 class Task(models.Model):
     OPEN = 'o'
     LOCKED = 'l'
@@ -98,7 +106,7 @@ class Task(models.Model):
     board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks', verbose_name=_('Board'))
     description = models.TextField(_('description'))
     done = models.BooleanField(_('done'), default=False)
-    reserved_by = models.CharField(_('reserved by'), max_length=30, blank=True, null=True)
+    reserved_by = models.ForeignKey('Participant', on_delete=models.SET_NULL, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
     requires = models.ManyToManyField('self', symmetrical=False, related_name='required_by', verbose_name=_('requires'), blank=True, help_text=_("Tasks which have to be done before this task can be started."))
@@ -190,7 +198,7 @@ class Task(models.Model):
 
 class Handling(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='handlings', verbose_name=_('Task'))
-    editor = models.CharField(_('editor'), max_length=30)
+    editor = models.ForeignKey('Participant', on_delete=models.CASCADE)
     start = models.DateTimeField(_('start'), default=now)
     end = models.DateTimeField(_('end'), blank=True, null=True)
     success = models.BooleanField(_('successfully'), blank=True, null=True)

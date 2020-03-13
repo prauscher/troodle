@@ -126,15 +126,15 @@ class BoardBaseView(DetailView):
         return context
 
 
-@decorators.class_decorator([decorators.require_name, decorators.board_view])
+@decorators.class_decorator([decorators.board_view, decorators.require_name])
 class BoardView(BoardBaseView):
     def get_filters(self):
         open_tasks = self.get_open_tasks()
 
         q_reserved = Q(reserved_until__gte=now())
-        q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])
+        q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['participant'])
         q_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True)
-        q_my_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True, handlings__editor=self.kwargs['nick'])
+        q_my_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True, handlings__editor=self.kwargs['participant'])
 
         return [
             # my open tasks

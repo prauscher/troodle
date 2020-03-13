@@ -15,9 +15,9 @@
    {% endblock %}
   </ul>
   <span class="navbar-text mr-auto"></span>
-  {% if 'nick' in request.session %}
+  {% if participant %}
   <span class="navbar-text">
-   {{ request.session.nick }} <a href="{% url 'reset_nick' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-outline-danger btn-sm">{% trans "Leave" %}</a>
+   {{ participant.nick }} <a href="{% url 'reset_nick' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-outline-danger btn-sm">{% trans "Leave" %}</a>
   </span>
   {% endif %}
  </div>

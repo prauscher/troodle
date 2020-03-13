@@ -15,8 +15,8 @@ except ImportError:
     def get_preview_path(orig_path):
         return orig_path
 
-@decorators.require_name
 @decorators.board_view
+@decorators.require_name
 @decorators.task_view
 def preview(request, task, nick, attachment_id):
     attachment = models.Attachment.objects.get(pk=attachment_id)
@@ -26,8 +26,8 @@ def preview(request, task, nick, attachment_id):
     return FileResponse(open(get_preview_path(attachment.file.path), 'rb'))
 
 
-@decorators.require_name
 @decorators.board_view
+@decorators.require_name
 @decorators.task_view
 def fetch(request, task, nick, attachment_id):
     attachment = models.Attachment.objects.get(pk=attachment_id)

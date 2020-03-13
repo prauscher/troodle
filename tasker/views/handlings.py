@@ -9,8 +9,8 @@ from .. import models
 from .. import utils
 
 
-@decorators.require_name
 @decorators.board_view
+@decorators.require_name
 @decorators.task_view
 @decorators.require_action('start', redirect_target='lock_task')
 def start_task(request, task, nick):
@@ -19,8 +19,8 @@ def start_task(request, task, nick):
     return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))
 
 
-@decorators.require_name
 @decorators.board_view
+@decorators.require_name
 @decorators.task_view
 @decorators.require_action('stop')
 def stop_task(request, task, nick, success):
@@ -47,8 +47,8 @@ def complete_task(*args, **kwargs):
     return stop_task(success=True, *args, **kwargs)
 
 
-@decorators.require_name
 @decorators.board_view
+@decorators.require_name
 @decorators.task_view
 @decorators.require_action('comment')
 def comment_task(request, task, nick):

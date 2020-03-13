@@ -157,12 +157,11 @@ class ResetTaskView(DeleteView):
         return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
 
 
-@decorators.class_decorator([decorators.require_name, decorators.board_view, decorators.task_view])
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view])
 class TaskView(DetailView):
     model = models.Task
 
     def get_object(self):
-        self.kwargs['task'].fill_nick(self.kwargs['nick'])
         return self.kwargs['task']
 
 
@@ -238,45 +237,36 @@ class TaskListBase(ListView):
         return queryset
 
 
-@decorators.class_decorator([decorators.require_name, decorators.board_view])
+@decorators.class_decorator([decorators.board_view, decorators.require_name])
 class TaskListView(TaskListBase):
     template_name = 'tasker/task_list.html'
 
     def get_filters(self):
         filters = super().get_filters()
         filters.update({
-            'mine': (_('Mine'), Q(handlings__isnull=False, handlings__editor=self.kwargs['nick']) | Q(reserved_by=self.kwargs['nick'], reserved_until__gte=now())),
+            'mine': (_('Mine'), Q(handlings__isnull=False, handlings__editor=self.kwargs['participant']) | Q(reserved_by=self.kwargs['participant'], reserved_until__gte=now())),
         })
         return filters
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
 
-        # fill nick_status value
-        for object in context['object_list']:
-            object.fill_nick(self.kwargs['nick'])
-
-        return context
-
-
-@decorators.require_name
 @decorators.board_view
+@decorators.require_name
 @decorators.task_view
 @decorators.require_action('lock')
-def lock_task(request, task, nick):
-    task.lock(nick)
+def lock_task(request, task, participant):
+    task.lock(participant)
 
     return redirect(utils.get_redirect_url(request, default=task.get_frontend_url()))
 
 
-@decorators.require_name
 @decorators.board_view
+@decorators.require_name
 @decorators.task_view
-def unlock_task(request, task, nick):
+def unlock_task(request, task, participant):
     # do nothing if unlock is not needed
     # this will avoid errors if users click unlock too late
     if task.is_locked():
-        if not task.action_allowed('unlock', nick):
+        if not task.action_allowed('unlock', participant):
             raise Http404
 
         task.unlock()

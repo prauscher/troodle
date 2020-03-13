@@ -29,7 +29,7 @@
 
 {% block task_label %}
  {{ block.super }}
- {% if object.is_locked %}<span class="badge badge-warning">{% blocktrans with reserved_by=object.reserved_by|escape reserved_until=object.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
+ {% if object.is_locked %}<span class="badge badge-warning">{% blocktrans with reserved_by=object.reserved_by.nick|escape reserved_until=object.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
  {% if object.is_blocked %}<span class="badge badge-warning">{% trans "Blocked" %}</span>{% endif %}
  {% if object.done %}<span class="badge badge-success">{% trans "Done" %}</span>{% endif %}
 {% endblock %}

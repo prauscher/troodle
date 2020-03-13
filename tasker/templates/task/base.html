@@ -17,7 +17,7 @@
   {% for handling in task.handlings.all %}
    <li class="list-group-item">
     {% if handling.end %}
-     <strong>{{ handling.editor | escape }}</strong>
+     <strong>{{ handling.editor.nick | escape }}</strong>
      <small>
       {% blocktrans with time_ago=handling.end|timesince duration=handling.get_duration|timedelta %}{{ time_ago }} ago for {{ duration }}{% endblocktrans %}
      </small>
@@ -54,7 +54,7 @@
    {% if task|task_status:participant in 'rp' %}
     <p>{% blocktrans with reserved_until=task.reserved_until|timeuntil %}Reserved for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
    {% else %}
-    <p>{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by <strong>{{ reserved_by }}</strong> for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
+    <p>{% blocktrans with reserved_by=task.reserved_by.nick|escape reserved_until=task.reserved_until|timeuntil %}Locked by <strong>{{ reserved_by }}</strong> for <strong>{{ reserved_until }}</strong>{% endblocktrans %}</p>
    {% endif %}
   {% endif %}
   {% if task.is_blocked %}

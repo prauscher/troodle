@@ -124,6 +124,11 @@ class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
         form.instance.task.done = True
         form.instance.task.save()
 
+        for open_handling in form.instance.handlings.filter(end__isnull=True):
+            open_handling.end = now()
+            open_handling.success = False
+            open_handling.save()
+
         return super().form_valid(form)
 
     def get_context_data(self, *args, **kwargs):

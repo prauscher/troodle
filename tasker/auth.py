@@ -39,7 +39,7 @@ def apply_context(request, board, context):
 
 
 def login(request, board, nick):
-    participant, created = models.Participant.objects.get_or_create(nick=nick, board=board)
+    participant, _ = models.Participant.objects.get_or_create(nick=nick, board=board)
     request.session[get_session_key(board)] = participant.id
 
 

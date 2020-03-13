@@ -1,6 +1,5 @@
 import re
 
-from django.http import QueryDict
 from django.template import Library, Node, TemplateSyntaxError, VariableDoesNotExist
 
 register = Library()

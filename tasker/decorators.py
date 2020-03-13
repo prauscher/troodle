@@ -37,7 +37,7 @@ def _add_latest_board(request, board):
 def require_name(func):
     def wrapper(request, board, *args, **kwargs):
         if 'nick' in request.GET:
-            auth.login(board, request.GET['nick'])
+            auth.login(request, board, request.GET['nick'])
 
         try:
             participant = auth.get_participant(request, board)

@@ -175,11 +175,6 @@ class TaskListBase(auth.AuthBoardMixin, ListView):
     paginate_by = 20
     search_fields = ['label', 'description', 'handlings__editor', 'handlings__tasker_comments__text']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # cache filters
-        self.filters = self.get_filters()
-
     def get_filters(self):
         return {
             'locked': (_('Locked'), Q(reserved_until__gte=now())),
@@ -187,6 +182,13 @@ class TaskListBase(auth.AuthBoardMixin, ListView):
             'done': (_('Done'), Q(done=True)),
             'blocked': (_('Blocked'), Q(requires__done=False)),
         }
+
+    def dispatch(self, *args, **kwargs):
+        # do not cache this in __init__, as self.request won't be set there (which is needed by get_filters)
+
+        # cache filters
+        self.filters = self.get_filters()
+        return super().dispatch(*args, **kwargs)
 
     def get_active_filters(self):
         filter_ids = self.request.GET.get("filters", "").split(",")

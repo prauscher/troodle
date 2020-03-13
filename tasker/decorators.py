@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.http import Http404
 
-from . import models
+from . import models, auth
 
 
 def class_decorator(decorators):
@@ -37,13 +37,12 @@ def _add_latest_board(request, board):
 def require_name(func):
     def wrapper(request, board, *args, **kwargs):
         if 'nick' in request.GET:
-            participant, created = models.Participant.objects.get_or_create(nick=request.GET['nick'], board=board)
-            request.session['participant'] = participant
+            auth.login(board, request.GET['nick'])
 
-        if 'participant' not in request.session:
+        try:
+            participant = auth.get_participant(request, board)
+        except auth.NotLoggedInException:
             return redirect(reverse('enter_nick', kwargs={'board_slug': board.slug}) + "?" + urlencode({'next': request.get_full_path()}))
-
-        participant = models.Participant.objects.get(id=request.session['participant'])
 
         return func(request, participant=participant, board=board, *args, **kwargs)
 

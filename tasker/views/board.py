@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
 
 from .tasks import TaskListBase
+from .. import auth
 from .. import utils
 from .. import models
 from .. import decorators
@@ -36,7 +37,7 @@ class CreateBoardView(CreateView):
 
 
 @decorators.class_decorator(decorators.board_view)
-class BoardSendAdminLinkView(TemplateView):
+class BoardSendAdminLinkView(auth.AuthBoardMixin, TemplateView):
     template_name = 'tasker/board_adminlinksent.html'
 
     def get_context_data(self, **kwargs):
@@ -67,7 +68,7 @@ class BoardAdminView(TaskListBase):
 
 
 @decorators.class_decorator(decorators.board_view)
-class BoardSummaryView(TemplateView):
+class BoardSummaryView(auth.AuthBoardMixin, TemplateView):
     template_name = 'tasker/board_summary.html'
 
     def get_context_data(self, **kwargs):
@@ -95,7 +96,7 @@ class BoardSummaryView(TemplateView):
         return context
 
 
-class BoardBaseView(DetailView):
+class BoardBaseView(auth.AuthBoardMixin, DetailView):
     model = models.Board
     lock_random_task = True
 
@@ -180,7 +181,7 @@ class BoardMonitorView(BoardBaseView):
 
 
 @decorators.class_decorator(decorators.board_admin_view)
-class EditBoardView(UpdateView):
+class EditBoardView(auth.AuthBoardMixin, UpdateView):
     model = models.Board
     fields = ['label']
 
@@ -192,7 +193,7 @@ class EditBoardView(UpdateView):
 
 
 @decorators.class_decorator(decorators.board_admin_view)
-class DeleteBoardView(DeleteView):
+class DeleteBoardView(auth.AuthBoardMixin, DeleteView):
     model = models.Board
     success_url = reverse_lazy('start')
 

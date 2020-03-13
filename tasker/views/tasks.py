@@ -10,6 +10,7 @@ from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 
+from .. import auth
 from .. import decorators
 from .. import models
 from .. import utils
@@ -44,7 +45,7 @@ class QuickDoneForm(forms.ModelForm):
 
 
 @decorators.class_decorator(decorators.board_admin_view)
-class CreateTaskView(CreateView):
+class CreateTaskView(auth.AuthBoardMixin, CreateView):
     form_class = TaskForm
     template_name = "tasker/task_form.html"
 
@@ -66,7 +67,7 @@ class CreateTaskView(CreateView):
         return utils.get_redirect_url(self.request, default=self.kwargs['board'].get_admin_url())
 
 
-class EditTaskBaseView(UpdateView):
+class EditTaskBaseView(auth.AuthBoardMixin, UpdateView):
     def get_object(self):
         return self.kwargs['task']
 
@@ -91,7 +92,7 @@ class EditTaskView(EditTaskBaseView):
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
-class DeleteTaskView(DeleteView):
+class DeleteTaskView(auth.AuthBoardMixin, DeleteView):
     model = models.Task
 
     def get_object(self):
@@ -109,7 +110,7 @@ class SetLockTaskView(EditTaskBaseView):
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
-class QuickDoneTaskView(FormView):
+class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
     form_class = QuickDoneForm
     template_name = 'tasker/task_quickdone.html'
 
@@ -135,7 +136,7 @@ class QuickDoneTaskView(FormView):
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
-class ResetTaskView(DeleteView):
+class ResetTaskView(auth.AuthBoardMixin, DeleteView):
     model = models.Task
     template_name = 'tasker/task_confirm_reset.html'
 
@@ -158,14 +159,14 @@ class ResetTaskView(DeleteView):
 
 
 @decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view])
-class TaskView(DetailView):
+class TaskView(auth.AuthBoardMixin, DetailView):
     model = models.Task
 
     def get_object(self):
         return self.kwargs['task']
 
 
-class TaskListBase(ListView):
+class TaskListBase(auth.AuthBoardMixin, ListView):
     paginate_by = 20
     search_fields = ['label', 'description', 'handlings__editor', 'handlings__tasker_comments__text']
 

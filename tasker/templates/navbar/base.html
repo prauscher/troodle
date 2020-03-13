@@ -17,7 +17,7 @@
   <span class="navbar-text mr-auto"></span>
   {% if participant %}
   <span class="navbar-text">
-   {{ participant.nick }} <a href="{% url 'reset_nick' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-outline-danger btn-sm">{% trans "Leave" %}</a>
+   {{ participant.nick }} <a href="{% url 'reset_nick' participant.board.slug %}?next={{ request.get_full_path|urlencode }}" class="btn btn-outline-danger btn-sm">{% trans "Leave" %}</a>
   </span>
   {% endif %}
  </div>

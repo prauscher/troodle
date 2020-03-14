@@ -19,7 +19,7 @@ class StartTaskView(TaskActionBaseView):
         for participant in participants:
             participant.send_push({
                 "type": "handling_created_by_other",
-                "task_url": self.request.build_absolute_uri(reverse('show_task', kwargs={'board_slug': self.kwargs['task'].board.slug, 'task_id': self.kwargs['task'].id})),
+                "task_path": reverse('show_task', kwargs={'board_slug': self.kwargs['task'].board.slug, 'task_id': self.kwargs['task'].id}),
                 "participant_nick": self.kwargs['participant'].nick,
                 "task_label": self.kwargs['task'].label,
                 "board_label": self.kwargs['task'].board.label,

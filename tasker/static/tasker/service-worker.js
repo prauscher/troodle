@@ -19,6 +19,6 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
     if (event.notification.data.type == "handling_created_by_other") {
         event.notification.close();
-        clients.openWindow(event.notification.data.task_url);
+        clients.openWindow(new URL(event.notification.data.task_path, self.location.origin).href);
     }
 });

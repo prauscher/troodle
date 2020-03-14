@@ -12,7 +12,7 @@
  <p>{% blocktrans %}To identify you, Troodle uses the concept of Nicknames. Pick one which identifies you unambiguously in the team you are working on:{% endblocktrans %}</p>
  <form method="post" id="nick_form">{% csrf_token %}
   {{ form|crispy }}
-  <input type="submit" class="btn btn-success" value="{% trans "Enter" %}">
+  <input type="submit" class="btn btn-success" id="submit_button" value="{% trans "Enter" %}">
  </form>
 {% endblock %}
 
@@ -24,6 +24,7 @@ $("#nick_form").submit(function (e, options) {
 
     if (!options.asked) {
         e.preventDefault();
+        $("#submit_button").prop("disabled", true);
         requestPush().then(function (e) {
             $("#nick_form").trigger('submit', {'asked': true});
         });

@@ -149,7 +149,21 @@ class BoardView(BoardBaseView):
         # TODO transaction
         context = super().get_context_data(**kwargs)
         if context['random_task']:
-            if self.lock_random_task and not context['random_task'].is_locked_for(self.kwargs['participant']):
+            perform_locking = True
+
+            # do not lock if globally unset
+            if not self.lock_random_task:
+                perform_locking = False
+
+            # do not lock if it is already locked
+            if perform_locking and context['random_task'].is_locked_for(self.kwargs['participant']):
+                perform_locking = False
+
+            # do not lock if we already got a handling
+            if perform_locking and context['random_task'].get_current_handling(self.kwargs['participant']) is not None:
+                perform_locking = False
+
+            if perform_locking:
                 assert context['random_task'].action_allowed('lock', self.kwargs['participant']), "Tried to lock task but locking is not allowed for this nick"
                 context['random_task'].lock(self.kwargs['participant'])
 

@@ -1,6 +1,6 @@
 from datetime import timedelta
 import json
-from pywebpush import webpush
+from pywebpush import webpush, WebPushException
 
 from django.db import models
 from django.conf import settings
@@ -87,11 +87,16 @@ class Participant(models.Model):
 
     def send_push(self, data):
         if self.subscription_info:
-            webpush(
-                json.loads(self.subscription_info),
-                json.dumps(data),
-                vapid_private_key=settings.WEB_PUSH_KEYS[1],
-                vapid_claims={'sub': settings.WEB_PUSH_KEYS[2]})
+            try:
+                webpush(
+                    json.loads(self.subscription_info),
+                    json.dumps(data),
+                    vapid_private_key=settings.WEB_PUSH_KEYS[1],
+                    vapid_claims={'sub': settings.WEB_PUSH_KEYS[2]})
+            except WebPushException:
+                # Purge subscription_info, once it failed
+                self.subscription_info = None
+                self.save()
 
     def __str__(self):
         return "{} ({})".format(self.nick, self.board)

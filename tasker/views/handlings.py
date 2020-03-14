@@ -2,10 +2,29 @@ from datetime import timedelta
 
 from django.utils.timezone import now
 from django.urls import reverse
+from background_task import background
 
 from . import TaskActionBaseView
 from .. import decorators
 from .. import models
+
+
+@background
+def _send_push_reminder(handling_id):
+    handling = models.Handling.objects.get(id=handling_id)
+
+    # Only send push for tasks still open
+    if handling.end is not None:
+        return
+
+    handling.editor.send_push({
+        "type": "handling_running_reminder",
+        "task_path": reverse('show_task', kwargs={'board_slug': handling.task.board.slug, 'task_id': handling.task.id}),
+        "complete_path": reverse('complete_handling', kwargs={'board_slug': handling.task.board.slug, 'task_id': handling.task.id}),
+        "abort_path": reverse('abort_handling', kwargs={'board_slug': handling.task.board.slug, 'task_id': handling.task.id}),
+        "task_label": handling.task.label,
+        "board_label": handling.task.board.label,
+    })
 
 
 @decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('start', redirect_target='lock_task')])
@@ -22,6 +41,9 @@ class StartTaskView(TaskActionBaseView):
             "task_label": self.kwargs['task'].label,
             "board_label": self.kwargs['task'].board.label,
         }, ignore_participant=self.kwargs['participant'])
+
+        for schedule in [timedelta(minutes=15), timedelta(minutes=45), timedelta(minutes=90)]:
+            _send_push_reminder(handling.id, schedule=schedule)
 
 
 class StopTaskBaseView(TaskActionBaseView):

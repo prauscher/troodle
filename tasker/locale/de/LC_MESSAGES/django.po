@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 18:11+0000\n"
+"POT-Creation-Date: 2020-03-14 19:27+0000\n"
 "PO-Revision-Date: 2020-03-14 19:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -149,56 +149,56 @@ msgstr "Ende"
 msgid "successfully"
 msgstr "erfolgreich"
 
-#: tasker/models.py:245
+#: tasker/models.py:242
 #, python-brace-format
 msgid "{task} ({editor})"
 msgstr "{task} ({editor})"
 
-#: tasker/models.py:249
+#: tasker/models.py:246
 msgid "Handling"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:250
+#: tasker/models.py:247
 msgid "Handlings"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:260 tasker/models.py:270
+#: tasker/models.py:257 tasker/models.py:267
 msgid "Notes"
 msgstr "Notizen"
 
-#: tasker/models.py:261
+#: tasker/models.py:258
 msgid "posted"
 msgstr "geschrieben"
 
-#: tasker/models.py:264
+#: tasker/models.py:261
 msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
 msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
 
-#: tasker/models.py:269
+#: tasker/models.py:266
 msgid "Note"
 msgstr "Notiz"
 
-#: tasker/models.py:274
+#: tasker/models.py:271
 msgid "text"
 msgstr "Text"
 
-#: tasker/models.py:277 tasker/templates/task/base.html:78
+#: tasker/models.py:274 tasker/templates/task/base.html:78
 msgid "Comment"
 msgstr "Kommentar"
 
-#: tasker/models.py:278
+#: tasker/models.py:275
 msgid "Comments"
 msgstr "Kommentare"
 
-#: tasker/models.py:282
+#: tasker/models.py:279
 msgid "file"
 msgstr "Datei"
 
-#: tasker/models.py:285
+#: tasker/models.py:282
 msgid "Attachment"
 msgstr "Anhang"
 
-#: tasker/models.py:286
+#: tasker/models.py:283
 msgid "Attachments"
 msgstr "Anhänge"
 

@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'crispy_forms',
     'bootstrap_pagination',
+    'background_task',
     'tasker',
 ]
 

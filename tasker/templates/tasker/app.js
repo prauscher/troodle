@@ -20,7 +20,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     serviceWorker.then(function (registration) {
         registration.pushManager.getSubscription().then(function (pushSubscription) {
             isSubscribed = !(pushSubscription === null);
-            if (isSubscribed) {
+            if (isSubscribed && Math.random() < 0.4) {
                 _storeSubscription(pushSubscription);
             }
         });

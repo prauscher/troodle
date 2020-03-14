@@ -149,7 +149,7 @@ class ResetTaskView(auth.AuthBoardMixin, DeleteView):
         return self.kwargs['task']
 
     def delete(self, request, *args, **kwargs):
-        self.get_object().reserved_by = ''
+        self.get_object().reserved_by = None
         self.get_object().reserved_until = now()
         self.get_object().save()
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 16:23+0000\n"
-"PO-Revision-Date: 2020-03-14 17:24+0100\n"
+"POT-Creation-Date: 2020-03-14 16:45+0000\n"
+"PO-Revision-Date: 2020-03-14 17:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -19,8 +19,9 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 
 #: tasker/static/tasker/service-worker.js:9
-#: tasker/static/tasker/service-worker.js:20
-#: tasker/static/tasker/service-worker.js:28
+#: tasker/static/tasker/service-worker.js:19
+#: tasker/static/tasker/service-worker.js:30
+#: tasker/static/tasker/service-worker.js:40
 msgid "%(board_label)s"
 msgstr "%(board_label)s"
 
@@ -28,13 +29,17 @@ msgstr "%(board_label)s"
 msgid "%(participant_nick)s started working on %(task_label)s"
 msgstr "%(participant_nick)s hat begonnen an %(task_label)s zu arbeiten"
 
-#: tasker/static/tasker/service-worker.js:22
+#: tasker/static/tasker/service-worker.js:21
 msgid "%(participant_nick)s finished %(task_label)s"
 msgstr "%(participant_nick)s hat %(task_label)s vollendet"
 
-#: tasker/static/tasker/service-worker.js:30
+#: tasker/static/tasker/service-worker.js:32
 msgid "%(participant_nick)s aborted %(task_label)s"
 msgstr "%(participant_nick)s hat %(task_label)s abgebrochen"
+
+#: tasker/static/tasker/service-worker.js:42
+msgid "%(participant_nick)s commented on %(task_label)s"
+msgstr "%(participant_nick)s hat einen Kommentar bei %(task_label)s hinterlassen"
 
 #~ msgid "Hello ServiceWorker"
 #~ msgstr "Hallo ServiceWorker"

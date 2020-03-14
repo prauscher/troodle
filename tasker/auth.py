@@ -52,3 +52,11 @@ def logout(request, board):
     _prepare_session(request)
     del request.session['participant'][str(board.id)]
     request.session.modified = True
+
+
+def get_all_participants(request):
+    _prepare_session(request)
+    for board_id, participant_id in request.session['participant'].items():
+        participant = models.Participant.objects.get(id=participant_id)
+        assert str(participant.board.id) == board_id, "Stored Participant has invalid board"
+        yield participant

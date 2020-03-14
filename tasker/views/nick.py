@@ -1,4 +1,8 @@
 from django.urls import reverse
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.base import View
 from django.views.generic.edit import FormView
 
 from . import ActionView
@@ -32,3 +36,14 @@ class ResetNickView(auth.AuthBoardMixin, ActionView):
 
     def action(self, *args, **kwargs):
         auth.logout(self.request, self.kwargs['board'])
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class StoreWebPushView(View):
+    def post(self, request, *args, **kwargs):
+        subscription_info = request.POST['subscription']
+        for participant in auth.get_all_participants(request):
+            if participant.subscription_info != subscription_info:
+                participant.subscription_info = subscription_info
+                participant.save()
+        return JsonResponse({"success": True})

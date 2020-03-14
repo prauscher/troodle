@@ -1,6 +1,9 @@
 from datetime import timedelta
+import json
+from pywebpush import webpush
 
 from django.db import models
+from django.conf import settings
 from django.urls import reverse
 from django.core.signing import Signer
 from django.core.mail import EmailMessage
@@ -80,6 +83,15 @@ class Board(models.Model):
 class Participant(models.Model):
     board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='participants', verbose_name=_('Board'))
     nick = models.CharField(_('Nick'), max_length=50)
+    subscription_info = models.TextField(blank=True, null=True)
+
+    def send_push(self, data):
+        if self.subscription_info:
+            webpush(
+                json.loads(self.subscription_info),
+                json.dumps(data),
+                vapid_private_key=settings.WEB_PUSH_KEYS[1],
+                vapid_claims={'sub': settings.WEB_PUSH_KEYS[2]})
 
     def __str__(self):
         return "{} ({})".format(self.nick, self.board)
@@ -87,6 +99,9 @@ class Participant(models.Model):
     class Meta:
         verbose_name = _('Participant')
         verbose_name_plural = _('Participants')
+        constraints = [
+            models.UniqueConstraint(fields=['board', 'nick'], name='unique_nick'),
+        ]
 
 
 class Task(models.Model):

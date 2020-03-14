@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 15:18+0000\n"
-"PO-Revision-Date: 2020-03-14 13:49+0100\n"
+"POT-Creation-Date: 2020-03-14 16:23+0000\n"
+"PO-Revision-Date: 2020-03-14 17:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -19,12 +19,22 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 
 #: tasker/static/tasker/service-worker.js:9
+#: tasker/static/tasker/service-worker.js:20
+#: tasker/static/tasker/service-worker.js:28
 msgid "%(board_label)s"
 msgstr "%(board_label)s"
 
 #: tasker/static/tasker/service-worker.js:11
 msgid "%(participant_nick)s started working on %(task_label)s"
 msgstr "%(participant_nick)s hat begonnen an %(task_label)s zu arbeiten"
+
+#: tasker/static/tasker/service-worker.js:22
+msgid "%(participant_nick)s finished %(task_label)s"
+msgstr "%(participant_nick)s hat %(task_label)s vollendet"
+
+#: tasker/static/tasker/service-worker.js:30
+msgid "%(participant_nick)s aborted %(task_label)s"
+msgstr "%(participant_nick)s hat %(task_label)s abgebrochen"
 
 #~ msgid "Hello ServiceWorker"
 #~ msgstr "Hallo ServiceWorker"

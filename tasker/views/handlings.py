@@ -18,7 +18,7 @@ class StartTaskView(TaskActionBaseView):
         participants = set([handling.editor for handling in self.kwargs['task'].handlings.all() if handling.editor != self.kwargs['participant']])
         for participant in participants:
             participant.send_push({
-                "type": "handling_created_by_other",
+                "type": "handling_started_by_other",
                 "task_path": reverse('show_task', kwargs={'board_slug': self.kwargs['task'].board.slug, 'task_id': self.kwargs['task'].id}),
                 "participant_nick": self.kwargs['participant'].nick,
                 "task_label": self.kwargs['task'].label,
@@ -39,6 +39,17 @@ class StopTaskBaseView(TaskActionBaseView):
 
         if self.kwargs['task'].is_locked_for(self.kwargs['participant']):
             self.kwargs['task'].unlock()
+
+        participants = set([handling.editor for handling in self.kwargs['task'].handlings.all() if handling.editor != self.kwargs['participant']])
+        for participant in participants:
+            participant.send_push({
+                "type": "handling_stopped_by_other",
+                "success": self.success,
+                "task_path": reverse('show_task', kwargs={'board_slug': self.kwargs['task'].board.slug, 'task_id': self.kwargs['task'].id}),
+                "participant_nick": self.kwargs['participant'].nick,
+                "task_label": self.kwargs['task'].label,
+                "board_label": self.kwargs['task'].board.label,
+            })
 
 
 @decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('stop')])

@@ -50,6 +50,27 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
     if (["handling_started_by_other", "handling_completed_by_other", "handling_aborted_by_other", "comment_posted_by_other"].includes(event.notification.data.type)) {
         event.notification.close();
-        event.waitUntil(clients.openWindow(new URL(event.notification.data.task_path, self.location.origin).href));
+
+        const url = new URL(event.notification.data.task_path, self.location.origin).href;
+
+        event.waitUntil(clients.matchAll({
+            type: 'window',
+            includeUncontrolled: true,
+        }).then(function (windowClients) {
+            let matchingClient = null;
+
+            for (let i = 0; i < windowClients.length; i++) {
+                if (windowClients[i].url === url) {
+                    matchingClient = windowClients[i]
+                    break;
+                }
+            }
+
+            if (matchingClient):
+                return matchingClient.focus();
+            } else {
+                return clients.openWindow(urlToOpen);
+            }
+        }));
     }
 });

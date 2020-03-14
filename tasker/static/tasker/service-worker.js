@@ -22,6 +22,8 @@ self.addEventListener('push', function (event) {
             'vibrate': [300, 200, 500],
             'data': data,
         };
+        event.waitUntil(self.registration.showNotification(title, options));
+    }
 
     if (data.type == "handling_aborted_by_other") {
         event.waitUntil(self.registration.showNotification(title, options));
@@ -35,7 +37,6 @@ self.addEventListener('push', function (event) {
     }
 
     if (data.type == "comment_posted_by_other") {
-        event.waitUntil(self.registration.showNotification(title, options));
         const title = interpolate(gettext("%(board_label)s"), data, true);
         const options = {
             'body': interpolate(gettext("%(participant_nick)s commented on %(task_label)s"), data, true),

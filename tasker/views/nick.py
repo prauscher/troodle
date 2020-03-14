@@ -42,6 +42,11 @@ class ResetNickView(auth.AuthBoardMixin, ActionView):
 class StoreWebPushView(View):
     def post(self, request, *args, **kwargs):
         subscription_info = request.POST['subscription']
+
+        # Store subscription_info if nick gets entered later
+        request.session['subscription_info'] = subscription_info
+
+        # apply subscription_info to all known participants
         for participant in auth.get_all_participants(request):
             if participant.subscription_info != subscription_info:
                 participant.subscription_info = subscription_info

@@ -43,6 +43,10 @@ def apply_context(request, board, context):
 def login(request, board, nick):
     participant, _ = models.Participant.objects.get_or_create(nick=nick, board=board)
 
+    if 'subscription_info' in request.session:
+        participant.subscription_info = request.session['subscription_info']
+        participant.save()
+
     _prepare_session(request)
     request.session['participant'][str(board.id)] = participant.id
     request.session.modified = True

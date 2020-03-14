@@ -22,32 +22,39 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     serviceWorker.then(function (registration) {
         registration.pushManager.getSubscription().then(function (pushSubscription) {
             isSubscribed = !(pushSubscription === null);
-            if (isSubscribed && Math.random() < 0.4) {
+            if (isSubscribed && Math.random() < 0.1) {
                 _storeSubscription(pushSubscription);
             }
         });
     })
 
     function requestPush() {
-        return new Promise(function (resolve, reject) {
-            serviceWorker.then(function (registration) {
-                const subscribeOptions = {
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array('{{ push_pubkey }}'),
-                };
-                return registration.pushManager.subscribe(subscribeOptions);
-            }).then(function (pushSubscription) {
+        return serviceWorker.then(function (registration) {
+            const subscribeOptions = {
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array('{{ push_pubkey }}'),
+            };
+            return registration.pushManager.subscribe(subscribeOptions);
+        });
+    }
+
+    function requestPushAndStore() {
+        return Promise(function (resolve, reject) {
+            requestPush().then(function (pushSubscription) {
                 _storeSubscription(pushSubscription).then(function () {
                     resolve();
                 });
-            }).catch(function (error) {
-                console.error(error);
-                resolve();
-            });
+            }).catch(reject);
         });
     }
 } else {
     function requestPush() {
+        return Promise(function (resolve, reject) {
+            resolve();
+        });
+    }
+
+    function requestPushAndStore() {
         return Promise(function (resolve, reject) {
             resolve();
         });

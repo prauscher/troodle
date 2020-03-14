@@ -26,7 +26,8 @@ $("#nick_form").submit(function (e, options) {
     if (!options.asked) {
         e.preventDefault();
         $("#submit_button").prop("disabled", true);
-        requestPush().then(function (e) {
+        requestPush().then(function (pushSubscription) {
+            $("#id_subscription_info").val(JSON.stringify(pushSubscription));
             $("#nick_form").trigger('submit', {'asked': true});
         });
     }

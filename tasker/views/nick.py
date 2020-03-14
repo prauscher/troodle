@@ -23,7 +23,7 @@ class EnterNickView(auth.AuthBoardMixin, FormView):
         return context
 
     def form_valid(self, form):
-        auth.login(self.request, self.kwargs['board'], form.cleaned_data['nick'])
+        auth.login(self.request, self.kwargs['board'], form.cleaned_data['nick'], form.cleaned_data['subscription_info'])
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -41,14 +41,6 @@ class ResetNickView(auth.AuthBoardMixin, ActionView):
 @method_decorator(csrf_exempt, name='dispatch')
 class StoreWebPushView(View):
     def post(self, request, *args, **kwargs):
-        subscription_info = request.POST['subscription']
+        auth.store_subscription_info(request, request.POST['subscription'])
 
-        # Store subscription_info if nick gets entered later
-        request.session['subscription_info'] = subscription_info
-
-        # apply subscription_info to all known participants
-        for participant in auth.get_all_participants(request):
-            if participant.subscription_info != subscription_info:
-                participant.subscription_info = subscription_info
-                participant.save()
         return JsonResponse({"success": True})

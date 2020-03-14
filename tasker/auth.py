@@ -40,11 +40,14 @@ def apply_context(request, board, context):
         pass
 
 
-def login(request, board, nick):
+def login(request, board, nick, subscription_info):
     participant, _ = models.Participant.objects.get_or_create(nick=nick, board=board)
 
     if 'subscription_info' in request.session:
-        participant.subscription_info = request.session['subscription_info']
+        subscription_info = request.session['subscription_info']
+
+    if subscription_info:
+        participant.subscription_info = subscription_info
         participant.save()
 
     _prepare_session(request)
@@ -58,9 +61,14 @@ def logout(request, board):
     request.session.modified = True
 
 
-def get_all_participants(request):
+def store_subscription_info(request, subscription_info):
+    # Store subscription_info if nick gets entered later
+    request.session['subscription_info'] = subscription_info
+
+    # apply subscription_info to all known participants
     _prepare_session(request)
     for board_id, participant_id in request.session['participant'].items():
         participant = models.Participant.objects.get(id=participant_id)
-        assert str(participant.board.id) == board_id, "Stored Participant has invalid board"
-        yield participant
+        if participant.subscription_info != subscription_info:
+            participant.subscription_info = subscription_info
+            participant.save()

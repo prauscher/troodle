@@ -25,12 +25,12 @@ class BaseView(FileView):
         return attachment.file.path
 
 
-@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view])
+@decorators.class_decorator([decorators.board_view, decorators.task_view])
 class PreviewView(BaseView):
     def get_file_name(self, *args, **kwargs):
         return get_preview_path(super().get_file_name(*args, **kwargs))
 
 
-@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view])
+@decorators.class_decorator([decorators.board_view, decorators.task_view])
 class FetchView(BaseView):
     pass

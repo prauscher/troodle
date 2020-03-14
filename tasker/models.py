@@ -216,6 +216,11 @@ class Task(models.Model):
         self.reserved_until = now() + duration
         self.save()
 
+    def send_push(self, data, ignore_participant=None, include_finished=False):
+        participants = set([handling.editor for handling in self.handlings.all() if (include_finished or handling.end is None) and handling.editor != ignore_participant])
+        for participant in participants:
+            participant.send_push(data)
+
     class Meta:
         ordering = ['board']
         verbose_name = _('Task')

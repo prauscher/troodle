@@ -1,11 +1,11 @@
 "use strict";
 
-self.importScripts('{% url "jsi18n" %}')
+self.importScripts('{% url "jsi18n" %}');
 
 self.addEventListener('push', function (event) {
     var data = event.data.json();
 
-    if (data.type == "ping") {
+    if (data.type === "ping") {
         console.log(data);
         const title = "PING";
         const options = {
@@ -15,7 +15,7 @@ self.addEventListener('push', function (event) {
         event.waitUntil(self.registration.showNotification(title, options));
     }
 
-    if (data.type == "handling_started_by_other") {
+    if (data.type === "handling_started_by_other") {
         const title = interpolate(gettext("%(board_label)s"), data, true);
         const options = {
             'body': interpolate(gettext("%(participant_nick)s started working on %(task_label)s"), data, true),
@@ -25,7 +25,7 @@ self.addEventListener('push', function (event) {
         event.waitUntil(self.registration.showNotification(title, options));
     }
 
-    if (data.type == "handling_completed_by_other") {
+    if (data.type === "handling_completed_by_other") {
         const title = interpolate(gettext("%(board_label)s"), data, true);
         const options = {
             'body': interpolate(gettext("%(participant_nick)s finished %(task_label)s"), data, true),
@@ -35,8 +35,7 @@ self.addEventListener('push', function (event) {
         event.waitUntil(self.registration.showNotification(title, options));
     }
 
-    if (data.type == "handling_aborted_by_other") {
-        event.waitUntil(self.registration.showNotification(title, options));
+    if (data.type === "handling_aborted_by_other") {
         const title = interpolate(gettext("%(board_label)s"), data, true);
         const options = {
             'body': interpolate(gettext("%(participant_nick)s aborted %(task_label)s"), data, true),
@@ -46,7 +45,7 @@ self.addEventListener('push', function (event) {
         event.waitUntil(self.registration.showNotification(title, options));
     }
 
-    if (data.type == "comment_posted_by_other") {
+    if (data.type === "comment_posted_by_other") {
         const title = interpolate(gettext("%(board_label)s"), data, true);
         const options = {
             'body': interpolate(gettext("%(participant_nick)s commented on %(task_label)s"), data, true),
@@ -56,7 +55,7 @@ self.addEventListener('push', function (event) {
         event.waitUntil(self.registration.showNotification(title, options));
     }
 
-    if (data.type == "handling_running_reminder") {
+    if (data.type === "handling_running_reminder") {
         const title = interpolate(gettext("%(board_label)s"), data, true);
         const options = {
             'body': interpolate(gettext("Are you still working on %(task_label)s?"), data, true),
@@ -80,24 +79,26 @@ self.addEventListener('notificationclick', function (event) {
         event.waitUntil(open_url(new URL(event.notification.data.task_path, self.location.origin).href));
     }
 
-    if (event.notification.data.type == "handling_running_reminder") {
+    if (event.notification.data.type === "handling_running_reminder") {
         if (event.action) {
-            if (event.action == 'dismiss') {
+            if (event.action === 'dismiss') {
                 event.notification.close();
             }
-            if (event.action == 'complete') {
-                fetch(event.notification.data.complete_path)
-                    .then(function (response) {
-                        event.notification.close();
-                        event.waitUntil(open_url(new URL(event.notification.data.task_path, self.location.origin).href));
-                    });
+            if (event.action === 'complete') {
+                event.waitUntil(
+                    fetch(event.notification.data.complete_path)
+                        .then(function (response) {
+                            event.notification.close();
+                            return open_url(new URL(event.notification.data.task_path, self.location.origin).href);
+                        }));
             }
-            if (event.action == 'abort') {
-                fetch(event.notification.data.abort_path)
-                    .then(function (response) {
-                        event.notification.close();
-                        event.waitUntil(open_url(new URL(event.notification.data.task_path, self.location.origin).href));
-                    });
+            if (event.action === 'abort') {
+                event.waitUntil(
+                    fetch(event.notification.data.abort_path)
+                        .then(function (response) {
+                            event.notification.close();
+                            return open_url(new URL(event.notification.data.task_path, self.location.origin).href);
+                        }));
             }
         } else {
             event.notification.close();
@@ -115,7 +116,7 @@ function open_url(url) {
 
         for (let i = 0; i < windowClients.length; i++) {
             if (windowClients[i].url === url) {
-                matchingClient = windowClients[i]
+                matchingClient = windowClients[i];
                 break;
             }
         }
@@ -125,5 +126,5 @@ function open_url(url) {
         } else {
             return clients.openWindow(url);
         }
-    })
+    });
 }

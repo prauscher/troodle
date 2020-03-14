@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django.utils.timezone import now
+from django.urls import reverse
 
 from . import TaskActionBaseView
 from .. import decorators
@@ -11,7 +12,18 @@ from .. import models
 class StartTaskView(TaskActionBaseView):
     def action(self, *args, **kwargs):
         self.kwargs['task'].lock(self.kwargs['participant'], timedelta(minutes=30))
-        models.Handling(task=self.kwargs['task'], editor=self.kwargs['participant']).save()
+        handling = models.Handling(task=self.kwargs['task'], editor=self.kwargs['participant'])
+        handling.save()
+
+        participants = set([handling.editor for handling in self.kwargs['task'].handlings.all() if handling.editor != self.kwargs['participant']])
+        for participant in participants:
+            participant.send_push({
+                "type": "handling_created_by_other",
+                "task_url": self.request.build_absolute_uri(reverse('show_task', kwargs={'board_slug': self.kwargs['task'].board.slug, 'task_id': self.kwargs['task'].id})),
+                "participant_nick": self.kwargs['participant'].nick,
+                "task_label": self.kwargs['task'].label,
+                "board_label": self.kwargs['task'].board.label,
+            })
 
 
 class StopTaskBaseView(TaskActionBaseView):

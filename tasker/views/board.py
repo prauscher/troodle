@@ -160,8 +160,13 @@ class BoardView(BoardBaseView):
                 perform_locking = False
 
             # do not lock if we already got a handling
-            if perform_locking and context['random_task'].get_current_handling(self.kwargs['participant']) is not None:
-                perform_locking = False
+            try:
+                if perform_locking:
+                    # should raise models.Handling.DoesNotExist
+                    context['random_task'].get_current_handling(self.kwargs['participant'])
+                    perform_locking = False
+            except models.Handling.DoesNotExist:
+                pass
 
             if perform_locking:
                 assert context['random_task'].action_allowed('lock', self.kwargs['participant']), "Tried to lock task but locking is not allowed for this nick"

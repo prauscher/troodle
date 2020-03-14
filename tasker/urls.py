@@ -41,6 +41,7 @@ urlpatterns = [
     path('board/<slug:board_slug>/task/<int:task_id>/attachment/<int:attachment_id>/preview', attachments.PreviewView.as_view(), name='preview_attachment'),
     path('board/<slug:board_slug>/task/<int:task_id>/attachment/<int:attachment_id>/fetch', attachments.FetchView.as_view(), name='fetch_attachment'),
 
+    path('sw.js', TemplateView.as_view(template_name='tasker/sw.js', content_type='text/javascript'), name='jssw'),
     path('app.js', TemplateView.as_view(template_name='tasker/app.js', content_type='text/javascript', extra_context={'push_pubkey': settings.WEB_PUSH_KEYS[0]}), name='jsapp'),
     path('register_webpush', nick.StoreWebPushView.as_view(), name='webpush_register'),
     # TODO add caching

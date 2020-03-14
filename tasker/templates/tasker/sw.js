@@ -1,6 +1,6 @@
 "use strict";
 
-self.importScripts('/jsi18n.js')
+self.importScripts('{% url "jsi18n" %}')
 
 self.addEventListener('push', function (event) {
     var data = event.data.json();

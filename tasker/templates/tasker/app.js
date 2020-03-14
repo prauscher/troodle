@@ -9,7 +9,7 @@ if (!("PushManager" in window)) {
 }
 
 if ("serviceWorker" in navigator && "PushManager" in window) {
-    var serviceWorker = navigator.serviceWorker.register("{% static "tasker/service-worker.js" %}");
+    var serviceWorker = navigator.serviceWorker.register("{% url 'jssw' %}");
 
     function _storeSubscription(pushSubscription) {
         return new Promise(function (resolve, reject) {

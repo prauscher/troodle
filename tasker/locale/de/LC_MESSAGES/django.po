@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-13 21:00+0000\n"
+"POT-Creation-Date: 2020-03-14 12:49+0000\n"
 "PO-Revision-Date: 2020-03-13 22:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -22,27 +22,27 @@ msgstr ""
 msgid "Nickname"
 msgstr "Nickname"
 
-#: tasker/models.py:17 tasker/models.py:108
+#: tasker/models.py:20 tasker/models.py:123
 msgid "slug"
 msgstr "slug"
 
-#: tasker/models.py:18 tasker/models.py:109
+#: tasker/models.py:21 tasker/models.py:124
 msgid "label"
 msgstr "Bezeichner"
 
-#: tasker/models.py:19
+#: tasker/models.py:22
 msgid "admin id"
 msgstr "Admin Token"
 
-#: tasker/models.py:19
+#: tasker/models.py:22
 msgid "id used to authenticate for admin interface"
 msgstr "Token um den Zugang zum Backend zu authentifizieren"
 
-#: tasker/models.py:20
+#: tasker/models.py:23
 msgid "admin mail"
 msgstr "Mailadresse des Administrators"
 
-#: tasker/models.py:20
+#: tasker/models.py:23
 msgid ""
 "Your Mailadress. Will only be used to send you mails with links to frontend "
 "and backend."
@@ -50,155 +50,155 @@ msgstr ""
 "Deine Mailadresse, die wir nur verwenden werden um dir Links zu Front- und "
 "Backend zu schicken."
 
-#: tasker/models.py:21
+#: tasker/models.py:24
 msgid "last time a mail to the admin was sent"
 msgstr ""
 "Letzter Zeitpunkt an dem eine Mail an den Administrator verschickt wurde"
 
-#: tasker/models.py:22 tasker/models.py:115
+#: tasker/models.py:25 tasker/models.py:130
 msgid "cloned from"
 msgstr "geklont von"
 
-#: tasker/models.py:23
+#: tasker/models.py:26
 msgid "created"
 msgstr "erzeugt"
 
-#: tasker/models.py:46
+#: tasker/models.py:49
 msgid "No Admin mail stored"
 msgstr "Der Administrator hat keine Mailadresse hinterlegt"
 
-#: tasker/models.py:49
+#: tasker/models.py:52
 msgid "Last admin mail has been sent too recently."
 msgstr "Die letzte Mail an den Administrator wurde erst vor kurzem verschickt."
 
-#: tasker/models.py:56
+#: tasker/models.py:59
 #, python-brace-format
 msgid "Your Troodle-Board {label}"
 msgstr "Dein Troodle-Board {label}"
 
-#: tasker/models.py:76 tasker/models.py:81 tasker/models.py:110
+#: tasker/models.py:79 tasker/models.py:84 tasker/models.py:125
 msgid "Board"
 msgstr "Board"
 
-#: tasker/models.py:77
+#: tasker/models.py:80
 msgid "Boards"
 msgstr "Boards"
 
-#: tasker/models.py:82
+#: tasker/models.py:85
 msgid "Nick"
 msgstr "Nickname"
 
-#: tasker/models.py:88
+#: tasker/models.py:100
 msgid "Participant"
 msgstr "Teilnehmer"
 
-#: tasker/models.py:89
+#: tasker/models.py:101
 msgid "Participants"
 msgstr "Teilnehmende"
 
-#: tasker/models.py:111
+#: tasker/models.py:126
 msgid "description"
 msgstr "Beschreibung"
 
-#: tasker/models.py:112
+#: tasker/models.py:127
 msgid "done"
 msgstr "erledigt"
 
-#: tasker/models.py:114
+#: tasker/models.py:129
 msgid "reserved until"
 msgstr "reserviert bis"
 
-#: tasker/models.py:116
+#: tasker/models.py:131
 msgid "requires"
 msgstr "setzt voraus"
 
-#: tasker/models.py:116
+#: tasker/models.py:131
 msgid "Tasks which have to be done before this task can be started."
 msgstr ""
 "Aufgaben die erledigt werden müssen bevor mit dieser Aufgabe begonnen werden "
 "kann."
 
-#: tasker/models.py:119
+#: tasker/models.py:134
 #, python-brace-format
 msgid "{board}: {label}"
 msgstr "{board}: {label}"
 
-#: tasker/models.py:190
+#: tasker/models.py:205
 msgid "Task is already locked"
 msgstr "Aufgabe ist bereits gesperrt"
 
-#: tasker/models.py:201 tasker/models.py:206
+#: tasker/models.py:216 tasker/models.py:221
 #: tasker/templates/tasker/board_summary.html:25
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:202 tasker/templates/navbar/board.html:14
+#: tasker/models.py:217 tasker/templates/navbar/board.html:14
 #: tasker/templates/navbar/board.html:26
 msgid "Tasks"
 msgstr "Aufgaben"
 
-#: tasker/models.py:208
+#: tasker/models.py:223
 msgid "start"
 msgstr "Anfang"
 
-#: tasker/models.py:209
+#: tasker/models.py:224
 msgid "end"
 msgstr "Ende"
 
-#: tasker/models.py:210
+#: tasker/models.py:225
 msgid "successfully"
 msgstr "erfolgreich"
 
-#: tasker/models.py:217
+#: tasker/models.py:235
 #, python-brace-format
 msgid "{task} ({editor})"
 msgstr "{task} ({editor})"
 
-#: tasker/models.py:221
+#: tasker/models.py:239
 msgid "Handling"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:222
+#: tasker/models.py:240
 msgid "Handlings"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:232 tasker/models.py:242
+#: tasker/models.py:250 tasker/models.py:260
 msgid "Notes"
 msgstr "Notizen"
 
-#: tasker/models.py:233
+#: tasker/models.py:251
 msgid "posted"
 msgstr "geschrieben"
 
-#: tasker/models.py:236
+#: tasker/models.py:254
 msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
 msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
 
-#: tasker/models.py:241
+#: tasker/models.py:259
 msgid "Note"
 msgstr "Notiz"
 
-#: tasker/models.py:246
+#: tasker/models.py:264
 msgid "text"
 msgstr "Text"
 
-#: tasker/models.py:249 tasker/templates/task/base.html:78
+#: tasker/models.py:267 tasker/templates/task/base.html:78
 msgid "Comment"
 msgstr "Kommentar"
 
-#: tasker/models.py:250
+#: tasker/models.py:268
 msgid "Comments"
 msgstr "Kommentare"
 
-#: tasker/models.py:254
+#: tasker/models.py:272
 msgid "file"
 msgstr "Datei"
 
-#: tasker/models.py:257
+#: tasker/models.py:275
 msgid "Attachment"
 msgstr "Anhang"
 
-#: tasker/models.py:258
+#: tasker/models.py:276
 msgid "Attachments"
 msgstr "Anhänge"
 
@@ -357,7 +357,7 @@ msgstr "Vor %(time_ago)s für %(duration)s"
 #: tasker/templates/task/board_admin.html:9
 #: tasker/templates/tasker/board_admin.html:34
 #: tasker/templates/tasker/board_summary.html:43
-#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:177
+#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:182
 msgid "Done"
 msgstr "Erledigt"
 
@@ -371,7 +371,7 @@ msgid "%(handling_since)s ago"
 msgstr "Seit %(handling_since)s"
 
 #: tasker/templates/task/base.html:30 tasker/templates/tasker/task_list.html:16
-#: tasker/views/tasks.py:176
+#: tasker/views/tasks.py:181
 msgid "Active"
 msgstr "In Bearbeitung"
 
@@ -437,7 +437,7 @@ msgstr "Noch %(reserved_until)s gesperrt für %(reserved_by)s"
 #: tasker/templates/task/board_admin.html:8
 #: tasker/templates/tasker/board_admin.html:33
 #: tasker/templates/tasker/board_summary.html:54
-#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:178
+#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:183
 msgid "Blocked"
 msgstr "Blockiert"
 
@@ -675,7 +675,7 @@ msgstr ""
 msgid "Create and return to this form"
 msgstr "Anlegen und zu diesem Formular zurückkehren"
 
-#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:175
+#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:180
 msgid "Locked"
 msgstr "Gesperrt"
 
@@ -752,7 +752,7 @@ msgstr "{} Sekunden"
 msgid "Duration must be positive"
 msgstr "Die Dauer darf nicht kleiner als Null sein"
 
-#: tasker/views/tasks.py:248
+#: tasker/views/tasks.py:255
 msgid "Mine"
 msgstr "Meine"
 

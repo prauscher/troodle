@@ -12,8 +12,10 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     var serviceWorker = navigator.serviceWorker.register("{% static "tasker/service-worker.js" %}");
 
     function _storeSubscription(pushSubscription) {
-        $.post('{% url "webpush_register" %}', {
-            subscription: JSON.stringify(pushSubscription),
+        return new Promise(function (resolve, reject) {
+            $.post('{% url "webpush_register" %}', {
+                subscription: JSON.stringify(pushSubscription),
+            }, function () { resolve(); });
         });
     }
 
@@ -27,21 +29,28 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     })
 
     function requestPush() {
-        serviceWorker.then(function (registration) {
-            const subscribeOptions = {
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array('{{ push_pubkey }}'),
-            };
-            return registration.pushManager.subscribe(subscribeOptions);
-        }).then(function (pushSubscription) {
-            _storeSubscription(pushSubscription);
-        }).catch(function (error) {
-            console.error(error);
+        return new Promise(function (resolve, reject) {
+            serviceWorker.then(function (registration) {
+                const subscribeOptions = {
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array('{{ push_pubkey }}'),
+                };
+                return registration.pushManager.subscribe(subscribeOptions);
+            }).then(function (pushSubscription) {
+                _storeSubscription(pushSubscription).then(function () {
+                    resolve();
+                });
+            }).catch(function (error) {
+                console.error(error);
+                resolve();
+            });
         });
     }
 } else {
     function requestPush() {
-        return false;
+        return Promise(function (resolve, reject) {
+            resolve();
+        });
     }
 }
 

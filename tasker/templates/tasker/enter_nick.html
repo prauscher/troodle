@@ -10,7 +10,7 @@
 {% block content %}
  <p>{% blocktrans %}Welcome to Troodle. Troodle allows you to get tasks done as a team. It will randomly pick a task to work on and if you agree, it will protect the task from others colliding with your work.{% endblocktrans %}</p>
  <p>{% blocktrans %}To identify you, Troodle uses the concept of Nicknames. Pick one which identifies you unambiguously in the team you are working on:{% endblocktrans %}</p>
- <form method="post">{% csrf_token %}
+ <form method="post" id="nick_form">{% csrf_token %}
   {{ form|crispy }}
   <input type="submit" class="btn btn-success" value="{% trans "Enter" %}">
  </form>
@@ -18,6 +18,17 @@
 
 {% block script %}
 <script type="text/javascript">
-$(function () {requestPush();});
+
+$("#nick_form").submit(function (e, options) {
+    options = options || {};
+
+    if (!options.asked) {
+        e.preventDefault();
+        requestPush().then(function (e) {
+            $("#nick_form").trigger('submit', {'asked': true});
+        });
+    }
+});
+
 </script>
 {% endblock %}

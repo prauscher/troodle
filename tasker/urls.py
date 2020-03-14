@@ -1,5 +1,7 @@
 from django.urls import path
+from django.conf import settings
 from django.views.generic import TemplateView
+from django.views.i18n import JavaScriptCatalog
 
 from .views import nick, board, tasks, handlings, attachments
 
@@ -8,8 +10,8 @@ urlpatterns = [
     path('meta/learn-more', TemplateView.as_view(template_name='meta/learn-more.html'), name='learn_more'),
     path('meta/imprint', TemplateView.as_view(template_name='meta/imprint.html'), name='imprint'),
 
-    path('nick/enter', nick.EnterNickView.as_view(), name='enter_nick'),
-    path('nick/reset', nick.reset_nick, name='reset_nick'),
+    path('board/<slug:board_slug>/enter_nick', nick.EnterNickView.as_view(), name='enter_nick'),
+    path('board/<slug:board_slug>/reset_nick', nick.ResetNickView.as_view(), name='reset_nick'),
 
     path('create_board/', board.CreateBoardView.as_view(), name='create_board'),
 
@@ -30,12 +32,17 @@ urlpatterns = [
     path('board/<slug:board_slug>/request_link', board.BoardSendAdminLinkView.as_view(), name='request_board_link'),
 
     path('board/<slug:board_slug>/task/<int:task_id>', tasks.TaskView.as_view(), name='show_task'),
-    path('board/<slug:board_slug>/task/<int:task_id>/start', handlings.start_task, name='create_handling'),
-    path('board/<slug:board_slug>/task/<int:task_id>/comment', handlings.comment_task, name='comment_task'),
-    path('board/<slug:board_slug>/task/<int:task_id>/abort', handlings.abort_task, name='abort_handling'),
-    path('board/<slug:board_slug>/task/<int:task_id>/complete', handlings.complete_task, name='complete_handling'),
-    path('board/<slug:board_slug>/task/<int:task_id>/lock', tasks.lock_task, name='lock_task'),
-    path('board/<slug:board_slug>/task/<int:task_id>/unlock', tasks.unlock_task, name='unlock_task'),
-    path('board/<slug:board_slug>/task/<int:task_id>/attachment/<int:attachment_id>/preview', attachments.preview, name='preview_attachment'),
-    path('board/<slug:board_slug>/task/<int:task_id>/attachment/<int:attachment_id>/fetch', attachments.fetch, name='fetch_attachment'),
+    path('board/<slug:board_slug>/task/<int:task_id>/start', handlings.StartTaskView.as_view(), name='create_handling'),
+    path('board/<slug:board_slug>/task/<int:task_id>/comment', handlings.CommentTaskView.as_view(), name='comment_task'),
+    path('board/<slug:board_slug>/task/<int:task_id>/abort', handlings.AbortTaskView.as_view(), name='abort_handling'),
+    path('board/<slug:board_slug>/task/<int:task_id>/complete', handlings.CompleteTaskView.as_view(), name='complete_handling'),
+    path('board/<slug:board_slug>/task/<int:task_id>/lock', tasks.LockTaskView.as_view(), name='lock_task'),
+    path('board/<slug:board_slug>/task/<int:task_id>/unlock', tasks.UnlockTaskView.as_view(), name='unlock_task'),
+    path('board/<slug:board_slug>/task/<int:task_id>/attachment/<int:attachment_id>/preview', attachments.PreviewView.as_view(), name='preview_attachment'),
+    path('board/<slug:board_slug>/task/<int:task_id>/attachment/<int:attachment_id>/fetch', attachments.FetchView.as_view(), name='fetch_attachment'),
+
+    path('app.js', TemplateView.as_view(template_name='tasker/app.js', content_type='text/javascript', extra_context={'push_pubkey': settings.WEB_PUSH_KEYS[0]}), name='jsapp'),
+    path('register_webpush', nick.StoreWebPushView.as_view(), name='webpush_register'),
+    # TODO add caching
+    path('jsi18n.js', JavaScriptCatalog.as_view(), name='jsi18n'),
 ]

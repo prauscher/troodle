@@ -1,5 +1,6 @@
-from django.http import Http404, FileResponse
+from django.http import Http404
 
+from . import FileView
 from .. import decorators
 from .. import models
 
@@ -15,23 +16,21 @@ except ImportError:
     def get_preview_path(orig_path):
         return orig_path
 
-@decorators.require_name
-@decorators.board_view
-@decorators.task_view
-def preview(request, task, nick, attachment_id):
-    attachment = models.Attachment.objects.get(pk=attachment_id)
-    if attachment.handling.task.id != task.id:
-        raise Http404
 
-    return FileResponse(open(get_preview_path(attachment.file.path), 'rb'))
+class BaseView(FileView):
+    def get_file_name(self, *args, **kwargs):
+        attachment = models.Attachment.objects.get(pk=self.kwargs['attachment_id'])
+        if attachment.handling.task.id != self.kwargs['task'].id:
+            raise Http404
+        return attachment.file.path
 
 
-@decorators.require_name
-@decorators.board_view
-@decorators.task_view
-def fetch(request, task, nick, attachment_id):
-    attachment = models.Attachment.objects.get(pk=attachment_id)
-    if attachment.handling.task.id != task.id:
-        raise Http404
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view])
+class PreviewView(BaseView):
+    def get_file_name(self, *args, **kwargs):
+        return get_preview_path(super().get_file_name(*args, **kwargs))
 
-    return FileResponse(open(attachment.file.path, 'rb'))
+
+@decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view])
+class FetchView(BaseView):
+    pass

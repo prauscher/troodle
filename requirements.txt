@@ -5,3 +5,4 @@ django-bootstrap-pagination
 django-crispy-forms
 django-qr-code
 preview-generator
+pywebpush

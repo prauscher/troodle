@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.http import Http404
 
-from . import models
+from . import models, auth
 
 
 def class_decorator(decorators):
@@ -33,15 +33,18 @@ def _add_latest_board(request, board):
     request.session['last_boards'] = [board_item] + [item for item in request.session['last_boards'][0:4] if item != board_item]
 
 
+# Must be used with board_view, but before task_view
 def require_name(func):
-    def wrapper(request, *args, **kwargs):
+    def wrapper(request, board, *args, **kwargs):
         if 'nick' in request.GET:
-            request.session['nick'] = request.GET['nick']
+            auth.login(request, board, request.GET['nick'])
 
-        if 'nick' not in request.session:
-            return redirect(reverse('enter_nick') + "?" + urlencode({'next': request.get_full_path()}))
+        try:
+            participant = auth.get_participant(request, board)
+        except auth.NotLoggedInException:
+            return redirect(reverse('enter_nick', kwargs={'board_slug': board.slug}) + "?" + urlencode({'next': request.get_full_path()}))
 
-        return func(request, nick=request.session['nick'], *args, **kwargs)
+        return func(request, participant=participant, board=board, *args, **kwargs)
 
     return wrapper
 
@@ -91,14 +94,14 @@ def task_view(func):
 # must be used with task_view and require_name
 def require_action(action, redirect_target=None):
     def decorator(func):
-        def wrapper(request, *args, task, nick, **kwargs):
-            if not task.action_allowed(action, nick):
+        def wrapper(request, *args, task, participant, **kwargs):
+            if not task.action_allowed(action, participant):
                 if redirect_target:
                     return redirect(reverse(redirect_target, kwargs={'board_slug': task.board.slug, 'task_id': task.id}) + "?" + urlencode({'next': request.get_full_path()}))
 
                 raise Http404
 
-            return func(request, task=task, nick=nick, *args, **kwargs)
+            return func(request, task=task, participant=participant, *args, **kwargs)
 
         return wrapper
 

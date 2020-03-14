@@ -1,4 +1,3 @@
-from datetime import datetime
 import string
 import random
 
@@ -10,6 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
 
 from .tasks import TaskListBase
+from .. import auth
 from .. import utils
 from .. import models
 from .. import decorators
@@ -36,7 +36,7 @@ class CreateBoardView(CreateView):
 
 
 @decorators.class_decorator(decorators.board_view)
-class BoardSendAdminLinkView(TemplateView):
+class BoardSendAdminLinkView(auth.AuthBoardMixin, TemplateView):
     template_name = 'tasker/board_adminlinksent.html'
 
     def get_context_data(self, **kwargs):
@@ -67,7 +67,7 @@ class BoardAdminView(TaskListBase):
 
 
 @decorators.class_decorator(decorators.board_view)
-class BoardSummaryView(TemplateView):
+class BoardSummaryView(auth.AuthBoardMixin, TemplateView):
     template_name = 'tasker/board_summary.html'
 
     def get_context_data(self, **kwargs):
@@ -95,7 +95,7 @@ class BoardSummaryView(TemplateView):
         return context
 
 
-class BoardBaseView(DetailView):
+class BoardBaseView(auth.AuthBoardMixin, DetailView):
     model = models.Board
     lock_random_task = True
 
@@ -113,10 +113,10 @@ class BoardBaseView(DetailView):
     def find_random_task(self):
         filters = self.get_filters()
 
-        for filter in filters:
-            if filter:
-                nr = random.randint(0, filter.count() - 1)
-                return filter[nr]
+        for search_filter in filters:
+            if search_filter:
+                nr = random.randint(0, search_filter.count() - 1)
+                return search_filter[nr]
 
         return None
 
@@ -126,15 +126,15 @@ class BoardBaseView(DetailView):
         return context
 
 
-@decorators.class_decorator([decorators.require_name, decorators.board_view])
+@decorators.class_decorator([decorators.board_view, decorators.require_name])
 class BoardView(BoardBaseView):
     def get_filters(self):
         open_tasks = self.get_open_tasks()
 
         q_reserved = Q(reserved_until__gte=now())
-        q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['nick'])
+        q_reserved_by_me = Q(reserved_until__gte=now(), reserved_by=self.kwargs['participant'])
         q_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True)
-        q_my_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True, handlings__editor=self.kwargs['nick'])
+        q_my_current_handling = Q(handlings__isnull=False, handlings__end__isnull=True, handlings__editor=self.kwargs['participant'])
 
         return [
             # my open tasks
@@ -149,11 +149,9 @@ class BoardView(BoardBaseView):
         # TODO transaction
         context = super().get_context_data(**kwargs)
         if context['random_task']:
-            if self.lock_random_task and not context['random_task'].is_locked_for(self.kwargs['nick']):
-                assert context['random_task'].action_allowed('lock', self.kwargs['nick']), "Tried to lock task but locking is not allowed for this nick"
-                context['random_task'].lock(self.kwargs['nick'])
-
-            context['random_task'].fill_nick(self.kwargs['nick'])
+            if self.lock_random_task and not context['random_task'].is_locked_for(self.kwargs['participant']):
+                assert context['random_task'].action_allowed('lock', self.kwargs['participant']), "Tried to lock task but locking is not allowed for this nick"
+                context['random_task'].lock(self.kwargs['participant'])
 
         return context
 
@@ -182,7 +180,7 @@ class BoardMonitorView(BoardBaseView):
 
 
 @decorators.class_decorator(decorators.board_admin_view)
-class EditBoardView(UpdateView):
+class EditBoardView(auth.AuthBoardMixin, UpdateView):
     model = models.Board
     fields = ['label']
 
@@ -194,7 +192,7 @@ class EditBoardView(UpdateView):
 
 
 @decorators.class_decorator(decorators.board_admin_view)
-class DeleteBoardView(DeleteView):
+class DeleteBoardView(auth.AuthBoardMixin, DeleteView):
     model = models.Board
     success_url = reverse_lazy('start')
 

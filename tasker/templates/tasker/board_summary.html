@@ -31,7 +31,7 @@
      {% for task, handling in tasks_done_simple %}
       <tr>
        <td><a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label | escape }}</a></td>
-       <td class="text-nowrap">{% if handling %}{{ handling.editor | escape }}{% else %}{% trans "(none)" %}{% endif %}</td>
+       <td class="text-nowrap">{% if handling %}{{ handling.editor.nick | escape }}{% else %}{% trans "(none)" %}{% endif %}</td>
        <td class="text-nowrap text-right">{{ task.get_total_duration | timedelta }}</td>
       </tr>
      {% endfor %}
@@ -54,10 +54,10 @@
       <span class="badge badge-warning">{% trans "Blocked" %}</span>
      {% endif %}
      {% if task.is_locked %}
-      <span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>
+      <span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by.nick|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>
      {% endif %}
      {% for handling in handlings %}
-      <span class="badge badge-primary">{% blocktrans with editor=handling.editor|escape since=handling.start|timesince %}Active by {{ editor }} since {{ since }}{% endblocktrans %}</span>
+      <span class="badge badge-primary">{% blocktrans with editor=handling.editor.nick|escape since=handling.start|timesince %}Active by {{ editor }} since {{ since }}{% endblocktrans %}</span>
      {% endfor %}
     </li>
    {% endfor %}

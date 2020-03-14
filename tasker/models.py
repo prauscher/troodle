@@ -1,6 +1,9 @@
 from datetime import timedelta
+import json
+from pywebpush import webpush
 
 from django.db import models
+from django.conf import settings
 from django.urls import reverse
 from django.core.signing import Signer
 from django.core.mail import EmailMessage
@@ -77,6 +80,30 @@ class Board(models.Model):
         verbose_name_plural = _('Boards')
 
 
+class Participant(models.Model):
+    board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='participants', verbose_name=_('Board'))
+    nick = models.CharField(_('Nick'), max_length=50)
+    subscription_info = models.TextField(blank=True, null=True)
+
+    def send_push(self, data):
+        if self.subscription_info:
+            webpush(
+                json.loads(self.subscription_info),
+                json.dumps(data),
+                vapid_private_key=settings.WEB_PUSH_KEYS[1],
+                vapid_claims={'sub': settings.WEB_PUSH_KEYS[2]})
+
+    def __str__(self):
+        return "{} ({})".format(self.nick, self.board)
+
+    class Meta:
+        verbose_name = _('Participant')
+        verbose_name_plural = _('Participants')
+        constraints = [
+            models.UniqueConstraint(fields=['board', 'nick'], name='unique_nick'),
+        ]
+
+
 class Task(models.Model):
     OPEN = 'o'
     LOCKED = 'l'
@@ -98,7 +125,7 @@ class Task(models.Model):
     board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks', verbose_name=_('Board'))
     description = models.TextField(_('description'))
     done = models.BooleanField(_('done'), default=False)
-    reserved_by = models.CharField(_('reserved by'), max_length=30, blank=True, null=True)
+    reserved_by = models.ForeignKey('Participant', on_delete=models.SET_NULL, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
     requires = models.ManyToManyField('self', symmetrical=False, related_name='required_by', verbose_name=_('requires'), blank=True, help_text=_("Tasks which have to be done before this task can be started."))
@@ -109,40 +136,32 @@ class Task(models.Model):
     def get_frontend_url(self):
         return reverse('show_task', kwargs={'board_slug': self.board.slug, 'task_id': self.id})
 
-    def get_nick_status(self, nick):
+    def action_allowed(self, action, participant):
+        return action in self.get_allowed_actions(participant)
+
+    def get_allowed_actions(self, participant):
+        participant_status = self.get_participant_status(participant)
+        return [action for action, states in Task.ACTIONS.items() if participant_status in states]
+
+    def get_participant_status(self, participant):
         try:
-            self.get_current_handling(nick)
+            self.get_current_handling(participant)
             return Task.PROCESSING
         except Handling.DoesNotExist:
-            if self.done:
+            if self.is_done():
                 return Task.DONE
             if self.is_blocked():
                 return Task.BLOCKED
-            if self.is_locked_for(nick):
+            if self.is_locked_for(participant):
                 return Task.RESERVED
             if self.is_unlocked():
                 return Task.OPEN
             return Task.LOCKED
 
-    def fill_nick(self, nick):
-        self.nick_status = self.get_nick_status(nick)
-        self.allowed_actions = [action for action, status in self.ACTIONS.items() if self.nick_status in status]
-
-    def action_allowed(self, action, nick=None):
-        if nick is None:
-            if not self.nick_status:
-                raise ValueError
-
-            nick_status = self.nick_status
-        else:
-            nick_status = self.get_nick_status(nick)
-
-        return nick_status in self.ACTIONS[action]
-
-    def get_current_handling(self, nick=None):
+    def get_current_handling(self, participant=None):
         query = self.handlings.filter(end__isnull=True)
-        if nick:
-            return query.get(editor=nick)
+        if participant:
+            return query.get(editor=participant)
         return query
 
     def get_total_duration(self):
@@ -154,8 +173,18 @@ class Task(models.Model):
     def get_blocking_tasks(self):
         return self.requires.filter(done=False)
 
+    def is_done(self):
+        return self.done
+
     def is_blocked(self):
         return self.get_blocking_tasks().count() > 0
+
+    def is_processing(self, participant):
+        try:
+            self.get_current_handling(participant)
+            return True
+        except Handling.DoesNotExist:
+            return False
 
     def is_locked(self):
         return not self.is_unlocked()
@@ -163,22 +192,22 @@ class Task(models.Model):
     def is_unlocked(self):
         return now() > self.reserved_until
 
-    def is_locked_for(self, nick):
-        return self.reserved_by == nick and self.is_locked()
+    def is_locked_for(self, participant):
+        return self.reserved_by == participant and self.is_locked()
 
     def unlock(self):
         self.reserved_until = now()
         self.save()
 
-    def lock(self, nick, duration=None):
+    def lock(self, participant, duration=None):
         # TODO refresh value, add transaction
-        if self.is_locked() and not self.is_locked_for(nick):
+        if self.is_locked() and not self.is_locked_for(participant):
             raise ValueError(_('Task is already locked'))
 
         if duration is None:
             duration = timedelta(seconds=30)
 
-        self.reserved_by = nick
+        self.reserved_by = participant
         self.reserved_until = now() + duration
         self.save()
 
@@ -190,7 +219,7 @@ class Task(models.Model):
 
 class Handling(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='handlings', verbose_name=_('Task'))
-    editor = models.CharField(_('editor'), max_length=30)
+    editor = models.ForeignKey('Participant', on_delete=models.CASCADE)
     start = models.DateTimeField(_('start'), default=now)
     end = models.DateTimeField(_('end'), blank=True, null=True)
     success = models.BooleanField(_('successfully'), blank=True, null=True)

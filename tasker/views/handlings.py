@@ -68,6 +68,10 @@ class StopTaskBaseView(TaskActionBaseView):
             "board_label": self.kwargs['task'].board.label,
         }, ignore_participant=self.kwargs['participant'])
 
+    def get_default_url(self):
+        # redirect to board frontend, as this task is done now
+        return self.kwargs['task'].board.get_frontend_url()
+
 
 @decorators.class_decorator([decorators.board_view, decorators.require_name, decorators.task_view, decorators.require_action('stop')])
 class AbortTaskView(StopTaskBaseView):

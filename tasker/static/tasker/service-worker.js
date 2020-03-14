@@ -66,7 +66,7 @@ self.addEventListener('notificationclick', function (event) {
                 }
             }
 
-            if (matchingClient):
+            if (matchingClient) {
                 return matchingClient.focus();
             } else {
                 return clients.openWindow(urlToOpen);

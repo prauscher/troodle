@@ -74,6 +74,10 @@ self.addEventListener('push', function (event) {
 });
 
 self.addEventListener('notificationclick', function (event) {
+    if (event.notification.data.type === "ping") {
+        event.notification.close();
+    }
+
     if (["handling_started_by_other", "handling_completed_by_other", "handling_aborted_by_other", "comment_posted_by_other"].includes(event.notification.data.type)) {
         event.notification.close();
         event.waitUntil(open_url(new URL(event.notification.data.task_path, self.location.origin).href));

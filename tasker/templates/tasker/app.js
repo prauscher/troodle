@@ -9,7 +9,7 @@ if (!("PushManager" in window)) {
 }
 
 if ("serviceWorker" in navigator && "PushManager" in window) {
-    var serviceWorker = navigator.serviceWorker.register("{% url 'jssw' %}");
+    navigator.serviceWorker.register("{% url 'jssw' %}");
 
     function _storeSubscription(pushSubscription) {
         return new Promise(function (resolve, reject) {
@@ -19,7 +19,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
         });
     }
 
-    serviceWorker.then(function (registration) {
+    navigator.serviceWorker.ready.then(function (registration) {
         registration.pushManager.getSubscription().then(function (pushSubscription) {
             isSubscribed = !(pushSubscription === null);
             if (isSubscribed && Math.random() < 0.1) {
@@ -29,7 +29,7 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     })
 
     function requestPush() {
-        return serviceWorker.then(function (registration) {
+        return navigator.serviceWorker.ready.then(function (registration) {
             const subscribeOptions = {
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array('{{ push_pubkey }}'),

@@ -10,4 +10,6 @@
 * "roles" (task x requires special role, designated during nick selection)
 * allow for tasks with multiple people
 * detect missing subscription_info in app.js
-* 
+* repeating tasks
+* notifications on start / finish of tasks
+* pause task

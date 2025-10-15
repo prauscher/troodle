@@ -28,12 +28,9 @@ class TaskForm(forms.ModelForm):
             self.fields['requires'].queryset = self.fields['requires'].queryset.exclude(pk=instance.pk)
 
 
-class QuickDoneForm(forms.ModelForm):
+class QuickDoneForm:
+    editor = forms.CharField(label=_('Nickname'), min_length=3, max_length=30)
     duration = forms.DurationField(label=_('Duration'))
-
-    class Meta:
-        model = models.Handling
-        fields = ['editor']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -118,6 +115,10 @@ class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
         form.instance.task = self.kwargs['task']
         form.instance.end = now()
         form.instance.start = form.instance.end - form.cleaned_data['duration']
+        form.instance.editor, _ = models.Participant.objects.get_or_create(
+            nick=form.cleaned_data['editor'],
+            board=form.instance.task.board,
+        )
         form.instance.success = True
         form.save()
 

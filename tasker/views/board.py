@@ -52,11 +52,12 @@ class BoardSendAdminLinkView(auth.AuthBoardMixin, TemplateView):
         try:
             self.kwargs['board'].admin_id = "{}:{}".format(self.kwargs['board'].id, new_auth_token)
             self.kwargs['board'].send_admin_mail(self.request)
-            self.kwargs['board'].save()
         except ValueError as e:
             # restore admin_id to make links in navbar work
             self.kwargs['board'].admin_id = old_admin_id
             context['error'] = e.args[0]
+        finally:
+            self.kwargs['board'].save()
 
         return context
 

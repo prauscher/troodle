@@ -115,7 +115,7 @@ class BoardBaseView(auth.AuthBoardMixin, DetailView):
         filters = self.get_filters()
 
         for search_filter in filters:
-            result = list(search_filter.order_by('?')[:1])
+            result = list(search_filter.order_by('-priority', '?')[:1])
             if result:
                 return result[0]
 

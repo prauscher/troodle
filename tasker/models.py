@@ -237,7 +237,7 @@ class Task(models.Model):
             participant.send_push(data)
 
     class Meta:
-        ordering = ['board']
+        ordering = ['board', '-priority']
         verbose_name = _('Task')
         verbose_name_plural = _('Tasks')
 

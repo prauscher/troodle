@@ -186,7 +186,7 @@ class TaskView(auth.AuthBoardMixin, DetailView):
 
 class TaskListBase(auth.AuthBoardMixin, ListView):
     paginate_by = 20
-    search_fields = ['label', 'description', 'handlings__editor', 'handlings__tasker_comments__text']
+    search_fields = ['label', 'description', 'handlings__editor__nick', 'handlings__tasker_comments__text']
 
     def get_filters(self):
         return {

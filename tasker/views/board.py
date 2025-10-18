@@ -117,7 +117,7 @@ class BoardBaseView(auth.AuthBoardMixin, DetailView):
         for search_filter in filters:
             result = list(search_filter.order_by('?')[:1])
             if result:
-                return result
+                return result[0]
 
         return None
 

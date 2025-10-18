@@ -112,20 +112,24 @@ class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
     template_name = 'tasker/task_quickdone.html'
 
     def form_valid(self, form):
-        form.instance.task = self.kwargs['task']
-        form.instance.end = now()
-        form.instance.start = form.instance.end - form.cleaned_data['duration']
-        form.instance.editor, _ = models.Participant.objects.get_or_create(
+        editor = models.Participant.objects.get_or_create(
             nick=form.cleaned_data['editor'],
             board=form.instance.task.board,
         )
-        form.instance.success = True
-        form.save()
+        end = now()
 
-        form.instance.task.done = True
-        form.instance.task.save()
+        models.Handling.objects.create(
+            task=self.kwargs['task'],
+            editor=editor,
+            start=end - form.cleaned_data['duration'],
+            end=end,
+            success=True,
+        )
 
-        for open_handling in form.instance.handlings.filter(end__isnull=True):
+        self.kwargs['task'].done = True
+        self.kwargs['task'].save()
+
+        for open_handling in self.kwargs['task'].handlings.filter(end__isnull=True):
             open_handling.end = now()
             open_handling.success = False
             open_handling.save()

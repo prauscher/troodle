@@ -132,6 +132,7 @@ class Task(models.Model):
     done = models.BooleanField(_('done'), default=False)
     hide_until = models.DateTimeField(_('hide until'), blank=True, null=True)
     repeat_after = models.DurationField(_('repeat after'), blank=True, null=True, help_text=_('Never fully close this task, but automatically make it re-appear once the given duration passed after closing it.'))
+    priority = models.IntegerField(_('priority'), default=100, help_text=_('Priority of this task: Tasks with higher priority will be shown before those with lower priority.'))
     reserved_by = models.ForeignKey('Participant', on_delete=models.SET_NULL, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)

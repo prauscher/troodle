@@ -19,7 +19,7 @@ from .. import utils
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ['label', 'description', 'requires', 'repeat_after']
+        fields = ['label', 'description', 'requires', 'priority', 'repeat_after']
 
     def __init__(self, *args, board, instance, **kwargs):
         super().__init__(*args, instance=instance, **kwargs)

@@ -18,7 +18,7 @@
   {% if object_list %}
    <div class="row" data-masonry='{"percentPosition": true}'>
     {% for object in object_list %}
-     <div class="col-sm-6 col-md-4 mb-4">
+     <div class="col-sm-12 col-lg-6 col-xl-4 mb-4">
      {% include 'task/board_admin.html' with task=object %}
      </div>
     {% endfor %}

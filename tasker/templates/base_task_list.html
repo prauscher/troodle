@@ -22,9 +22,7 @@
     {% form_parameter !search !page %}
     <div class="input-group mb-2">
      <input class="form-control" type="search" name="search" value="{{ search_term | escape }}" placeholder="{% trans "Search" %}" aria-label="{% trans "Search" %}">
-     <div class="input-group-append">
-      <button class="btn btn-primary" type="submit">{% trans "Search" %}</button>
-     </div>
+     <button class="btn btn-primary" type="submit">{% trans "Search" %}</button>
     </div>
    </form>
   </div>
@@ -56,9 +54,5 @@
  </table>
  {% endblock %}
 
- <div class="row">
-  <div class="mx-auto">
-   {% if is_paginated %}{% bootstrap_pagination page_obj %}{% endif %}
-  </div>
- </div>
+ {% if is_paginated %}{% bootstrap_pagination page_obj justify_content=center %}{% endif %}
 {% endblock %}

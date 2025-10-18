@@ -13,3 +13,5 @@
 * detect missing subscription_info in app.js
 * notifications on start / finish of tasks
 * pause task
+* images / formating in task description => markdown?
+* leaderbord per board

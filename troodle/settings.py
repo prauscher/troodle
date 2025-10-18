@@ -29,9 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'qr_code',
-    'bootstrap4',
+    'django_bootstrap5',
     'crispy_forms',
-    'bootstrap_pagination',
+    'crispy_bootstrap5',
     'background_task',
     'tasker',
 ]
@@ -65,20 +65,7 @@ TEMPLATES = [
     },
 ]
 
-BOOTSTRAP4 = {
-    'css_url': {
-        'href': 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
-        'integrity': 'sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T',
-        'crossorigin': 'anonymous',
-    },
-    'javascript_url': {
-        'url': 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
-        'integrity': 'sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM',
-        'crossorigin': 'anonymous',
-    },
-}
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 WSGI_APPLICATION = 'troodle.wsgi.application'
 
@@ -115,6 +102,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

@@ -16,9 +16,11 @@
   {{ block.super }}
  {% else %}
   {% if object_list %}
-   <div class="card-columns">
+   <div class="row" data-masonry='{"percentPosition": true}'>
     {% for object in object_list %}
+     <div class="col-sm-6 col-md-4 mb-4">
      {% include 'task/board_admin.html' with task=object %}
+     </div>
     {% endfor %}
    </div>
   {% else %}
@@ -29,15 +31,16 @@
 
 {% block task_label %}
  {{ block.super }}
- {% if object.is_locked %}<span class="badge badge-warning">{% blocktrans with reserved_by=object.reserved_by.nick|escape reserved_until=object.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
- {% if object.is_blocked %}<span class="badge badge-warning">{% trans "Blocked" %}</span>{% endif %}
- {% if object.done %}<span class="badge badge-success">{% trans "Done" %}</span>{% endif %}
+ {% if object.is_locked %}<span class="badge bg-warning">{% blocktrans with reserved_by=object.reserved_by.nick|escape reserved_until=object.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
+ {% if object.is_blocked %}<span class="badge bg-warning">{% trans "Blocked" %}</span>{% endif %}
+ {% if object.is_done %}<span class="badge bg-success">{% trans "Done" %}</span>{% endif %}
+ {% if object.is_repeating %}<span class="badge bg-secondary">{% trans "Repeating" %}</span>{% endif %}
 {% endblock %}
 
 {% block task_actions %}
  <span class="dropdown d-lg-none">
-  <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdown{{ object.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Actions" %}</button>
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown{{ object.pk }}">
+  <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdown{{ object.id }}" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Actions" %}</button>
+  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown{{ object.pk }}">
    <a class="dropdown-item" href="{% url 'show_task' object.board.slug object.id %}">{% trans "Show" %}</a>
    <a class="dropdown-item" href="{% url 'edit_task' object.board.generate_hash object.id %}">{% trans "Edit" %}</a>
    <a class="dropdown-item" href="{% url 'set_task_lock' object.board.generate_hash object.id %}">{% trans "Lock" %}</a>
@@ -59,7 +62,7 @@
 
 {% block list_footer %}
  <tr>
-  <td class="text-right">
+  <td class="text-end">
    <a href="{% url 'create_task' board.generate_hash %}" class="btn btn-success btn-sm">{% trans "Create new" %}</a>
   </td>
  </tr>

@@ -9,7 +9,7 @@
 {% block links %}
 {% if board.slug in request.session.admin_boards %}
 <li class="nav-item dropdown">
- <a class="nav-link dropdown-toggle {% if active in 'board_admin,create_task,edit_board,delete_board' %}active{% endif %}" href="#" id="adminBarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans "Admin" %}</a>
+ <a class="nav-link dropdown-toggle {% if active in 'board_admin,create_task,edit_board,delete_board' %}active{% endif %}" href="#" id="adminBarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Admin" %}</a>
  <div class="dropdown-menu" aria-labelledby="#adminBarDropdown">
   <a class="dropdown-item {% if active == 'board_admin' %}active{% endif %}" href="{% url 'board_admin' board.generate_hash %}">{% trans "Tasks" %}</a>
   <a class="dropdown-item {% if active == 'create_task' %}active{% endif %}" href="{% url 'create_task' board.generate_hash %}">{% trans "Create Task" %}</a>

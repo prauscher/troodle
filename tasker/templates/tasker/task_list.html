@@ -10,12 +10,13 @@
 {% block task_label %}
  <a href="{% url 'show_task' object.board.slug object.id %}">{{ object.label | escape }}</a>
  {% if object|task_status:participant == 'o' %}
- {% elif object|task_status:participant == 'l' %}<span class="badge badge-danger">{% trans "Locked" %}</span>
- {% elif object|task_status:participant == 'r' %}<span class="badge badge-warning">{% trans "Reserved" %}</span>
- {% elif object|task_status:participant == 'b' %}<span class="badge badge-warning">{% trans "Blocked" %}</span>
- {% elif object|task_status:participant == 'p' %}<span class="badge badge-primary">{% trans "Active" %}</span>
- {% elif object|task_status:participant == 'd' %}<span class="badge badge-success">{% trans "Done" %}</span>
+ {% elif object|task_status:participant == 'l' %}<span class="badge bg-danger">{% trans "Locked" %}</span>
+ {% elif object|task_status:participant == 'r' %}<span class="badge bg-warning">{% trans "Reserved" %}</span>
+ {% elif object|task_status:participant == 'b' %}<span class="badge bg-warning">{% trans "Blocked" %}</span>
+ {% elif object|task_status:participant == 'p' %}<span class="badge bg-primary">{% trans "Active" %}</span>
+ {% elif object|task_status:participant == 'd' %}<span class="badge bg-success">{% trans "Done" %}</span>
  {% endif %}
+ {% if object.is_repeating %}<span class="badge bg-secondary">{% trans "Repeating" %}</span>{% endif %}
 {% endblock %}
 
 {% block list_footer_filter_empty %}

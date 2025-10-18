@@ -10,9 +10,11 @@
 {% block content %}
  {% if tasks_done_complex %}
   <h5>{% trans "Done with comments" %}</h5>
-  <div class="card-columns">
+  <div class="row" data-masonry='{"percentPosition": true}'>
    {% for task in tasks_done_complex %}
+    <div class="col-sm-6 col-lg-4 mb-4">
     {% include "task/board_summary.html" with task=task %}
+    </div>
    {% endfor %}
   </div>
  {% endif %}
@@ -20,7 +22,7 @@
   <h5>{% trans "Done without comments" %}</h5>
   <div class="table-responsive">
    <table class="table table-striped">
-    <thead class="thead-dark">
+    <thead class="table-dark">
      <tr>
       <th scope="col" style="width:100%">{% trans "Task" %}</th>
       <th scope="col" class="text-nowrap">{% trans "Done by" %}</th>
@@ -32,7 +34,7 @@
       <tr>
        <td><a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label | escape }}</a></td>
        <td class="text-nowrap">{% if handling %}{{ handling.editor.nick | escape }}{% else %}{% trans "(none)" %}{% endif %}</td>
-       <td class="text-nowrap text-right">{{ task.get_total_duration | timedelta }}</td>
+       <td class="text-nowrap text-end">{{ task.get_total_duration | timedelta }}</td>
       </tr>
      {% endfor %}
     </tbody>
@@ -51,13 +53,13 @@
     <li class="list-group-item">
      <a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label | escape }}</a>
      {% if task.is_blocked %}
-      <span class="badge badge-warning">{% trans "Blocked" %}</span>
+      <span class="badge bg-warning">{% trans "Blocked" %}</span>
      {% endif %}
      {% if task.is_locked %}
-      <span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by.nick|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>
+      <span class="badge bg-warning">{% blocktrans with reserved_by=task.reserved_by.nick|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>
      {% endif %}
      {% for handling in handlings %}
-      <span class="badge badge-primary">{% blocktrans with editor=handling.editor.nick|escape since=handling.start|timesince %}Active by {{ editor }} since {{ since }}{% endblocktrans %}</span>
+      <span class="badge bg-primary">{% blocktrans with editor=handling.editor.nick|escape since=handling.start|timesince %}Active by {{ editor }} since {{ since }}{% endblocktrans %}</span>
      {% endfor %}
     </li>
    {% endfor %}

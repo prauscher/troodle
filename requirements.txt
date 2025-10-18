@@ -1,7 +1,7 @@
 django
 django-autoslug
-django-bootstrap4
-django-bootstrap-pagination
+django-bootstrap5
+crispy-bootstrap5
 django-crispy-forms
 django-qr-code
 django-background-tasks

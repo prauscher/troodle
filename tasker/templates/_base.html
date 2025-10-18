@@ -1,4 +1,4 @@
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 
 <!doctype html>
@@ -6,6 +6,7 @@
  <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {% bootstrap_css %}
+  <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
   <title>{% block title_head %}{% endblock %}</title>
  </head>
  <body>
@@ -26,7 +27,8 @@
    </small>
   </footer>
 
-  {% bootstrap_javascript jquery='full' %}
+  {% bootstrap_javascript %}
+  <script crossorigin="anonymous" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="{% url 'jsapp' %}"></script>
   {% block script %}{% endblock %}
  </body>

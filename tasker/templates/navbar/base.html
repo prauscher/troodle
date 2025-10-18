@@ -1,11 +1,9 @@
 {% load i18n %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
- <span class="navbar-brand">
-  <!-- <a href="{% url 'start' %}" class="navbar-brand"><span class="navbar-toggler-icon"></span></a> -->
-  {% block brand %}<a href="{% url 'start' %}" class="navbar-brand">Troodle</a>{% endblock %}
- </span>
- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+ <div class="container-fluid">
+ {% block brand %}<a href="{% url 'start' %}" class="navbar-brand">Troodle</a>{% endblock %}
+ <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
  <div class="collapse navbar-collapse" id="navbarCollapse">
   <ul class="navbar-nav">
    {% block links %}
@@ -14,11 +12,12 @@
     </li>
    {% endblock %}
   </ul>
-  <span class="navbar-text mr-auto"></span>
+  <span class="navbar-text me-auto"></span>
   {% if participant %}
   <span class="navbar-text">
    {{ participant.nick }} <a href="{% url 'reset_nick' participant.board.slug %}?next={{ request.get_full_path|urlencode }}" class="btn btn-outline-danger btn-sm">{% trans "Leave" %}</a>
   </span>
   {% endif %}
+ </div>
  </div>
 </nav>

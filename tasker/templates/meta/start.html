@@ -16,7 +16,7 @@
  <li class="list-group-item">
   <a href="{% url 'show_board' board_slug %}">{{ board_label | escape }}</a>
   {% if board_slug in request.session.admin_boards %}{% for board_slug2, board_hash in request.session.admin_boards.items %}{% if board_slug2 == board_slug %}
-   <a href="{% url 'board_admin' board_hash %}" class="badge badge-danger">{% trans "Admin" %}</a>
+   <a href="{% url 'board_admin' board_hash %}" class="badge bg-danger">{% trans "Admin" %}</a>
   {% endif %}{% endfor %}{% endif %}
  </li>
  {% endfor %}

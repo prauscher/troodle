@@ -4,9 +4,10 @@
 
 {% block task_label %}
  {{ block.super }}
- {% if task.is_locked %}<span class="badge badge-warning">{% blocktrans with reserved_by=task.reserved_by.nick|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
- {% if task.is_blocked %}<span class="badge badge-warning">{% trans "Blocked" %}</span>{% endif %}
- {% if task.done %}<span class="badge badge-success">{% trans "Done" %}</span>{% endif %}
+ {% if task.is_locked %}<span class="badge bg-warning">{% blocktrans with reserved_by=task.reserved_by.nick|escape reserved_until=task.reserved_until|timeuntil %}Locked by {{ reserved_by }} for {{ reserved_until }}{% endblocktrans %}</span>{% endif %}
+ {% if task.is_blocked %}<span class="badge bg-warning">{% trans "Blocked" %}</span>{% endif %}
+ {% if task.is_done %}<span class="badge bg-success">{% trans "Done" %}</span>{% endif %}
+ {% if task.is_repeating %}<span class="badge bg-secondary">{% trans "Repeating" %}</span>{% endif %}
 {% endblock %}
 
 {% block handlings %}{% endblock %}

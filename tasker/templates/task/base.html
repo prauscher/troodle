@@ -21,25 +21,27 @@
      <small>
       {% blocktrans with time_ago=handling.end|timesince duration=handling.get_duration|timedelta %}{{ time_ago }} ago for {{ duration }}{% endblocktrans %}
      </small>
-     {% if handling.success %}<span class="badge badge-success">{% trans "Done" %}</span>
-     {% else %}<span class="badge badge-danger">{% trans "Aborted" %}</span>
+     {% if handling.success %}<span class="badge bg-success">{% trans "Done" %}</span>
+     {% else %}<span class="badge bg-danger">{% trans "Aborted" %}</span>
      {% endif %}
     {% else %}
      <strong>{{ handling.editor.nick }}</strong>
      <small>{% blocktrans with handling_since=handling.start|timesince %}{{ handling_since }} ago{% endblocktrans %}</small>
-     <span class="badge badge-warning">{% trans "Active" %}</span>
+     <span class="badge bg-warning">{% trans "Active" %}</span>
     {% endif %}
     {% for comment in handling.tasker_comments.all %}
      <div class="alert alert-info">{{ comment.text | escape | linebreaksbr }}</div>
     {% endfor %}
     {% if handling.tasker_attachments %}
-     <div class="card-columns">
+     <div class="row row-cols-1 row-cols-md-3">
      {% for attachment in handling.tasker_attachments.all %}
+      <div class="col">
       <div class="card bg-dark text-white text-center">
        <img style="max-width:100%; max-height:200px; width:initial;" class="card-img" src="{% url 'preview_attachment' task.board.slug task.id attachment.id %}" />
        <div class="card-img-overlay">
         <a href="{% url 'fetch_attachment' task.board.slug task.id attachment.id %}" target="_blank" class="stretched-link"></a>
        </div>
+      </div>
       </div>
      {% endfor %}
      </div>
@@ -75,8 +77,8 @@
   {% endblock %}{% endif %}{% if 'lock' in task|allowed_actions:participant and not hide_lock_actions %}{% block lock_actions %}
    <a href="{% url 'lock_task' task.board.slug task.id %}" class="btn btn-warning">{% trans "Lock" %}</a>
   {% endblock %}{% endif %}{% if 'comment' in task|allowed_actions:participant %}{% block comment_actions %}
-   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">{% trans "Comment" %}</button>
-   <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseAttachment" aria-expanded="false" aria-controls="collapseAttachment">{% trans "Attach" %}</button>
+   <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">{% trans "Comment" %}</button>
+   <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAttachment" aria-expanded="false" aria-controls="collapseAttachment">{% trans "Attach" %}</button>
    <div class="collapse" id="collapseComment">
    <form action="{% url 'comment_task' task.board.slug task.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
     <div id="div_id_text" class="form-group">

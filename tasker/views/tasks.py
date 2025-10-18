@@ -19,7 +19,7 @@ from .. import utils
 class TaskForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ['label', 'description', 'requires']
+        fields = ['label', 'description', 'requires', 'repeat_after']
 
     def __init__(self, *args, board, instance, **kwargs):
         super().__init__(*args, instance=instance, **kwargs)
@@ -28,7 +28,7 @@ class TaskForm(forms.ModelForm):
             self.fields['requires'].queryset = self.fields['requires'].queryset.exclude(pk=instance.pk)
 
 
-class QuickDoneForm:
+class QuickDoneForm(forms.Form):
     editor = forms.CharField(label=_('Nickname'), min_length=3, max_length=30)
     duration = forms.DurationField(label=_('Duration'))
 
@@ -112,9 +112,9 @@ class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
     template_name = 'tasker/task_quickdone.html'
 
     def form_valid(self, form):
-        editor = models.Participant.objects.get_or_create(
+        editor, _ = models.Participant.objects.get_or_create(
             nick=form.cleaned_data['editor'],
-            board=form.instance.task.board,
+            board=self.kwargs['task'].board,
         )
         end = now()
 
@@ -126,8 +126,7 @@ class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
             success=True,
         )
 
-        self.kwargs['task'].done = True
-        self.kwargs['task'].save()
+        self.kwargs['task'].mark_done()
 
         for open_handling in self.kwargs['task'].handlings.filter(end__isnull=True):
             open_handling.end = now()
@@ -153,13 +152,15 @@ class ResetTaskView(auth.AuthBoardMixin, DeleteView):
     def get_object(self):
         return self.kwargs['task']
 
-    def delete(self, request, *args, **kwargs):
-        self.get_object().reserved_by = None
-        self.get_object().reserved_until = now()
-        self.get_object().done = False
-        self.get_object().save()
+    def form_valid(self, form):
+        object = self.get_object()
+        object.reserved_by = None
+        object.reserved_until = now()
+        object.done = False
+        object.hide_until = None
+        object.save()
 
-        for handling in self.get_object().handlings.all():
+        for handling in object.handlings.all():
             handling.delete()
 
         success_url = self.get_success_url()
@@ -185,8 +186,9 @@ class TaskListBase(auth.AuthBoardMixin, ListView):
         return {
             'locked': (_('Locked'), Q(reserved_until__gte=now())),
             'active': (_('Active'), Q(done=False, handlings__isnull=False, handlings__end__isnull=True)),
-            'done': (_('Done'), Q(done=True)),
-            'blocked': (_('Blocked'), Q(requires__done=False)),
+            'done': (_('Done'), Q(done=True) | Q(hide_until__gt=now())),
+            'blocked': (_('Blocked'), Q(requires__done=False) & ~Q(requires__hide_until__gt=now())),
+            'repeating': (_('Repeating'), Q(repeat_after__isnull=False)),
         }
 
     def dispatch(self, *args, **kwargs):

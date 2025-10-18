@@ -82,7 +82,7 @@ class BoardSummaryView(auth.AuthBoardMixin, TemplateView):
         tasks = self.kwargs['board'].tasks.all()
 
         for task in tasks:
-            if task.done:
+            if task.is_done():
                 handlings = task.handlings.all()
                 if len(handlings) == 0:
                     context['tasks_done_simple'].append((task, None))
@@ -105,8 +105,8 @@ class BoardBaseView(auth.AuthBoardMixin, DetailView):
 
     def get_open_tasks(self):
         return self.get_object().tasks \
-            .filter(done=False) \
-            .exclude(requires__done=False)
+            .filter(Q(done=False) & ~Q(hide_until__gt=now())) \
+            .exclude(Q(requires__done=False) & ~Q(requires__hide_until__gt=now()))
 
     def get_filters(self):
         raise NotImplementedError

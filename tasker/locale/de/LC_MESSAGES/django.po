@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 19:27+0000\n"
+"POT-Creation-Date: 2025-10-18 21:10+0000\n"
 "PO-Revision-Date: 2020-03-14 19:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: tasker/forms.py:6
+#: tasker/forms.py:7 tasker/views/tasks.py:32
 msgid "Nickname"
 msgstr "Nickname"
 
@@ -55,7 +55,7 @@ msgid "last time a mail to the admin was sent"
 msgstr ""
 "Letzter Zeitpunkt an dem eine Mail an den Administrator verschickt wurde"
 
-#: tasker/models.py:25 tasker/models.py:135
+#: tasker/models.py:25 tasker/models.py:137
 msgid "cloned from"
 msgstr "geklont von"
 
@@ -104,105 +104,122 @@ msgstr "Beschreibung"
 msgid "done"
 msgstr "erledigt"
 
+#: tasker/models.py:133
+msgid "hide until"
+msgstr "Erledigt bis"
+
 #: tasker/models.py:134
+msgid "repeat after"
+msgstr "Wiederhole alle"
+
+#: tasker/models.py:134
+msgid ""
+"Never fully close this task, but automatically make it re-appear once the "
+"given duration passed after closing it."
+msgstr ""
+"Wird hier eine Zeitspanne angegeben, wird die Aufgabe nur für diese "
+"Zeitspanne nach ihrem Abschluss als erledigt betrachtet. Anschließend "
+"erscheint sie erneut."
+
+#: tasker/models.py:136
 msgid "reserved until"
 msgstr "reserviert bis"
 
-#: tasker/models.py:136
+#: tasker/models.py:138
 msgid "requires"
 msgstr "setzt voraus"
 
-#: tasker/models.py:136
+#: tasker/models.py:138
 msgid "Tasks which have to be done before this task can be started."
 msgstr ""
 "Aufgaben die erledigt werden müssen bevor mit dieser Aufgabe begonnen werden "
 "kann."
 
-#: tasker/models.py:139
+#: tasker/models.py:141
 #, python-brace-format
 msgid "{board}: {label}"
 msgstr "{board}: {label}"
 
-#: tasker/models.py:210
+#: tasker/models.py:224
 msgid "Task is already locked"
 msgstr "Aufgabe ist bereits gesperrt"
 
-#: tasker/models.py:226 tasker/models.py:231
-#: tasker/templates/tasker/board_summary.html:25
+#: tasker/models.py:240 tasker/models.py:245
+#: tasker/templates/tasker/board_summary.html:27
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:227 tasker/templates/navbar/board.html:14
+#: tasker/models.py:241 tasker/templates/navbar/board.html:14
 #: tasker/templates/navbar/board.html:26
 msgid "Tasks"
 msgstr "Aufgaben"
 
-#: tasker/models.py:233
+#: tasker/models.py:247
 msgid "start"
 msgstr "Anfang"
 
-#: tasker/models.py:234
+#: tasker/models.py:248
 msgid "end"
 msgstr "Ende"
 
-#: tasker/models.py:235
+#: tasker/models.py:249
 msgid "successfully"
 msgstr "erfolgreich"
 
-#: tasker/models.py:242
+#: tasker/models.py:256
 #, python-brace-format
 msgid "{task} ({editor})"
 msgstr "{task} ({editor})"
 
-#: tasker/models.py:246
+#: tasker/models.py:260
 msgid "Handling"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:247
+#: tasker/models.py:261
 msgid "Handlings"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:257 tasker/models.py:267
+#: tasker/models.py:271 tasker/models.py:281
 msgid "Notes"
 msgstr "Notizen"
 
-#: tasker/models.py:258
+#: tasker/models.py:272
 msgid "posted"
 msgstr "geschrieben"
 
-#: tasker/models.py:261
+#: tasker/models.py:275
 msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
 msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
 
-#: tasker/models.py:266
+#: tasker/models.py:280
 msgid "Note"
 msgstr "Notiz"
 
-#: tasker/models.py:271
+#: tasker/models.py:285
 msgid "text"
 msgstr "Text"
 
-#: tasker/models.py:274 tasker/templates/task/base.html:78
+#: tasker/models.py:288 tasker/templates/task/base.html:80
 msgid "Comment"
 msgstr "Kommentar"
 
-#: tasker/models.py:275
+#: tasker/models.py:289
 msgid "Comments"
 msgstr "Kommentare"
 
-#: tasker/models.py:279
+#: tasker/models.py:293
 msgid "file"
 msgstr "Datei"
 
-#: tasker/models.py:282
+#: tasker/models.py:296
 msgid "Attachment"
 msgstr "Anhang"
 
-#: tasker/models.py:283
+#: tasker/models.py:297
 msgid "Attachments"
 msgstr "Anhänge"
 
-#: tasker/templates/_base.html:22
+#: tasker/templates/_base.html:23
 #, python-format
 msgid ""
 "<a href=\"%(start_url)s\">Troodle</a> is a project by <a href=\"https://"
@@ -211,7 +228,7 @@ msgstr ""
 "<a href=\"%(start_url)s\">Troodle</a> ist ein Projekt von <a href=\"https://"
 "prauscher.de/\">@prauscher</a>."
 
-#: tasker/templates/_base.html:24 tasker/templates/meta/imprint.html:6
+#: tasker/templates/_base.html:25 tasker/templates/meta/imprint.html:6
 msgid "Imprint"
 msgstr "Impressum"
 
@@ -270,8 +287,8 @@ msgstr "Hoppla!"
 #: tasker/templates/meta/error_404.html:9
 #, python-format
 msgid ""
-"The page you requested could not be found. Maybe <a href=\"%(start_url)s"
-"\">Start from scratch</a>?"
+"The page you requested could not be found. Maybe <a "
+"href=\"%(start_url)s\">Start from scratch</a>?"
 msgstr ""
 "Die Seite die du angefragt hast wurde nicht gefunden. Vielleicht willst du "
 "<a href=\"%(start_url)s\">von vorne beginnen</a>?"
@@ -310,11 +327,11 @@ msgstr "Deine zuletzt betrachteten Boards"
 msgid "Admin"
 msgstr "Admin"
 
-#: tasker/templates/navbar/base.html:13
+#: tasker/templates/navbar/base.html:11
 msgid "Create Board"
 msgstr "Board anlegen"
 
-#: tasker/templates/navbar/base.html:20
+#: tasker/templates/navbar/base.html:18
 msgid "Leave"
 msgstr "Abmelden"
 
@@ -323,16 +340,16 @@ msgid "Create Task"
 msgstr "Aufgabe anlegen"
 
 #: tasker/templates/navbar/board.html:16
-#: tasker/templates/task/board_admin.html:17
-#: tasker/templates/tasker/board_admin.html:42
-#: tasker/templates/tasker/board_admin.html:52
+#: tasker/templates/task/board_admin.html:18
+#: tasker/templates/tasker/board_admin.html:45
+#: tasker/templates/tasker/board_admin.html:55
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: tasker/templates/navbar/board.html:17
-#: tasker/templates/task/board_admin.html:19
-#: tasker/templates/tasker/board_admin.html:47
-#: tasker/templates/tasker/board_admin.html:56
+#: tasker/templates/task/board_admin.html:20
+#: tasker/templates/tasker/board_admin.html:50
+#: tasker/templates/tasker/board_admin.html:59
 msgid "Delete"
 msgstr "Löschen"
 
@@ -353,11 +370,11 @@ msgstr "Zusammenfassung"
 msgid "%(time_ago)s ago for %(duration)s"
 msgstr "Vor %(time_ago)s für %(duration)s"
 
-#: tasker/templates/task/base.html:24 tasker/templates/task/base.html:72
+#: tasker/templates/task/base.html:24 tasker/templates/task/base.html:74
 #: tasker/templates/task/board_admin.html:9
-#: tasker/templates/tasker/board_admin.html:34
-#: tasker/templates/tasker/board_summary.html:43
-#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:183
+#: tasker/templates/tasker/board_admin.html:36
+#: tasker/templates/tasker/board_summary.html:45
+#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:189
 msgid "Done"
 msgstr "Erledigt"
 
@@ -371,85 +388,91 @@ msgid "%(handling_since)s ago"
 msgstr "Seit %(handling_since)s"
 
 #: tasker/templates/task/base.html:30 tasker/templates/tasker/task_list.html:16
-#: tasker/views/tasks.py:182
+#: tasker/views/tasks.py:188
 msgid "Active"
 msgstr "In Bearbeitung"
 
-#: tasker/templates/task/base.html:55
+#: tasker/templates/task/base.html:57
 #, python-format
 msgid "Reserved for <strong>%(reserved_until)s</strong>"
 msgstr "Noch <strong>%(reserved_until)s</strong> reserviert"
 
-#: tasker/templates/task/base.html:57
+#: tasker/templates/task/base.html:59
 #, python-format
 msgid ""
 "Locked by <strong>%(reserved_by)s</strong> for <strong>%(reserved_until)s</"
 "strong>"
 msgstr ""
-"Noch <strong>%(reserved_until)s</strong> gesperrt für <strong>"
-"%(reserved_by)s</strong>"
+"Noch <strong>%(reserved_until)s</strong> gesperrt für "
+"<strong>%(reserved_by)s</strong>"
 
-#: tasker/templates/task/base.html:61
+#: tasker/templates/task/base.html:63
 msgid "Task is blocked by the following other tasks:"
 msgstr "Die Aufgabe wird momentan durch folgende andere Aufgaben blockiert:"
 
-#: tasker/templates/task/base.html:69
+#: tasker/templates/task/base.html:71
 msgid "Start"
 msgstr "Start"
 
-#: tasker/templates/task/base.html:71
+#: tasker/templates/task/base.html:73
 msgid "Abort"
 msgstr "Abbrechen"
 
-#: tasker/templates/task/base.html:74
+#: tasker/templates/task/base.html:76
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: tasker/templates/task/base.html:76
-#: tasker/templates/tasker/board_admin.html:43
-#: tasker/templates/tasker/board_admin.html:53
+#: tasker/templates/task/base.html:78
+#: tasker/templates/tasker/board_admin.html:46
+#: tasker/templates/tasker/board_admin.html:56
 msgid "Lock"
 msgstr "Sperren"
 
-#: tasker/templates/task/base.html:79 tasker/templates/task/base.html:95
+#: tasker/templates/task/base.html:81 tasker/templates/task/base.html:97
 msgid "Attach"
 msgstr "Datei anhängen"
 
-#: tasker/templates/task/base.html:83
+#: tasker/templates/task/base.html:85
 msgid "Comment:"
 msgstr "Kommentar:"
 
-#: tasker/templates/task/base.html:86
+#: tasker/templates/task/base.html:88
 msgid "Send"
 msgstr "Absenden"
 
-#: tasker/templates/task/base.html:92
+#: tasker/templates/task/base.html:94
 msgid "Attachment:"
 msgstr "Anhang:"
 
 #: tasker/templates/task/board_admin.html:7
-#: tasker/templates/tasker/board_admin.html:32
-#: tasker/templates/tasker/board_summary.html:57
+#: tasker/templates/tasker/board_admin.html:34
+#: tasker/templates/tasker/board_summary.html:59
 #, python-format
 msgid "Locked by %(reserved_by)s for %(reserved_until)s"
 msgstr "Noch %(reserved_until)s gesperrt für %(reserved_by)s"
 
 #: tasker/templates/task/board_admin.html:8
-#: tasker/templates/tasker/board_admin.html:33
-#: tasker/templates/tasker/board_summary.html:54
-#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:184
+#: tasker/templates/tasker/board_admin.html:35
+#: tasker/templates/tasker/board_summary.html:56
+#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:190
 msgid "Blocked"
 msgstr "Blockiert"
 
-#: tasker/templates/task/board_admin.html:16
-#: tasker/templates/tasker/board_admin.html:41
-#: tasker/templates/tasker/board_admin.html:51
+#: tasker/templates/task/board_admin.html:10
+#: tasker/templates/tasker/board_admin.html:37
+#: tasker/templates/tasker/task_list.html:19 tasker/views/tasks.py:191
+msgid "Repeating"
+msgstr "Wiederholend"
+
+#: tasker/templates/task/board_admin.html:17
+#: tasker/templates/tasker/board_admin.html:44
+#: tasker/templates/tasker/board_admin.html:54
 msgid "Show"
 msgstr "Anzeigen"
 
-#: tasker/templates/task/board_admin.html:18
-#: tasker/templates/tasker/board_admin.html:46
-#: tasker/templates/tasker/board_admin.html:55
+#: tasker/templates/task/board_admin.html:19
+#: tasker/templates/tasker/board_admin.html:49
+#: tasker/templates/tasker/board_admin.html:58
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -470,33 +493,33 @@ msgstr "Liste"
 msgid "Card"
 msgstr "Karten"
 
-#: tasker/templates/tasker/board_admin.html:25
+#: tasker/templates/tasker/board_admin.html:27
 msgid "No tasks found."
 msgstr "Keine Aufgaben gefunden."
 
-#: tasker/templates/tasker/board_admin.html:39
+#: tasker/templates/tasker/board_admin.html:42
 msgid "Actions"
 msgstr "Aktionen"
 
-#: tasker/templates/tasker/board_admin.html:44
-#: tasker/templates/tasker/board_admin.html:54
+#: tasker/templates/tasker/board_admin.html:47
+#: tasker/templates/tasker/board_admin.html:57
 msgid "Mark as done"
 msgstr "Als Erledigt markieren"
 
-#: tasker/templates/tasker/board_admin.html:63
+#: tasker/templates/tasker/board_admin.html:66
 msgid "Create new"
 msgstr "Neu anlegen"
 
-#: tasker/templates/tasker/board_admin.html:71
+#: tasker/templates/tasker/board_admin.html:74
 #, python-format
 msgid ""
-"This board contains no tasks. Start by <a href=\"%(create_task_url)s"
-"\">creating one</a>"
+"This board contains no tasks. Start by <a "
+"href=\"%(create_task_url)s\">creating one</a>"
 msgstr ""
-"Dieses Board enthält keine Aufgaben. Fang an und <a href="
-"\"%(create_task_url)s\">leg einen an</a>"
+"Dieses Board enthält keine Aufgaben. Fang an und <a "
+"href=\"%(create_task_url)s\">leg einen an</a>"
 
-#: tasker/templates/tasker/board_admin.html:77
+#: tasker/templates/tasker/board_admin.html:80
 msgid "No tasks found with current filters"
 msgstr "Keine Aufgaben passen zu den aktuellen Filtern"
 
@@ -532,13 +555,13 @@ msgstr ""
 #: tasker/templates/tasker/board_detail.html:16
 #, python-format
 msgid ""
-"No tasks could be found for you. Maybe take a look at the <a href="
-"\"%(list_tasks_url)s\">list of all Tasks</a> or at the <a href="
-"\"%(board_summary_url)s\">board summary</a>."
+"No tasks could be found for you. Maybe take a look at the <a "
+"href=\"%(list_tasks_url)s\">list of all Tasks</a> or at the <a "
+"href=\"%(board_summary_url)s\">board summary</a>."
 msgstr ""
 "Für dich konnte keine Aufgabe gefunden werden. Schau vielleicht bei der <a "
-"href=\"%(list_tasks_url)s\">Liste aller Aufgaben</a> oder bei der <a href="
-"\"%(board_summary_url)s\">Zusamenfassung</a> vorbei."
+"href=\"%(list_tasks_url)s\">Liste aller Aufgaben</a> oder bei der <a "
+"href=\"%(board_summary_url)s\">Zusammenfassung</a> vorbei."
 
 #: tasker/templates/tasker/board_form.html:16
 msgid ""
@@ -585,36 +608,36 @@ msgstr ""
 msgid "Done with comments"
 msgstr "Erledigt mit Anmerkungen"
 
-#: tasker/templates/tasker/board_summary.html:20
+#: tasker/templates/tasker/board_summary.html:22
 msgid "Done without comments"
 msgstr "Erledigt ohne Anmerkungen"
 
-#: tasker/templates/tasker/board_summary.html:26
+#: tasker/templates/tasker/board_summary.html:28
 msgid "Done by"
 msgstr "Erledigt durch"
 
-#: tasker/templates/tasker/board_summary.html:27 tasker/views/tasks.py:32
+#: tasker/templates/tasker/board_summary.html:29 tasker/views/tasks.py:33
 msgid "Duration"
 msgstr "Dauer"
 
-#: tasker/templates/tasker/board_summary.html:34
+#: tasker/templates/tasker/board_summary.html:36
 msgid "(none)"
 msgstr "(keine*r)"
 
-#: tasker/templates/tasker/board_summary.html:44
+#: tasker/templates/tasker/board_summary.html:46
 msgid "No tasks done"
 msgstr "Bisher wurden keine Aufgaben erledigt"
 
-#: tasker/templates/tasker/board_summary.html:47
+#: tasker/templates/tasker/board_summary.html:49
 msgid "Open Tasks"
 msgstr "Offene Aufgaben"
 
-#: tasker/templates/tasker/board_summary.html:60
+#: tasker/templates/tasker/board_summary.html:62
 #, python-format
 msgid "Active by %(editor)s since %(since)s"
 msgstr "In Bearbeitung durch %(editor)s seit %(since)s"
 
-#: tasker/templates/tasker/board_summary.html:66
+#: tasker/templates/tasker/board_summary.html:68
 msgid "No tasks open"
 msgstr "Aktuell sind keine Aufgaben offen"
 
@@ -684,7 +707,7 @@ msgstr ""
 msgid "Create and return to this form"
 msgstr "Anlegen und zu diesem Formular zurückkehren"
 
-#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:181
+#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:187
 msgid "Locked"
 msgstr "Gesperrt"
 
@@ -692,11 +715,11 @@ msgstr "Gesperrt"
 msgid "Reserved"
 msgstr "Reserviert"
 
-#: tasker/templates/tasker/task_list.html:23
+#: tasker/templates/tasker/task_list.html:24
 msgid "(no matches)"
 msgstr "(keine Treffer)"
 
-#: tasker/templates/tasker/task_list.html:29
+#: tasker/templates/tasker/task_list.html:30
 msgid "(empty)"
 msgstr "(leer)"
 
@@ -726,42 +749,50 @@ msgstr ""
 "vergangenes Datum."
 
 #: tasker/templatetags/timedelta.py:8
+#, python-brace-format
 msgid "{} day"
 msgstr "{} Tag"
 
 #: tasker/templatetags/timedelta.py:8
+#, python-brace-format
 msgid "{} days"
 msgstr "{} Tage"
 
 #: tasker/templatetags/timedelta.py:9
+#, python-brace-format
 msgid "{} hour"
 msgstr "{} Stunde"
 
 #: tasker/templatetags/timedelta.py:9
+#, python-brace-format
 msgid "{} hours"
 msgstr "{} Stunden"
 
 #: tasker/templatetags/timedelta.py:10
+#, python-brace-format
 msgid "{} minute"
 msgstr "{} Minute"
 
 #: tasker/templatetags/timedelta.py:10
+#, python-brace-format
 msgid "{} minutes"
 msgstr "{} Minuten"
 
 #: tasker/templatetags/timedelta.py:11
+#, python-brace-format
 msgid "{} second"
 msgstr "{} Sekunde"
 
 #: tasker/templatetags/timedelta.py:11
+#, python-brace-format
 msgid "{} seconds"
 msgstr "{} Sekunden"
 
-#: tasker/views/tasks.py:42
+#: tasker/views/tasks.py:39
 msgid "Duration must be positive"
 msgstr "Die Dauer darf nicht kleiner als Null sein"
 
-#: tasker/views/tasks.py:256
+#: tasker/views/tasks.py:263
 msgid "Mine"
 msgstr "Meine"
 

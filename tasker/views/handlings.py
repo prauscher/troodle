@@ -54,8 +54,7 @@ class StopTaskBaseView(TaskActionBaseView):
         handling.save()
 
         if self.success:
-            self.kwargs['task'].done = True
-            self.kwargs['task'].save()
+            self.kwargs['task'].mark_done()
 
         if self.kwargs['task'].is_locked_for(self.kwargs['participant']):
             self.kwargs['task'].unlock()

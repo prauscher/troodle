@@ -130,6 +130,8 @@ class Task(models.Model):
     board = models.ForeignKey('Board', on_delete=models.CASCADE, related_name='tasks', verbose_name=_('Board'))
     description = models.TextField(_('description'))
     done = models.BooleanField(_('done'), default=False)
+    hide_until = models.DateTimeField(_('hide until'), blank=True, null=True)
+    repeat_after = models.DurationField(_('repeat after'), blank=True, null=True, help_text=_('Never fully close this task, but automatically make it re-appear once the given duration passed after closing it.'))
     reserved_by = models.ForeignKey('Participant', on_delete=models.SET_NULL, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
@@ -176,13 +178,18 @@ class Task(models.Model):
         return time
 
     def get_blocking_tasks(self):
-        return self.requires.filter(done=False)
+        # filter only undone tasks from self.requires
+        # undone must have done=False and hide_until either None or in the future
+        return self.requires.filter(models.Q(done=False) & ~models.Q(hide_until__gt=now()))
 
     def is_done(self):
-        return self.done
+        return self.done or (self.hide_until is not None and self.hide_until > now())
 
     def is_blocked(self):
         return self.get_blocking_tasks().count() > 0
+
+    def is_repeating(self):
+        return self.repeat_after is not None
 
     def is_processing(self, participant):
         try:
@@ -199,6 +206,13 @@ class Task(models.Model):
 
     def is_locked_for(self, participant):
         return self.reserved_by == participant and self.is_locked()
+
+    def mark_done(self):
+        if self.is_repeating():
+            self.hide_until = now() + self.repeat_after
+        else:
+            self.done = True
+        self.save()
 
     def unlock(self):
         self.reserved_until = now()

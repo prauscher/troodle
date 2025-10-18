@@ -145,12 +145,18 @@ class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
-class ResetTaskView(auth.AuthBoardMixin, DeleteView):
+class ResetTaskView(auth.AuthBoardMixin, FormView):
     model = models.Task
+    form_class = forms.Form
     template_name = 'tasker/task_confirm_reset.html'
 
     def get_object(self):
         return self.kwargs['task']
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['object'] = self.get_object()
+        return context
 
     def form_valid(self, form):
         object = self.get_object()

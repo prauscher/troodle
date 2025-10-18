@@ -11,7 +11,10 @@ from .. import models
 
 @background
 def _send_push_reminder(handling_id):
-    handling = models.Handling.objects.get(id=handling_id)
+    try:
+        handling = models.Handling.objects.get(id=handling_id)
+    except models.Handling.DoesNotExist:
+        return
 
     # Only send push for tasks still open
     if handling.end is not None:

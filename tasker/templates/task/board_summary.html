@@ -8,6 +8,6 @@
 {% block actions %}{% endblock %}
 {% block card_footer %}
  <div class="card-footer text-end">
-  <small>{% blocktrans with total_duration=task.get_total_duration|timedelta %}Total {{ total_duration }}{% endblocktrans %}</small>
+  <small>{% blocktrans with total_duration=total_duration|timedelta %}Total {{ total_duration }}{% endblocktrans %}</small>
  </div>
 {% endblock %}

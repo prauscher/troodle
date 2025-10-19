@@ -1,3 +1,4 @@
+from datetime import timedelta
 import string
 import random
 
@@ -84,10 +85,18 @@ class BoardSummaryView(auth.AuthBoardMixin, TemplateView):
         for task in tasks:
             if task.is_done():
                 handlings = task.handlings.all()
+
+                # do not use filter(...) here as we iterate over handlings later anyways
+                total_duration = sum((handling.get_duration()
+                                      for handling in handlings
+                                      if handling.end is not None),
+                                     start=timedelta(seconds=0))
+
                 if len(handlings) == 0:
-                    context['tasks_done_simple'].append((task, None))
-                if len(handlings) == 1 and not handlings[0].tasker_comments.exists() and not handlings[0].tasker_attachments.exists():
-                    context['tasks_done_simple'].append((task, handlings[0]))
+                    context['tasks_done_simple'].append((task, total_duration, None))
+                elif all(not handling.tasker_comments.exists() and not handling.tasker_attachments.exists()
+                         for handling in handlings):
+                    context['tasks_done_simple'].append((task, total_duration, handlings.filter(success=True)[0]))
                 else:
                     context['tasks_done_complex'].append(task)
             else:

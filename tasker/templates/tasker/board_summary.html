@@ -11,9 +11,9 @@
  {% if tasks_done_complex %}
   <h5>{% trans "Done with comments" %}</h5>
   <div class="row" data-masonry='{"percentPosition": true}'>
-   {% for task in tasks_done_complex %}
+   {% for task, total_duration in tasks_done_complex %}
     <div class="col-sm-12 col-lg-6 col-xl-4 mb-4">
-    {% include "task/board_summary.html" with task=task %}
+    {% include "task/board_summary.html" with task=task total_duration=total_duration %}
     </div>
    {% endfor %}
   </div>
@@ -30,11 +30,11 @@
      </tr>
     </thead>
     <tbody>
-     {% for task, handling in tasks_done_simple %}
+     {% for task, total_duration, handling in tasks_done_simple %}
       <tr>
        <td><a href="{% url 'show_task' task.board.slug task.id %}">{{ task.label | escape }}</a></td>
        <td class="text-nowrap">{% if handling %}{{ handling.editor.nick | escape }}{% else %}{% trans "(none)" %}{% endif %}</td>
-       <td class="text-nowrap text-end">{{ task.get_total_duration | timedelta }}</td>
+       <td class="text-nowrap text-end">{{ total_duration | timedelta }}</td>
       </tr>
      {% endfor %}
     </tbody>

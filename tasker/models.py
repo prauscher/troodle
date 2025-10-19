@@ -172,12 +172,6 @@ class Task(models.Model):
             return query.get(editor=participant)
         return query
 
-    def get_total_duration(self):
-        time = timedelta()
-        for handling in self.handlings.filter(end__isnull=False):
-            time = time + handling.get_duration()
-        return time
-
     def get_blocking_tasks(self):
         # filter only undone tasks from self.requires
         # undone must have done=False and hide_until either None or in the future

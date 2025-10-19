@@ -8,7 +8,8 @@
 
 {% block content %}
  {% if random_task %}
-  <p class="alert alert-warning">{% blocktrans %}The random task shown below is just reserved for you. If you start working, please confirm by clicking "Start". To show another task, please use "Show New".{% endblocktrans %}</p>
+  {% if handling_exists %}<p class="alert alert-info">{% blocktrans %}You currently started a task. Please complete (or cancel) it first, before receiving a new task.{% endblocktrans %}</p>
+  {% else %}<p class="alert alert-warning">{% blocktrans %}The random task shown below is just reserved for you. If you start working, please confirm by clicking "Start". To show another task, please use "Show New".{% endblocktrans %}</p>{% endif %}
   {% include 'task/board_detail.html' with task=random_task %}
  {% else %}
   {% url 'list_tasks' object.slug as list_tasks_url %}

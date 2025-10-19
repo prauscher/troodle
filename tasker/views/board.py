@@ -170,10 +170,12 @@ class BoardView(BoardBaseView):
                 perform_locking = False
 
             # do not lock if we already got a handling
+            context['handling_exists'] = False
             try:
                 if perform_locking:
                     # should raise models.Handling.DoesNotExist
                     context['random_task'].get_current_handling(self.kwargs['participant'])
+                    context['handling_exists'] = True
                     perform_locking = False
             except models.Handling.DoesNotExist:
                 pass

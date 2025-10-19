@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-18 21:58+0000\n"
+"POT-Creation-Date: 2025-10-19 07:55+0000\n"
 "PO-Revision-Date: 2020-03-14 19:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -152,82 +152,82 @@ msgstr ""
 msgid "{board}: {label}"
 msgstr "{board}: {label}"
 
-#: tasker/models.py:225
+#: tasker/models.py:219
 msgid "Task is already locked"
 msgstr "Aufgabe ist bereits gesperrt"
 
-#: tasker/models.py:241 tasker/models.py:246
+#: tasker/models.py:235 tasker/models.py:240
 #: tasker/templates/tasker/board_summary.html:27
 msgid "Task"
 msgstr "Aufgabe"
 
-#: tasker/models.py:242 tasker/templates/navbar/board.html:14
+#: tasker/models.py:236 tasker/templates/navbar/board.html:14
 #: tasker/templates/navbar/board.html:26
 msgid "Tasks"
 msgstr "Aufgaben"
 
-#: tasker/models.py:248
+#: tasker/models.py:242
 msgid "start"
 msgstr "Anfang"
 
-#: tasker/models.py:249
+#: tasker/models.py:243
 msgid "end"
 msgstr "Ende"
 
-#: tasker/models.py:250
+#: tasker/models.py:244
 msgid "successfully"
 msgstr "erfolgreich"
 
-#: tasker/models.py:257
+#: tasker/models.py:251
 #, python-brace-format
 msgid "{task} ({editor})"
 msgstr "{task} ({editor})"
 
-#: tasker/models.py:261
+#: tasker/models.py:255
 msgid "Handling"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:262
+#: tasker/models.py:256
 msgid "Handlings"
 msgstr "Bearbeitung"
 
-#: tasker/models.py:272 tasker/models.py:282
+#: tasker/models.py:266 tasker/models.py:276
 msgid "Notes"
 msgstr "Notizen"
 
-#: tasker/models.py:273
+#: tasker/models.py:267
 msgid "posted"
 msgstr "geschrieben"
 
-#: tasker/models.py:276
+#: tasker/models.py:270
 msgid "{type} at {posted:%Y-%m-%d %H:%I:%S} at {handling}"
 msgstr "{type} am {posted:%d.%m.%Y %H:%I:%S} bei {handling}"
 
-#: tasker/models.py:281
+#: tasker/models.py:275
 msgid "Note"
 msgstr "Notiz"
 
-#: tasker/models.py:286
+#: tasker/models.py:280
 msgid "text"
 msgstr "Text"
 
-#: tasker/models.py:289 tasker/templates/task/base.html:80
+#: tasker/models.py:283 tasker/templates/task/base.html:80
 msgid "Comment"
 msgstr "Kommentar"
 
-#: tasker/models.py:290
+#: tasker/models.py:284
 msgid "Comments"
 msgstr "Kommentare"
 
-#: tasker/models.py:294
+#: tasker/models.py:288
 msgid "file"
 msgstr "Datei"
 
-#: tasker/models.py:297
+#: tasker/models.py:291
 msgid "Attachment"
 msgstr "Anhang"
 
-#: tasker/models.py:298
+#: tasker/models.py:292
 msgid "Attachments"
 msgstr "Anhänge"
 
@@ -386,7 +386,7 @@ msgstr "Vor %(time_ago)s für %(duration)s"
 #: tasker/templates/task/board_admin.html:9
 #: tasker/templates/tasker/board_admin.html:36
 #: tasker/templates/tasker/board_summary.html:45
-#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:189
+#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:195
 msgid "Done"
 msgstr "Erledigt"
 
@@ -400,7 +400,7 @@ msgid "%(handling_since)s ago"
 msgstr "Seit %(handling_since)s"
 
 #: tasker/templates/task/base.html:30 tasker/templates/tasker/task_list.html:16
-#: tasker/views/tasks.py:188
+#: tasker/views/tasks.py:194
 msgid "Active"
 msgstr "In Bearbeitung"
 
@@ -466,13 +466,13 @@ msgstr "Noch %(reserved_until)s gesperrt für %(reserved_by)s"
 #: tasker/templates/task/board_admin.html:8
 #: tasker/templates/tasker/board_admin.html:35
 #: tasker/templates/tasker/board_summary.html:56
-#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:190
+#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:196
 msgid "Blocked"
 msgstr "Blockiert"
 
 #: tasker/templates/task/board_admin.html:10
 #: tasker/templates/tasker/board_admin.html:37
-#: tasker/templates/tasker/task_list.html:19 tasker/views/tasks.py:191
+#: tasker/templates/tasker/task_list.html:19 tasker/views/tasks.py:197
 msgid "Repeating"
 msgstr "Wiederholend"
 
@@ -556,6 +556,14 @@ msgstr "Bestätigen"
 
 #: tasker/templates/tasker/board_detail.html:11
 msgid ""
+"You currently started a task. Please complete (or cancel) it first, before "
+"receiving a new task."
+msgstr ""
+"Du hast bereits eine Aufgabe begonnen. Bitte beende diese (oder breche die "
+"Bearbeitung ab) bevor du eine neue Aufgabe zugewiesen bekommst."
+
+#: tasker/templates/tasker/board_detail.html:12
+msgid ""
 "The random task shown below is just reserved for you. If you start working, "
 "please confirm by clicking \"Start\". To show another task, please use "
 "\"Show New\"."
@@ -564,7 +572,7 @@ msgstr ""
 "bestätige dies bitte mit \"Start\". Um eine andere Aufgabe anzuzeigen, "
 "verwende \"Neue anzeigen\"."
 
-#: tasker/templates/tasker/board_detail.html:16
+#: tasker/templates/tasker/board_detail.html:17
 #, python-format
 msgid ""
 "No tasks could be found for you. Maybe take a look at the <a "
@@ -719,7 +727,7 @@ msgstr ""
 msgid "Create and return to this form"
 msgstr "Anlegen und zu diesem Formular zurückkehren"
 
-#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:187
+#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:193
 msgid "Locked"
 msgstr "Gesperrt"
 
@@ -804,7 +812,7 @@ msgstr "{} Sekunden"
 msgid "Duration must be positive"
 msgstr "Die Dauer darf nicht kleiner als Null sein"
 
-#: tasker/views/tasks.py:263
+#: tasker/views/tasks.py:269
 msgid "Mine"
 msgstr "Meine"
 

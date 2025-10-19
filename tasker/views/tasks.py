@@ -216,10 +216,19 @@ class QuickDoneTaskView(auth.AuthBoardMixin, FormView):
         return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
 
 
+class ResetTaskForm(forms.Form):
+    handling_action = forms.ChoiceField(
+        label="",
+        choices=[("delete_all", _("delete all handlings")),
+                 ("delete_open", _("delete open handlings, leave others")),
+                 ("close_open", _("close open handlings"))],
+    )
+
+
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
 class ResetTaskView(auth.AuthBoardMixin, FormView):
     model = models.Task
-    form_class = forms.Form
+    form_class = ResetTaskForm
     template_name = 'tasker/task_confirm_reset.html'
 
     def get_object(self):
@@ -238,8 +247,19 @@ class ResetTaskView(auth.AuthBoardMixin, FormView):
         object.hide_until = None
         object.save()
 
-        for handling in object.handlings.all():
-            handling.delete()
+        handling_action = form.cleaned_data["handling_action"]
+
+        handlings = object.handlings.all()
+        if handling_action == "delete_open" or handling_action == "close_open":
+            handlings = handlings.filter(end__isnull=True)
+
+        for handling in handlings:
+            if handling_action == "delete_all" or handling_action == "delete_open":
+                handling.delete()
+            else:
+                handling.end = now()
+                handling.success = False
+                handling.save()
 
         success_url = self.get_success_url()
         return HttpResponseRedirect(success_url)

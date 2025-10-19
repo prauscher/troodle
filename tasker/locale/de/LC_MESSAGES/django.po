@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-19 07:55+0000\n"
+"POT-Creation-Date: 2025-10-19 09:51+0000\n"
 "PO-Revision-Date: 2020-03-14 19:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: tasker/forms.py:7 tasker/views/tasks.py:32
+#: tasker/forms.py:7 tasker/views/tasks.py:104
 msgid "Nickname"
 msgstr "Nickname"
 
@@ -386,7 +386,7 @@ msgstr "Vor %(time_ago)s für %(duration)s"
 #: tasker/templates/task/board_admin.html:9
 #: tasker/templates/tasker/board_admin.html:36
 #: tasker/templates/tasker/board_summary.html:45
-#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:195
+#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:267
 msgid "Done"
 msgstr "Erledigt"
 
@@ -400,7 +400,7 @@ msgid "%(handling_since)s ago"
 msgstr "Seit %(handling_since)s"
 
 #: tasker/templates/task/base.html:30 tasker/templates/tasker/task_list.html:16
-#: tasker/views/tasks.py:194
+#: tasker/views/tasks.py:266
 msgid "Active"
 msgstr "In Bearbeitung"
 
@@ -466,13 +466,13 @@ msgstr "Noch %(reserved_until)s gesperrt für %(reserved_by)s"
 #: tasker/templates/task/board_admin.html:8
 #: tasker/templates/tasker/board_admin.html:35
 #: tasker/templates/tasker/board_summary.html:56
-#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:196
+#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:268
 msgid "Blocked"
 msgstr "Blockiert"
 
 #: tasker/templates/task/board_admin.html:10
 #: tasker/templates/tasker/board_admin.html:37
-#: tasker/templates/tasker/task_list.html:19 tasker/views/tasks.py:197
+#: tasker/templates/tasker/task_list.html:19 tasker/views/tasks.py:269
 msgid "Repeating"
 msgstr "Wiederholend"
 
@@ -636,7 +636,7 @@ msgstr "Erledigt ohne Anmerkungen"
 msgid "Done by"
 msgstr "Erledigt durch"
 
-#: tasker/templates/tasker/board_summary.html:29 tasker/views/tasks.py:33
+#: tasker/templates/tasker/board_summary.html:29 tasker/views/tasks.py:105
 msgid "Duration"
 msgstr "Dauer"
 
@@ -727,7 +727,7 @@ msgstr ""
 msgid "Create and return to this form"
 msgstr "Anlegen und zu diesem Formular zurückkehren"
 
-#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:193
+#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:265
 msgid "Locked"
 msgstr "Gesperrt"
 
@@ -808,11 +808,55 @@ msgstr "{} Sekunde"
 msgid "{} seconds"
 msgstr "{} Sekunden"
 
-#: tasker/views/tasks.py:39
+#: tasker/views/tasks.py:22
+msgid "week"
+msgstr "Woche"
+
+#: tasker/views/tasks.py:22
+msgid "weeks"
+msgstr "Wochen"
+
+#: tasker/views/tasks.py:23
+msgid "day"
+msgstr "Tag"
+
+#: tasker/views/tasks.py:23
+msgid "days"
+msgstr "Tage"
+
+#: tasker/views/tasks.py:24
+msgid "hour"
+msgstr "Stunde"
+
+#: tasker/views/tasks.py:24
+msgid "hours"
+msgstr "Stunden"
+
+#: tasker/views/tasks.py:25
+msgid "minute"
+msgstr "Minute"
+
+#: tasker/views/tasks.py:25
+msgid "minutes"
+msgstr "Minuten"
+
+#: tasker/views/tasks.py:26
+msgid "second"
+msgstr "Sekunde"
+
+#: tasker/views/tasks.py:26
+msgid "seconds"
+msgstr "Sekunden"
+
+#: tasker/views/tasks.py:66
+msgid "Invalid format for duration, valid example: 3 weeks 2 days"
+msgstr "Ungültiges Format for Zeitdauer, gültig wäre z.B. 3 Wochen, 1 Tag"
+
+#: tasker/views/tasks.py:111
 msgid "Duration must be positive"
 msgstr "Die Dauer darf nicht kleiner als Null sein"
 
-#: tasker/views/tasks.py:269
+#: tasker/views/tasks.py:341
 msgid "Mine"
 msgstr "Meine"
 

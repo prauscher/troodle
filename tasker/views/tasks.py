@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.http import Http404, HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
@@ -16,7 +17,78 @@ from .. import models
 from .. import utils
 
 
+class DurationField(forms.CharField):
+    UNITS = [
+        (timedelta(days=7), _("week"), _("weeks"), ["w"]),
+        (timedelta(days=1), _("day"), _("days"), ["d"]),
+        (timedelta(hours=1), _("hour"), _("hours"), ["h"]),
+        (timedelta(minutes=1), _("minute"), _("minutes"), ["m"]),
+        (timedelta(seconds=1), _("second"), _("seconds"), ["s"]),
+    ]
+
+    def _tokenize(self, value):
+        current_token = ""
+        delimiters = "., "
+        while value or current_token:
+            char = value[0:1]
+
+            if char in delimiters or char == "" or current_token.isnumeric() != char.isnumeric():
+                if current_token:
+                    yield current_token
+                current_token = ""
+
+            if char not in delimiters:
+                current_token += char
+
+            # next iteration step
+            value = value[1:]
+
+    def to_python(self, value):
+        if not value.strip():
+            return None
+
+        units = {}
+        for unit_value, singular, plural, other_units in self.UNITS:
+            units[singular] = unit_value
+            units[plural] = unit_value
+            for unit in other_units:
+                units[unit] = unit_value
+
+        tokens = list(self._tokenize(value))
+        duration = timedelta(seconds=0)
+        while tokens:
+            count = tokens.pop(0)
+            if count.isnumeric() and not tokens:
+                unit = timedelta(seconds=1)
+            elif count.isnumeric() and tokens[0] in units:
+                unit = units[tokens.pop(0)]
+            else:
+                raise ValidationError(_("Invalid format for duration, valid example: 3 weeks 2 days"))
+
+            duration += int(count) * unit
+
+        return duration
+
+    def prepare_value(self, value):
+        if not value or not isinstance(value, timedelta):
+            return value
+
+        parts = []
+        for duration, singular, plural, _ in self.UNITS:
+            count = value // duration
+            if count > 1:
+                parts.append(f"{count} {plural}")
+            elif count == 1:
+                parts.append(f"{count} {singluar}")
+            value -= count * duration
+        return ", ".join(parts)
+
+
 class TaskForm(forms.ModelForm):
+    repeat_after = DurationField(label=models.Task._meta.get_field("repeat_after").verbose_name,
+                                 required=False,
+                                 help_text=models.Task._meta.get_field("repeat_after").help_text)
+
     class Meta:
         model = models.Task
         fields = ['label', 'description', 'requires', 'priority', 'repeat_after']

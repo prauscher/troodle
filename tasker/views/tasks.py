@@ -171,11 +171,37 @@ class DeleteTaskView(auth.AuthBoardMixin, DeleteView):
         return utils.get_redirect_url(self.request, default=self.kwargs['task'].board.get_admin_url())
 
 
+class SetLockForm(forms.ModelForm):
+    reserved_by = forms.CharField(
+        label=models.Task._meta.get_field("reserved_by").verbose_name,
+        required=False,
+    )
+
+    def clean_reserved_by(self):
+        nick = self.cleaned_data["reserved_by"]
+        if not nick:
+            return None
+
+        participant, _ = models.Participant.objects.get_or_create(
+            nick=nick,
+            board=self.instance.board,
+        )
+        return participant
+
+    class Meta:
+        model = models.Task
+        fields = ['reserved_by', 'reserved_until']
+
+
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])
 class SetLockTaskView(EditTaskBaseView):
-    model = models.Task
-    fields = ['reserved_by', 'reserved_until']
+    form_class = SetLockForm
     template_name = 'tasker/task_set_lock.html'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["reserved_by"] = ""
+        return initial
 
 
 @decorators.class_decorator([decorators.board_admin_view, decorators.task_view])

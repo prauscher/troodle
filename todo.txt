@@ -1,5 +1,4 @@
 * "hashed" image for nick
-* admin lock form: replace drop down with (ajax) text input, limited to own board
 * show countdown for lock (and reload)
 * make use of cloned_from fields in Board and Task
 * rethink navigation bar (maybe have admin dashboard?)

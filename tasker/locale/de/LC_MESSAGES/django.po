@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Troodle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-19 10:10+0000\n"
+"POT-Creation-Date: 2025-10-19 10:31+0000\n"
 "PO-Revision-Date: 2020-03-14 19:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -132,6 +132,10 @@ msgid ""
 msgstr ""
 "Priorität der Aufgabe: Aufgaben mit höherer Priorität werden vor denen mit "
 "niedrigerer Priorität angezeigt."
+
+#: tasker/models.py:136
+msgid "reserved by"
+msgstr "reserviert durch"
 
 #: tasker/models.py:137
 msgid "reserved until"
@@ -386,7 +390,7 @@ msgstr "Vor %(time_ago)s für %(duration)s"
 #: tasker/templates/task/board_admin.html:9
 #: tasker/templates/tasker/board_admin.html:36
 #: tasker/templates/tasker/board_summary.html:45
-#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:287
+#: tasker/templates/tasker/task_list.html:17 tasker/views/tasks.py:313
 msgid "Done"
 msgstr "Erledigt"
 
@@ -400,7 +404,7 @@ msgid "%(handling_since)s ago"
 msgstr "Seit %(handling_since)s"
 
 #: tasker/templates/task/base.html:30 tasker/templates/tasker/task_list.html:16
-#: tasker/views/tasks.py:286
+#: tasker/views/tasks.py:312
 msgid "Active"
 msgstr "In Bearbeitung"
 
@@ -466,13 +470,13 @@ msgstr "Noch %(reserved_until)s gesperrt für %(reserved_by)s"
 #: tasker/templates/task/board_admin.html:8
 #: tasker/templates/tasker/board_admin.html:35
 #: tasker/templates/tasker/board_summary.html:56
-#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:288
+#: tasker/templates/tasker/task_list.html:15 tasker/views/tasks.py:314
 msgid "Blocked"
 msgstr "Blockiert"
 
 #: tasker/templates/task/board_admin.html:10
 #: tasker/templates/tasker/board_admin.html:37
-#: tasker/templates/tasker/task_list.html:19 tasker/views/tasks.py:289
+#: tasker/templates/tasker/task_list.html:19 tasker/views/tasks.py:315
 msgid "Repeating"
 msgstr "Wiederholend"
 
@@ -727,7 +731,7 @@ msgstr ""
 msgid "Create and return to this form"
 msgstr "Anlegen und zu diesem Formular zurückkehren"
 
-#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:285
+#: tasker/templates/tasker/task_list.html:13 tasker/views/tasks.py:311
 msgid "Locked"
 msgstr "Gesperrt"
 
@@ -856,24 +860,21 @@ msgstr "Ungültiges Format for Zeitdauer, gültig wäre z.B. 3 Wochen, 1 Tag"
 msgid "Duration must be positive"
 msgstr "Die Dauer darf nicht kleiner als Null sein"
 
-#: tasker/views/tasks.py:222
+#: tasker/views/tasks.py:248
 msgid "delete all handlings"
 msgstr "Lösche alle Bearbeitungen"
 
-#: tasker/views/tasks.py:223
+#: tasker/views/tasks.py:249
 msgid "delete open handlings, leave others"
 msgstr "Lösche nur offenen Bearbeitungen"
 
-#: tasker/views/tasks.py:224
+#: tasker/views/tasks.py:250
 msgid "close open handlings"
 msgstr "Breche offene Bearbeitungen ab ohne sie zu löschen"
 
-#: tasker/views/tasks.py:361
+#: tasker/views/tasks.py:387
 msgid "Mine"
 msgstr "Meine"
-
-#~ msgid "reserved by"
-#~ msgstr "reserviert durch"
 
 #~ msgid "editor"
 #~ msgstr "Bearbeiter"

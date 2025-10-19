@@ -133,7 +133,7 @@ class Task(models.Model):
     hide_until = models.DateTimeField(_('hide until'), blank=True, null=True)
     repeat_after = models.DurationField(_('repeat after'), blank=True, null=True, help_text=_('Never fully close this task, but automatically make it re-appear once the given duration passed after closing it.'))
     priority = models.IntegerField(_('priority'), default=100, help_text=_('Priority of this task: Tasks with higher priority will be shown before those with lower priority.'))
-    reserved_by = models.ForeignKey('Participant', on_delete=models.SET_NULL, blank=True, null=True)
+    reserved_by = models.ForeignKey('Participant', verbose_name=_("reserved by"), on_delete=models.SET_NULL, blank=True, null=True)
     reserved_until = models.DateTimeField(_('reserved until'), default=now)
     cloned_from = models.ForeignKey('self', on_delete=models.CASCADE, related_name='clones', verbose_name=_('cloned from'), blank=True, null=True)
     requires = models.ManyToManyField('self', symmetrical=False, related_name='required_by', verbose_name=_('requires'), blank=True, help_text=_("Tasks which have to be done before this task can be started."))

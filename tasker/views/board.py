@@ -90,7 +90,7 @@ class BoardSummaryView(auth.AuthBoardMixin, TemplateView):
                 total_duration = sum((handling.get_duration()
                                       for handling in handlings
                                       if handling.end is not None),
-                                     start=timedelta(seconds=0))
+                                     timedelta(seconds=0))
 
                 if len(handlings) == 0:
                     context['tasks_done_simple'].append((task, total_duration, None))
